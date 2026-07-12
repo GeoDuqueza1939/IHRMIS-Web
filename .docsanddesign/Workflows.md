@@ -19,6 +19,7 @@ The following terms and acronyms are hereby adopted to simplify the identificati
 * __HRMD__ - Human Resource Management and Development
 * __CSC__ - Civil Service Commission
 * __ORAOHRA__ - Omnibus Rules on Appointments and Other Human Resource Actions; has 2017 and 2025 versions
+* __HRMO__ - Human Resource Management Officer
 
 ## Human Resource Actions
 
@@ -28,10 +29,39 @@ __Human resource action__, also called a __personnel action__, is any action den
 
 Appointments in the civil service are made only according to _merit_ and _fitness_ to be determined, as far as practicable, by competitive examination. An appointment through certification to a position in the civil service shall be issued to a person who has been selected from a list of qualified persons certified by the CSC and who meets the other requirements of the position. Such person must serve a probationary period of six (6) months following their original appointment and shall undergo a through character investigation in order to acquire permanent civil service status.
 
-The nature
+The nature of appointment can be any of the following:
+
+1. Original
+2. Promotion
+3. Transfer
 
 ## HRMD Processes
 
+HRMD processes are defined in the DepED-QMS-PAWIM. The HRMO and Personnel Services Unit staff fulfill most of these processes, although different office units may share these KRAs accordingly.
+
+1. Compensation and Benefits
+2. Employee Relations
+3. Employee's Welfare
+4. Leave Management
+5. Personnel Inventory
+6. Personnel Performance Management
+7. Personnel Records Management
+8. Professional Development/Learning and Development
+9. Recruitment, Selection, Placement, and Induction
+10. Rewards and Recognition
+
 ## PRIME-HRM Processes
 
+1. Recruitment, Selection, and Placement
+2. Performance Management
+3, Learnng and Development
+4. Rewards and Recognition
+
 ## Other Processes
+
+1. Clearances
+2. Travel Abroad
+3. GSIS Separation Benefits
+4. User Management
+5. System Maintenance
+6. Database Maintenance
