@@ -31,9 +31,14 @@ Appointments in the civil service are made only according to _merit_ and _fitnes
 
 The nature of appointment can be any of the following:
 
-1. Original
-2. Promotion
-3. Transfer
+1. __Original__ - the initial entry into the career or non-career service.
+2. __Promotion__ - the advancement of a career employee from one position to another with an increase in duties and responsibilities as authorized by law, and usually accompanied by an increase in salary.
+3.__Transfer__ - the movement of an employee from one position to another which is of equivalent rank, level, or salary without a gap in the service involving the issuance of a new appointment.
+4. __Reemployment__ - the appointment of a person who has been previously appointed to a position in the government service but was separated therefrom as a result of reduction in force, reorganization, retirement, voluntary resignation, or any non-disciplinary action such as dropping from the rolls and other modes of separation. Reemployment presupposes a gap in the service.
+5. __Reappointment__ - the issuance of an appointment as a result of reorganizetion, devolution, salary standardization, re-nationalization, recategorization, rationalization, or similar events. Reappointment presupposes no gap in service.
+6. __Reinstatement (to comparable position)__ - the restoration of a person, as a result of a decision, to a career position from which he or she has, through no delinquency or misconduct, been separated but the subject position is already abolished, requiring the issuance of an appointment to a comparable position to the separated employee.
+7. __Demotion__ - the movement of an employee from a higher position to a lower position where he or she qualifies, if a lower position is available. The demotion entails reduction in duties, responsibilities, status, or rank, which may or may not involve a reduction in salary.
+8. __Reclassification__ - a form of staffing modification and/or position classification action which is applied only when there is a substantial change in the regular duties and responsibilities of the position. This may result in a change in any or all of the position attributes: position title, level, and/or salary grade. It generally involves a change in the position title and may be accompanied by an upward or downward change in salary. Reclassification is the generic term for changes in staff or position classification which includes upgrading, downgrading
 
 ## HRMD Processes
 
