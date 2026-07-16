@@ -38,8 +38,8 @@ The following terms and acronyms are hereby adopted to simplify the identificati
 * __ECP__ - Expanded Career Progression
 * __SSP__ - Self-Service Portal
 * __PNPKI__ - Philippine National Public Key Infrastructure
-* __PMT__ - Performance Management Team
 * __PMCF__ - Performance Monitoring and Coaching Form
+* __PMT__ - Performance Management Team
 * __PRAISE__ - Program on Awards and Incentives for Service Excellence
 * __HRDC__ - Human Resource Development Committee
 
@@ -254,3 +254,4 @@ Nominations are screened and evaluated by the PRAISE Committee based on the set 
 4. User Management
 5. System Maintenance
 6. Database Maintenance
+7. System and Feature Updates (Continuous Development)
