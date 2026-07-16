@@ -277,3 +277,4 @@ The IHRMIS-SSP, the end user-oriented subsystem of the IHRMIS, should allow the 
 * Request participation in open trainings
 * Join virtual committee meetings and deliberations
 * Allow the general signing and/or approval of online documents using users' IHRMIS password, self-signed certificate, and PNPKI certificate
+* Delete data of external user
