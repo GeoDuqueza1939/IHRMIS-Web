@@ -1,17 +1,17 @@
-# SPECIFICATIONS
+# GENERAL SPECIFICATIONS
 
 ___
 > Target System: Integrated Human Resource Management Information System (IHRMIS)<br>
-> Document Version: 0.00
+> Document Version: 1.00
 ___
 
 ## Description and Purpose of the System
 
-The Integrated Human Resource Management Information System (IHRMIS) is a suite of web-based applications and application programming interfaces (web APIs). IHRMIS will be designed to meet the HR management needs of a Department of Education office. It aims to comply with the requirements of the CSC PRIME-HRM Level III certification (Integrated HRM) while modelling the prescibed subprocesses under the Human Resource Management and Development (HRMD) process as defined in the Department of Education Quality Management System Manual and Procedures and Work Instructions Manual (DepED-QMS-PAWIM). Likewise, it aims to uphold data privacy and security in accordance with the Republic Act No. 10173, otherwise known as the Data Privacy Act of 2012.
+The Integrated Human Resource Management Information System (IHRMIS) is a suite of web-based applications and application programming interfaces (web APIs). IHRMIS will be designed to meet the HR management needs of a Department of Education office. It aims to comply with the requirements of the CSC PRIME-HRM Level III certification (Integrated HRM) while modelling the prescribed subprocesses under the Human Resource Management and Development (HRMD) process as defined in the Department of Education Quality Management System Manual and Procedures and Work Instructions Manual (DepED-QMS-PAWIM). Likewise, it aims to uphold data privacy and security in accordance with the Republic Act No. 10173, otherwise known as the Data Privacy Act of 2012.
 
 ## Acronyms and Definition of Terms
 
-The following terms and acronyms are hereby adopted to simplify the identification of specific concepts and entities all throughout this specifications document and avoid wieldy repetition of lengthy names and indentifiers.
+The following terms and acronyms are hereby adopted to simplify the identification of specific concepts and entities all throughout this specifications document and avoid wieldy repetition of lengthy names and identifiers.
 
 * __ASDS__ - Assistant Schools Division Superintendent; commonly serves as the Chairperson of the four (4) PRIME-HRM pillars.
 * __CAR__ - Comparative Assessment Result
@@ -91,7 +91,7 @@ Finally, the IHRMIS will also offer specific features for end-user employees, es
 
 ### The HRMO and the Personnel Services Unit
 
-The HRMO will be the foremost user of the IHRMIS. As such, the IHRMIS will mostly be tailored around the requirements of the HRMO. Staff of the Personnel Services Unit that the HRMO directly supervises also share the HRMO's roles and responsibilites by virtue of delegation, so they will also be among the primary users of the IHRMIS, along with the HRMO.
+The HRMO will be the foremost user of the IHRMIS. As such, the IHRMIS will mostly be tailored around the requirements of the HRMO. Staff of the Personnel Services Unit that the HRMO directly supervises also share the HRMO's roles and responsibilities by virtue of delegation, so they will also be among the primary users of the IHRMIS, along with the HRMO.
 
 As the HRMO, they need to manage or be directly involved in all aspects of human resource management. Ultimately, the HRMO can be considered as the custodian of all personnel records. As such, access to all personnel information and organizational staffing data, particularly those that are synchronized with the Plantilla, is imperative. The HRMO should also be able to assign roles and responsibilities to personnel, particularly those that involve HR management and the PRIME-HRM pillars. For instance, the HRMO may delegate leave management or payroll management to specific Personnel Service Unit staff. Likewise, after designation by the Appointing Authority, membership in the various PRIME-HRM committees shall also be assigned by the HRMO in the IHRMIS so the necessary features can be unlocked for use by those members. In connection with personnel inventory, the HRMO should also be able to modify the organizational structure of the
 
@@ -137,9 +137,9 @@ The designated PRIME-HRM Focals are officials and staff whose KRA aligns with th
 3. __SEPS-HRDS__ - The L&D Focal
 4. __EPS II-HRDS__ - The R&R Focal
 
-In addition, the SGOD Chief Education Supervisor is currently designated as the __PRIME-HRM Primary Focal__ to oversee the SDO's efforts in the pursuit of PRIME-HRM accreditations from the CSC.
+In addition, the SGOD Chief Education Supervisor is currently designated as the __PRIME-HRM Primary Focal__ to oversee the SDO's efforts in the pursuit of PRIME-HRM accreditation from the CSC.
 
-For the RSP Focal, please refer to the HRMO's requirements presented in the preceeding sections. As for the other focal persons, kindly refer to the succeeding sections that discuss the requirements for their positions/designations.
+For the RSP Focal, please refer to the HRMO's requirements presented in the preceding sections. As for the other focal persons, kindly refer to the succeeding sections that discuss the requirements for their positions/designations.
 
 ### The Member of the PRIME-HRM Committees
 
@@ -162,7 +162,7 @@ In the perspective of HRM, the Budget Officer is mostly concerned with the prepa
 
 ### The Supply Officer
 
-The Supply Officer manages assets and supplies that are needed for everyday operations. When preparing plans for the procurement of office supplies, they may use the Position Description Forms that will be made available in the IHRMIS as guides to indentify the office supply needs of personnel.
+The Supply Officer manages assets and supplies that are needed for everyday operations. When preparing plans for the procurement of office supplies, they may use the Position Description Forms that will be made available in the IHRMIS as guides to identify the office supply needs of personnel.
 
 The Supply Officer also signs clearances. As such, they will sign online clearances using their IHRMIS password, self-signed certificates, or PNPKI certificates.
 
@@ -172,13 +172,13 @@ Due to the digitalization of many processes under HRM, some document requests an
 
 ### The Cash Officer
 
-The Cash Officer deals with reimbursements for salary, employee benefits, and remittaces of deductions and contribution to PLIs and employee benefits providers from the government, such as Pag-IBIG HDMF, PhilHealth, and GSIS. Once payrolls and/or remittances are prepared and audited/pre-audited by the Accountant, the Cash Officer then uploads reimbursement data into the agency's host bank to credit salaries to the employees and/or remit contributions to the PLIs and benefits providers. Should the low-priority payroll module of IHRMIS be completed within the timeframe, this auditing-routing workflow would be adapted by the IHRMIS in an online/semi-automated process.
+The Cash Officer deals with reimbursements for salary, employee benefits, and remittances of deductions and contribution to PLIs and employee benefits providers from the government, such as Pag-IBIG HDMF, PhilHealth, and GSIS. Once payrolls and/or remittances are prepared and audited/pre-audited by the Accountant, the Cash Officer then uploads reimbursement data into the agency's host bank to credit salaries to the employees and/or remit contributions to the PLIs and benefits providers. Should the low-priority payroll module of IHRMIS be completed within the timeframe, this auditing-routing workflow would be adapted by the IHRMIS in an online/semi-automated process.
 
 ### The Accountant
 
 For employee salary, benefits, deductions, and contributions, the Accountant provides the auditing/pre-auditing process. Once the payroll and the accompanying remittances are prepared, the Accountant audits or pre-audits them to ensure that they are accurately calculated and fully compliant with financial reporting standards of the government, particularly of the Commission on Audit. Should the low-priority payroll module of IHRMIS be completed within the timeframe, this auditing-routing workflow would be adapted by the IHRMIS in an online/semi-automated process.
 
-Another role of the Accountant is in the signing of clearances. They should have access to the attachments of the online clearances so they can use these along with these records to determine whether the employee can be cleared of financial obligations from the Accounting Office. They may sign the clearances using their IHRMIS passwords, self-signed certificates, or PNPKI certificates. Should an employee not be cleared from financial obligations or accountabilities, the Accountant may also add a remark to clarify the reason and identify the documents for compliance, if any.
+Another role of the Accountant is in the signing of clearances. They should have access to the attachments of the online clearances so they can use these along with these records to determine whether the employee can be cleared of financial obligations from the Accounting Office. They may sign the clearances using their IHRMIS passwords, self-signed certificates, or PNPKI certificates. Should an employee not be cleared from financial obligations or accountability, the Accountant may also add a remark to clarify the reason and identify the documents for compliance, if any.
 
 ### The Payroll Officer
 
@@ -206,7 +206,7 @@ The Planning Officer is also currently assigned as the focal of the PMT. As such
 
 The SEPS-HRD is the L&D focal and designated as one of the primary members of the HRDC. They are tasked with managing employee development and welfare. They should have access to relevant pieces of personnel information and should also be able to track and modify the educational and training record of employees. Likewise, they should be able to summarize or view the summaries of individual and group development plans gathered through the PM pillar of PRIME-HRM, determine L&D needs, and design/implement L&D interventions to bridge gaps in the knowledge, skills, and performance of employees. Once these L&D interventions are implemented and set in the IHRMIS, they should be able to identify, either directly or through nominations from various channels, the suitable participants for these interventions. After the trainings and learning intervention, they should be able to update the personnel records of participants to reflect participation in the trainings and scans of certificates may be also be uploaded.
 
-Aside from direct access to personnal information with respect to the tracking of employee development, they should also have a platform to develop and showcase learning interventions and, in some cases, invite participants to them. Approval by the approving authority may also be done digitally, if possible.
+Aside from direct access to personnel information with respect to the tracking of employee development, they should also have a platform to develop and showcase learning interventions and, in some cases, invite participants to them. Approval by the approving authority may also be done digitally, if possible.
 
 ### The Education Program Specialist II for Human Resource Development (EPS II-HRD)
 
@@ -277,4 +277,5 @@ The IHRMIS-SSP, the end user-oriented subsystem of the IHRMIS, should allow the 
 * Request participation in open trainings
 * Join virtual committee meetings and deliberations
 * Allow the general signing and/or approval of online documents using users' IHRMIS password, self-signed certificate, and PNPKI certificate
+* Download all data user data
 * Delete data of external user
