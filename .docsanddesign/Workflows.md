@@ -13,35 +13,40 @@ This document describes the HRM systems and workflows to be adapted and digitali
 
 The following terms and acronyms are hereby adopted to simplify the identification of specific concepts and entities all throughout this document and avoid wieldy repetition of lengthy names and indentifiers.
 
-* __IHRMIS__ - Integrated Human Resource Management Information System
-* __DepED-QMS-PAWIM__ - Department of Education Quality Management System Manual and Procedures and Work Instructions Manual
-* __PAWIM__ - shortened acronym for DepED-QMS-PAWIM
-* __HRMD__ - Human Resource Management and Development
-* __CSC__ - Civil Service Commission
-* __ORAOHRA__ - Omnibus Rules on Appointments and Other Human Resource Actions; has 2017 and 2025 versions
-* __HRMO__ - Human Resource Management Officer
-* __CTI__ - Coterminous to the Incumbent
-* __DIBAR__ - Database of Individuals Barred from Entering Government Service and Taking Civil Service Examinations
-* __PRIME-HRM__ - Program to Institutionalize Meritocracy and Excellence in Human Resource Management.
-* __RSP__ - Recruitment, Selection, and Placement (PRIME-HRM Pillar)
-* __PM__ - Performance Management (PRIME-HRM Pillar)
-* __L&D__ - Learning and Development (PRIME-HRM Pillar)
-* __R&R__ - Rewards and Recognition (PRIME-HRM Pillar)
-* __HRMO__ - Human Resource Management Officer; refers to the Division HRMO unless specified
-* __MPaSIS__ - Merit Promotion and Selection Information System; older version of the software
-* __MPaSISv2.0__ - Merit Promotion and Selection Information System, version 2.0; the newer version to be developed as a component module or subsystem of IHRMIS
-* __RQA__ - Registry of Qualified Applicants
 * __CAR__ - Comparative Assessment Result
 * __CAR-RQA__ - Comparative Assessment Result - Registry of Qualified Applicants
 * __CAReER__ - Comparative Assessment Result for ECP Reclassification
-* __IER__ - Initial Evaluation Result
+* __SGOD__ - Schools Governance and Operations Division
+* __CSC__ - Civil Service Commission
+* __CTI__ - Coterminous to the Incumbent
+* __DepED-QMS-PAWIM__ - Department of Education Quality Management System Manual and Procedures and Work Instructions Manual
+* __DIBAR__ - Database of Individuals Barred from Entering Government Service and Taking Civil Service Examinations
 * __ECP__ - Expanded Career Progression
-* __SSP__ - Self-Service Portal
-* __PNPKI__ - Philippine National Public Key Infrastructure
+* __HRD__ - Human Resource Development
+* __HRDC__ - Human Resource Development Committee
+* __HRMD__ - Human Resource Management and Development
+* __HRMO__ - Human Resource Management Officer; refers to the Division HRMO unless specified
+* __IER__ - Initial Evaluation Result
+* __IHRMIS__ - Integrated Human Resource Management Information System
+* __L&D__ - Learning and Development (PRIME-HRM Pillar)
+* __MPaSIS__ - Merit Promotion and Selection Information System; older version of the software
+* __MPaSISv2.0__ - Merit Promotion and Selection Information System, version 2.0; the newer version to be developed as a component module or subsystem of IHRMIS
+* __ORAOHRA__ - Omnibus Rules on Appointments and Other Human Resource Actions; has 2017 and 2025 versions
+* __PAWIM__ - shortened acronym for DepED-QMS-PAWIM
+* __PM__ - Performance Management (PRIME-HRM Pillar)
 * __PMCF__ - Performance Monitoring and Coaching Form
 * __PMT__ - Performance Management Team
+* __PNPKI__ - Philippine National Public Key Infrastructure
 * __PRAISE__ - Program on Awards and Incentives for Service Excellence
-* __HRDC__ - Human Resource Development Committee
+* __PRIME-HRM__ - Program to Institutionalize Meritocracy and Excellence in Human Resource Management.
+* __R&R__ - Rewards and Recognition (PRIME-HRM Pillar)
+* __RQA__ - Registry of Qualified Applicants
+* __RSP__ - Recruitment, Selection, and Placement (PRIME-HRM Pillar)
+* __SSP__ - Self-Service Portal
+* __SEPS__ - Senior Education Program Supervisor
+* __DBM__ - Department of Budget and Management
+* __PSIPoP__ - Personal Services Itemization and Plantilla of Personnel
+* __GMIS__ - Government Manpower Information System
 
 ## Human Resource Actions
 
@@ -70,7 +75,7 @@ These adjustments or movements of human resource include the following:
 
 1. __Change in item number__ - the adjustment or shifting of item number of a position per agency Plantilla of Personnel, __provided that the existing appointment is not station-specific.__
 2. __Salary adjustment__ - the change in salary as a result of increase in pay levels or upgrading of positions which does not involve a change in qualification requirements.
-3. __Step increment__ - the increase in salary from step to step within the salary grade allocation of the official or employee's position in recognition of meritorious performance based on a Performance Management System approved by the CSC and/or through length of service. A Notice of Step Increment (NOSI) is issued by the heads of agencies for this puspose.
+3. __Step increment__ - the increase in salary from step to step within the salary grade allocation of the official or employee's position in recognition of meritorious performance based on a Performance Management System approved by the CSC and/or through length of service. A Notice of Step Increment (NOSI) is issued by the heads of agencies for this purpose.
 4. __Reinstatement (to the same position or item)__ - the restoration, as a result of a decision, of a person to a career position from which he or she, through no delinquency or misconduct, has been separated. The employee has a vested right to his or her former item, hence, he or she is deemed not to have left the service and therefore has no gap in the service.
 5. __Demotion as a result of a disciplinary action__ - the adjustment of the salary of an employee to the next lower salary grade, with the same salary step. A notice of salary adjustment shall be issued.
 6. __Retention in positions marks as CTI__ - this may happen due to rationalization or reorganization of an agency. An employee holding a permanent appointment to a position marked as CTI shall retain his or her permanent status while the position itself shall be deemed automatically abolished once the position is vacated through promotion, transfer, retirement, resignation, or death of the incumbent.
@@ -81,12 +86,12 @@ Some human resource actions, which will not require the issuance of an appointme
 
 1. __Reassignment__ - movement of an employee across the organizational structure within the same department or agency (within the geographical location of the agency), made in the interest or exigency of public service, which does not involve a reduction in rank, status, or salary. Limitations apply if the employee being reassigned holds a station-specific appointment. Reassignment may also be declared invalid if it is not made in the interest or exigency of public service or if it constitutes __constructive dismissal.__
 2. __Detail__ - temporary movement of an employee from one department or agency to another which does not involve a reduction in rank, status, or salary. During the period of the detail, the detailed employee shall be under the administrative supervision of the receiving agency while the authority to discipline is still vested in the appointing officer or authority of the parent agency. The detailed employee continues to receive salary his or her parent department or agency. The duration and the renewal of detail depends on whether consent is given by the employee. A detail shall be covered by an agreement manifesting the detail arrangement terms between the agency heads.
-3. __Designation__ - movement that involves an imposition of additional and/or greater responsibility to be performed by a public official or employee which is temporary and can be terminated anytime at the pleasure of the appointing officer or authority. Designation may involve the performmance of the duties of another position on a concurrent capacity or on full-time basis. Designations may be renewed every year in the exigency of the service but not to exceed two (2) renewals.
+3. __Designation__ - movement that involves an imposition of additional and/or greater responsibility to be performed by a public official or employee which is temporary and can be terminated anytime at the pleasure of the appointing officer or authority. Designation may involve the performance of the duties of another position on a concurrent capacity or on full-time basis. Designations may be renewed every year in the exigency of the service but not to exceed two (2) renewals.
 
 ### Modes of Separation
 
-1. __Resignation__ - an act of an official or employee, in writing, relinquishing his or her position effective on a specific date which shall not be less than thirty (30) days from the date of such notice or earlier as mutually agreed upon by the employee and the appointing officer or authority. To constitute a complete and operative resignation of an official or eomployee, there must be a written intention to relinquish the ofice, the accceptance by the appointing officer or authority, and a written notice of such acceptance duly served to the official or employee concerned.
-2. __Dismissal__ - the termination or the act of being discharged from employment or service for cause. It is the definite severance of an officer or employee from government service made by the agency or office, the CSC, the Office of the Ombudsman, or regular courts. For record purposes, the agency HRMO shall submit a Report on Database of Individuals Barred from Entering Government Service and Taking Civil Service Examinations (DIBAR), together with a certified true copy of the cdecision rendered where the penalty of dismissal was imposed which has become executory, to the CSC FO concerned within thirty (30) calendar days from the date of suc decision.
+1. __Resignation__ - an act of an official or employee, in writing, relinquishing his or her position effective on a specific date which shall not be less than thirty (30) days from the date of such notice or earlier as mutually agreed upon by the employee and the appointing officer or authority. To constitute a complete and operative resignation of an official or employee, there must be a written intention to relinquish the office, the acceptance by the appointing officer or authority, and a written notice of such acceptance duly served to the official or employee concerned.
+2. __Dismissal__ - the termination or the act of being discharged from employment or service for cause. It is the definite severance of an officer or employee from government service made by the agency or office, the CSC, the Office of the Ombudsman, or regular courts. For record purposes, the agency HRMO shall submit a Report on Database of Individuals Barred from Entering Government Service and Taking Civil Service Examinations (DIBAR), together with a certified true copy of the decision rendered where the penalty of dismissal was imposed which has become executory, to the CSC FO concerned within thirty (30) calendar days from the date of suc decision.
 3. __Other Modes__ - For other modes of separation such as __dropping from the rolls,__ __termination or expiration of temporary, coterminous, contractual, or casual appointment,__ __retirement,__ or __death,__ a copy of the order of dropping from the rolls or notice of separation signed by the appointing officer or authority stating the date of such separation, or the death certificate shall be submitted by the HRMO to the CSC FO concerned within thirty (30) calendar days from the date of the effectivity of the dropping from the rolls, date of separation, or death for record purposes.
 
 ## HRMD Processes
@@ -95,7 +100,7 @@ HRMD processes are enumerated in the DepED-QMS-PAWIM. The HRMO and Personnel Ser
 
 ### 1. Personnel Inventory
 
-The management of the personnel inventory is a very significant role, as the personnel inventory reflects the human resource structure of the organization. The personnel inventory helps define the organizational units that compose the organization and the roles, skills, and expertise (i.e., positions) needed to fulfill the purpose of said units. As such, it allows the organization to effectively allocate the necessary manpower to the appropriate units and further identify vacancies, excess personnel, and other staffing patterns and needs. The IHRMIS features for this area may be used in conjuction with the PSIPOP-GMIS of the DBM, which serves as the primary data source for manpower information and as basis for determining the Personal Services (PS) budgetary requirement of DepED (DO 63, s. 2026). Likewise, non-plantilla positions such as those engaged under job orders and contract of service, DepED-funded or otherwise, may also be managed in a similar fashion. Issued NOSCAs will either add or remove Plantilla item positions from the inventory. HR actions that move personnel horizontally across the organization, such as designations, detail, reassignments, etc., will also be managed as well. HR actions that either place employees into or remove employees from Plantilla items, such as appointment, promotion, transfer, separation, resignation, retirement, dropping from the roll, etc., shall also be reflected in IHRMIS, where a position could be marked as either filled, unfilled, or phased out.
+The management of the personnel inventory is a very significant role, as the personnel inventory reflects the human resource structure of the organization. The personnel inventory helps define the organizational units that compose the organization and the roles, skills, and expertise (i.e., positions) needed to fulfill the purpose of said units. As such, it allows the organization to effectively allocate the necessary manpower to the appropriate units and further identify vacancies, excess personnel, and other staffing patterns and needs. The IHRMIS features for this area may be used in conjunction with the PSIPoP-GMIS of the DBM, which serves as the primary data source for manpower information and as basis for determining the Personal Services (PS) budgetary requirement of DepED (DO 63, s. 2026). Likewise, non-plantilla positions such as those engaged under job orders and contract of service, DepED-funded or otherwise, may also be managed in a similar fashion. Issued NOSCAs will either add or remove Plantilla item positions from the inventory. HR actions that move personnel horizontally across the organization, such as designations, detail, reassignments, etc., will also be managed as well. HR actions that either place employees into or remove employees from Plantilla items, such as appointment, promotion, transfer, separation, resignation, retirement, dropping from the roll, etc., shall also be reflected in IHRMIS, where a position could be marked as either filled, unfilled, or phased out.
 
 The organization of data for the personnel inventory user interface will be as follows:
 
@@ -104,21 +109,30 @@ The organization of data for the personnel inventory user interface will be as f
 * Clicking on a position title will open the position details page.
 * Clicking on an employee name or number will open an employee record page that contains only the basic information about the employee and a button or link for accessing all the employee's information.
 
-For the purpose of continuity with current personnel inventory systems and workflows, existing job description and terms of reference documents will serve as the model for "cookie-cutter" position templates or schemas that will define the KRA of Plantilla item and non-Plantilla positions. This will eventually bridge the gap between Personnel Inventory and the PM of the PRIME-HRM.
+The workflow of personnel inventory is mostly concerned with verification of filled and unfilled positions, monitoring the Plantilla, and ensuring that the personnel inventory is always updated with the DBM PSIPoP-GMIS. For the purpose of continuity with current personnel inventory systems and workflows, existing job description and terms of reference documents will serve as the model for "cookie-cutter" position templates or schemas that will define the KRA of Plantilla item and non-Plantilla positions. This will eventually bridge the gap between Personnel Inventory and the PM of the PRIME-HRM.
 
-#### Staffing Needs
-
-
+___NOTE:___ _The IHRMIS may attempt to consume Plantilla in PDF format downloaded from the PSIPoP-GMIS for automatic comparison with the IHRMIS personnel inventory and verify filled and unfilled items. Regardless, a hardcopy of the Plantilla with wet signature may still be retained, depending on government policy._
 
 ### 2. Recruitment, Selection, Placement, and Induction (shared with SGOD-HRDS)
+
+Please refer to the PRIME-HRM RSP process in the succeeding sections.
+
 ### 3. Personnel Records Management
 ### 4. Compensation and Benefits (shared with the Financial Services Unit)
 ### 5. Employee's Welfare (SGOD-HRDS)
 ### 6. Leave Management
 ### 7. Employee Relations
 ### 8. Personnel Performance Management (shared with SGOD-HRDS)
+
+Please refer to the PRIME-HRM PM process in the succeeding sections.
+
 ### 9. Professional Development/Learning and Development (shared with SGOD-HRDS)
+
+Please refer to the PRIME-HRM L&D process in the succeeding sections.
+
 ### 10. Rewards and Recognition (SGOD-HRDS)
+
+Please refer to the PRIME-HRM R&R process in the succeeding sections.
 
 ## PRIME-HRM Processes
 
@@ -130,7 +144,7 @@ The RSP of PRIME-HRM covers the recruitment, selection, placement, induction, an
 
 1. __Publication and/or Posting of Vacancies or Call for Applications.__ This phase is concerned with two steps: the _publication_ of new or vacant Plantilla items and the _posting_ of either a job vacancy or a call for applications. The manner in which the steps are undertaken varies depending on position category. <br><br>For non-teaching Plantilla item positions, the item is published online in the CSC Career Portal while a notice of vacancy is simultaneously posted via an official memorandum, implying the prior existence of a vacant position marked in the personnel inventory. For teaching positions, a call for applications is posted instead, even without the publication of a teaching item. This is most suitably done before the beginning of the succeeding school year to prepare an RQA, which serves as a pool of possible appointees, for upcoming vacancies in teaching positions. <br><br>Regardless of the variation, in MPaSISv2.0, an RSP hiring cycle shall be initiated on the involved positions, for which a specific schedule is defined to manage and assess the execution of phases and tasks, and a team of staff and/or officials is set as HRMPSB members and/or alternates. Vacant positions of the same position title and job description or KRAs may be grouped in one (1) hiring cycle, if necessary. For example, openings for three (3) AO II items to be assigned in the Elementary schools may be combined into a single hiring cycle, so that, in effect, applicants will be applying for any of the three positions regardless of station. Another use case would be in processing applications for reclassification under the ECP System, in which positions for application have no particular station of assignment or subject major requirement.
 
-2. __Submission of Applications.__ In this phase, applicants submit their applications to the posted positions. This period usually follows the 10-day publication and posting period. However, the duration may be modified depending on circumstance, i.e., extension of submission period _(should be backed by official issuance)_, submission of Teacher I applications (may take one (1) month or more), etc. <br><br>Paper-based applications are first checked for completion in order to avoid disqualification due to incomplete documents. To guide the HRMO and other assigned personnel in checking, the applicant's name and position applied will be encoded in MPaSISv2.0 and checkboxes are ticked on the online form depending on the available documents. Upon submission of the online checklist, an application code will be generated and shall be written on the actual paper-based checklist. Checkboxes on the actual paper-based checklist will also be ticked to match those in MPaSISv2.0. The applicant then authenticates the checklist through public notary or any public official authorized to officiate oaths before it is finally submitted. <br><br>For online applications via the SSP, applicants will sign up for an account using a valid email address or phone number _(subject to budgetting)_ and encode their own personal details and credentials. They will also upload a scanned PDF or image of the corresponding document for each of their credentials. The online application process will not continue unless the corresponding document of the credential is uploaded. <br><br>After encoding and uploading, an online version of the omnibus oaths will be presented to the applicant and, upon scrolling the oaths and ticking the checkboxes, the applicant may submit the online application. Upon successful submission, the generated application code will be displayed on screen and will also be sent to the applicant's registered email address and phone number _(subject to budgetting)_. In case the applicant applies via email, the applicant shall be sent a reply with a link and a set of intructions regarding the online application using the SSP.
+2. __Submission of Applications.__ In this phase, applicants submit their applications to the posted positions. This period usually follows the 10-day publication and posting period. However, the duration may be modified depending on circumstance, i.e., extension of submission period _(should be backed by official issuance)_, submission of Teacher I applications (may take one (1) month or more), etc. <br><br>Paper-based applications are first checked for completion in order to avoid disqualification due to incomplete documents. To guide the HRMO and other assigned personnel in checking, the applicant's name and position applied will be encoded in MPaSISv2.0 and checkboxes are ticked on the online form depending on the available documents. Upon submission of the online checklist, an application code will be generated and shall be written on the actual paper-based checklist. Checkboxes on the actual paper-based checklist will also be ticked to match those in MPaSISv2.0. The applicant then authenticates the checklist through public notary or any public official authorized to officiate oaths before it is finally submitted. <br><br>For online applications via the SSP, applicants will sign up for an account using a valid email address or phone number _(subject to budgeting)_ and encode their own personal details and credentials. They will also upload a scanned PDF or image of the corresponding document for each of their credentials. The online application process will not continue unless the corresponding document of the credential is uploaded. <br><br>After encoding and uploading, an online version of the omnibus oaths will be presented to the applicant and, upon scrolling the oaths and ticking the checkboxes, the applicant may submit the online application. Upon successful submission, the generated application code will be displayed on screen and will also be sent to the applicant's registered email address and phone number _(subject to budgeting)_. In case the applicant applies via email, the applicant shall be sent a reply with a link and a set of instructions regarding the online application using the SSP.
 
 3. __Initial Evaluation.__ Once the application has been fully submitted after ensuring completeness, it will then undergo initial evaluation vis-a-vis the CSC-approved Qualification Standards for the position applied. For online applications, it will be an onscreen checking of personal details and the verification of all encoded credentials against the uploaded scanned credentials. For paper-based applications, assigned personnel will encode the applicant's data into MPaSISv2.0 similar to the older MPaSIS workflow. <br><br>Once all applications for a position have undergone initial evaluation, an IER shall be generated for review using the HRMO account. When the IER has been verified, it is finalized and approved using the HRMO's password, self-signed certificate, or PNPKI certificate. The IER may then be downloaded as a signed PDF, printed for filing or posting, or accessed directly via a link to the SSP. The finalization will trigger a server-based script that will generate a queue of signed PDF's of individual initial evaluation results that will be sent to all applicants via email. <br><br>To maintain the integrity of the finalized IER, no further edits or additional applications shall be allowed or added on the IER unless a majority of the HRMPSB team assigned to the hiring cycle (members or alternates, if corresponding member is unavailable) along with the concurrence of the HRMPSB Chairperson, approves the unfinalization of the said IER using their IHRMIS password, self-signed certificate, or PNPKI certificate.
 
@@ -217,7 +231,7 @@ Incentives are given to deserving employees to improve the quality of their perf
 
 1. __Loyalty Incentive__ - given to an employee who has served continuously and satisfactorily for the agency for at least ten (10) years and also every five (5) years thereafter.
 2. __Length of Service Incentive__ - given to an employee who has rendered at least three (3) years of continous satisfactory service in the same position. This incentive is given in compliance to CSC-DBM JC No. 1, s. 1990. The HRMO automatically does the adjustments.
-3. __ Productivity Incentive__ - given to all employees who have performed at least satisfactorily for the year covered in accordance with the agency's CSC approved PES. This incentive is facilitated by the HRMO and shall follow relevant existing guidelines.
+3. __Productivity Incentive__ - given to all employees who have performed at least satisfactorily for the year covered in accordance with the agency's CSC approved PES. This incentive is facilitated by the HRMO and shall follow relevant existing guidelines.
 4. __Career and Self-Development Incentive__ - This recognition is granted to personnel who have successfully completer a course or academic degree, either locally or abroad, at their own expense. This may be given in conjunction with the Gawad Tagumpay Award.
 
 #### Forms of Awards and Incentives
