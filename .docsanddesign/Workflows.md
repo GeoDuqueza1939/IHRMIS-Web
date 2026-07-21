@@ -118,10 +118,50 @@ ___NOTE:___ _The IHRMIS may attempt to consume Plantilla in PDF format downloade
 Please refer to the PRIME-HRM RSP process in the succeeding sections.
 
 ### 3. Personnel Records Management
+
+At the heart and center of personnel records management is the 201 file repository, a records keeping system that contains most of an employee's records, including personal data, service record, appointments, designations, medical records, and many others. The IHRMIS will replicate this functionality online by including a 201 file feature where scans of 201 file-related documents may be uploaded. The SSP will also include a similar functionality for the use of employees, although uploads and updates to personal data will still require the approval of the HRMO before they are finalized as part the 201/employee record.
+
+Personnel records management does not only deal with records keeping. It also involves the issuance of personnel records by request. For instance, an employee may request the latest copy of their service record or a certificate of employment. Some of these documents may come either directly from the 201 file repository (either offline or online), as a generated or drafted document from the IHRMIS, or from external offices such as Regional Office and the CSC Field Office. Requests may be channeled either through the Records Unit or directly via the IHRMIS-SSP. Likewise, internal requests for personnel records, especially from management, may also be provided via the IHRMIS through the HRMO/Personnel Services Unit.
+
 ### 4. Compensation and Benefits (shared with the Financial Services Unit)
+
+Compensation and benefits is an umbrella process that includes many processes, such as payroll preparation, remittance of deductions and contributions, the processing of benefits and claims, and the imbursement and crediting of salary and monetary benefits. These processes, more or less, follow some general steps:
+
+* __Verification/determination of eligibility.__ This includes the submission of the necessary documents and/or certifications. For the salary of employees already integrated in the payroll, being integrated in the payroll is enough to determine eligibility for salary, notwithstanding possible hindrances such as extended leaves without pay (LWOP).
+* __Processing of payroll.__ The Payroll Officer prepares the payroll, using either salary tables and other legal bases for monetary compensation or the documents and/or certifications submitted for the claim. Before approval, the payroll is audited/pre-audited by the Accounting Office to ensure accuracy and compliance to regulations. The payroll is then approved by the Approving Authority.
+* __Crediting and remittance.__ Once approved, the compensation is imbursed by the Cash Officer or Disbursing Officer and credited to the employee through banks or manually handed over to the employee. If deductions and/or contributions are applicable to the compensation, these are also processed and remitted to the involved agencies or institutions. A payslip that contains details regarding the compensation is also issued to the employee.
+
+Regular payroll is currently prepared using the DepED Payroll System while other payroll are prepared mostly using spreadsheet software. Occasionally, the DepED Central Office and/or Regional Offices may issue official updates to the Payroll System for updates on salary and taxation tables or crediting of bonuses and monetary incentives. Likewise, instructions regarding the computations may also be issued for manual processing if necessary.
+
+Aside from the actual preparation of payroll for salaries and other monetary compensation, the following processes also fall under compensation and benefits:
+
+* __Payroll integration__ - newly hired employees are integrated to the regular payroll
+* __Salary adjustment__ - updates to salaries integrated whenever employees go through promotions or step increments
+* __Salary differential__ - credited to eligible employees to compensate for the period between their promotion or step increment and the integration of their salary adjustment
+
+For deductions and contributions, moratoriums may sometimes occur. These should also be considered in creating a Payroll System in the IHRMIS.
+
 ### 5. Employee's Welfare (SGOD-HRDS)
+
 ### 6. Leave Management
+
+Leave management is closely connected to attendance and workforce management. While attendance and workforce management concerns itself with the times an employee is present at work, such as work shifts, alternative work arrangements, tardiness, undertimes, official travel, and other similar management concepts, leave management involves employee absences.
+
+There are two kinds of absences from official duties. These are:
+
+1. __Leave of absence__ - these are sanctioned absences wherein the immediate supervisors are duly informed of the absence prior to the absence itself. A request for leave or a leave form is filed for a leave of absence at least five (5) working days prior to the absence or immediately after the absence in case of sick leaves. Some leaves may require specific attachments depending on the nature of the leave of absence. A leave of absence may either be paid or unpaid (LWOP), depending on the available leave credits of the employee and upon the approval action itself.
+2. __Absence without leave (AWOL)__ - these are absences that are unsanctioned or uninformed. These often constitute abandonment of official duties, which are subject to disciplinary action.
+
+A duly approved (or disapproved) leave form serves as an indicator of whether an absence can be classified as an AWOL or a sanctioned leave of absence. To ensure approval, the employee should make sure that the necessary attachments are present before submission. Once filed, the HRMO verifies and validates the leave request before forwarding it for recommendation and approval.
+
+Occasionally, leave management may involve more than just simple leaves of absence. Sometimes, leave forms are submitted for conversion of leave/service credits to monetary compensation, particularly at the end of a fiscal year or at the retirement of an employee. Other times, a leave may also involve a travel abroad, in which case specific attachments are required and forwarded to the Regional Office for further action.
+
 ### 7. Employee Relations
+
+Employee relations is a very broad role. In the context of the Civil Service, it refers to the management and development of the relationship between government employees and the government. It encompasses the policies, practices, and processes that govern the interactions between employers and employees within the public sector. Maintaining positive employee relations are vital for employee welfare, productivity, and compliance with legal standards.
+
+Communication is indispensable in maintaining positive employee relations. Once in a while, issues may arise that may sometimes need the information of or intervention from management. These are often communicated through letters that are then received by the HRMO. These are forwarded to the Administrative Officer to solicit comments and information. Actions may be recommended for the resolution of the issue. However, it may be enforsed to the Legal Unit if necessary. A similar flow may also be followed for feedback involving HRM or its improvement.
+
 ### 8. Personnel Performance Management (shared with SGOD-HRDS)
 
 Please refer to the PRIME-HRM PM process in the succeeding sections.
@@ -180,7 +220,7 @@ The Learning and Development Needs Assessment (LDNA) is the foundational require
 From the Annual Agency L&D Plan, L&D interventions are identified and designed, 
 
 1. __Identifying L&D Interventions__
-2. __Designing and QA (Evaluation) Plan for the Interventions__
+2. __Designing QA (Evaluation) Plans for the Interventions__
 
 #### 3. Learning and Development Implementation
 
@@ -261,11 +301,17 @@ Nominations are screened and evaluated by the PRAISE Committee based on the set 
 
 ## Other Processes
 
-1. Clearances
-2. Document Requests
-2. Travel Abroad
-3. GSIS Separation Benefits
-4. User Management
-5. System Maintenance
-6. Database Maintenance
-7. System and Feature Updates (Continuous Development)
+1. __Clearance.__ A clearance is a statement or certification of an employee's freedom from any form of accountability. It is requested for various reasons. It may be required as a prerequisite for any HR action that moves an employee up, down, or across the organization, such as promotions, reassignments, designations, and transfers. It may also be required before resignation or retirement.
+2. __Document Requests.__ Various kinds of documents may be requested from the Office through the Records Unit or via the IHRMIS. These may include but not be limited to the following:
+    * Certificate of employment
+    * Service record
+    * Certificate of rating
+    * Certificate of ranking
+    * Indorsement
+    * CTC of entire 201 file or specific 201 documents
+3. __Attendance Management.__ Please refer to Leave Management under the HRMD processes.
+5. __GSIS Separation Benefits.__
+6. __User Management.__
+7. __System Maintenance.__
+8. __Database Maintenance.__
+9. __System and Feature Updates (Continuous Development).__
