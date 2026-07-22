@@ -2,12 +2,12 @@
 
 ___
 > Target System: Integrated Human Resource Management Information System (IHRMIS)<br>
-> Document Version: 1.00
+> Document Version: 1.01
 ___
 
 ## Description and Purpose of the System
 
-The Integrated Human Resource Management Information System (IHRMIS) is a suite of web-based applications and application programming interfaces (web APIs). IHRMIS will be designed to meet the HR management needs of a Department of Education office. It aims to comply with the requirements of the CSC PRIME-HRM Level III certification (Integrated HRM) while modelling the prescribed subprocesses under the Human Resource Management and Development (HRMD) process as defined in the Department of Education Quality Management System Manual and Procedures and Work Instructions Manual (DepED-QMS-PAWIM). Likewise, it aims to uphold data privacy and security in accordance with the Republic Act No. 10173, otherwise known as the Data Privacy Act of 2012.
+The Integrated Human Resource Management Information System (IHRMIS) is a suite of web-based applications and application programming interfaces (web APIs). IHRMIS will be designed to meet the HR management needs of a Department of Education office. It aims to comply with the requirements of the CSC PRIME-HRM Level III certification (Integrated HRM) while modelling the prescribed subprocesses under the Human Resource Management and Development (HRMD) process as defined in the Department of Education Quality Management System Manual and Procedures and Work Instructions Manual (DepED-QMS-PAWIM). Likewise, it aims to uphold data privacy and security in accordance with the Republic Act No. 10173, otherwise known as the Data Privacy Act of 2012. Finally, it aims to comply with the E-Governance Act of 2025 (Republic Act No. 12254), which institutionalizes the Philippines’ transition to a fully digital government, enhancing efficiency, transparency, and citizen-centered services.
 
 ## Acronyms and Definition of Terms
 
