@@ -125,11 +125,11 @@ Personnel records management does not only deal with records keeping. It also in
 
 ### 4. Compensation and Benefits (shared with the Financial Services Unit)
 
-Compensation and benefits is an umbrella process that includes many processes, such as payroll preparation, remittance of deductions and contributions, the processing of benefits and claims, and the imbursement and crediting of salary and monetary benefits. These processes, more or less, follow some general steps:
+Compensation and benefits is an umbrella process that includes many processes, such as payroll preparation, remittance of deductions and contributions, the processing of benefits and claims, and the disbursement and crediting of salary and monetary benefits. These processes, more or less, follow some general steps:
 
 * __Verification/determination of eligibility.__ This includes the submission of the necessary documents and/or certifications. For the salary of employees already integrated in the payroll, being integrated in the payroll is enough to determine eligibility for salary, notwithstanding possible hindrances such as extended leaves without pay (LWOP).
 * __Processing of payroll.__ The Payroll Officer prepares the payroll, using either salary tables and other legal bases for monetary compensation or the documents and/or certifications submitted for the claim. Before approval, the payroll is audited/pre-audited by the Accounting Office to ensure accuracy and compliance to regulations. The payroll is then approved by the Approving Authority.
-* __Crediting and remittance.__ Once approved, the compensation is imbursed by the Cash Officer or Disbursing Officer and credited to the employee through banks or manually handed over to the employee. If deductions and/or contributions are applicable to the compensation, these are also processed and remitted to the involved agencies or institutions. A payslip that contains details regarding the compensation is also issued to the employee.
+* __Crediting and remittance.__ Once approved, the compensation is disbursed by the Cash Officer or Disbursing Officer and credited to the employee through banks or manually handed over to the employee. If deductions and/or contributions are applicable to the compensation, these are also processed and remitted to the involved agencies or institutions. A payslip that contains details regarding the compensation is also issued to the employee.
 
 Regular payroll is currently prepared using the DepED Payroll System while other payroll are prepared mostly using spreadsheet software. Occasionally, the DepED Central Office and/or Regional Offices may issue official updates to the Payroll System for updates on salary and taxation tables or crediting of bonuses and monetary incentives. Likewise, instructions regarding the computations may also be issued for manual processing if necessary.
 
@@ -142,6 +142,10 @@ Aside from the actual preparation of payroll for salaries and other monetary com
 For deductions and contributions, moratoriums may sometimes occur. These should also be considered in creating a Payroll System in the IHRMIS.
 
 ### 5. Employee's Welfare (SGOD-HRDS)
+
+Employee Welfare encompasses many policies and aspects of HRM. It ensures that policies and programs on health, wellness, and working conditions of employees are in place, especially those provided in the Magna Carta for Teachers. As such, it is also involved with the entitlement of employees to leave benefits and incentives. It also ensures that issues that pose risks to health and wellness, such as smoking and drugs, are dealt with accordingly. Likewise, the registration and accreditation of employee associations and the agency's collective negotiation agreements are handled under these processes.
+
+The IHRMIS shall be used to record and monitor any programs and/or policies related to employee welfare.
 
 ### 6. Leave Management
 
@@ -160,7 +164,7 @@ Occasionally, leave management may involve more than just simple leaves of absen
 
 Employee relations is a very broad role. In the context of the Civil Service, it refers to the management and development of the relationship between government employees and the government. It encompasses the policies, practices, and processes that govern the interactions between employers and employees within the public sector. Maintaining positive employee relations are vital for employee welfare, productivity, and compliance with legal standards.
 
-Communication is indispensable in maintaining positive employee relations. Once in a while, issues may arise that may sometimes need the information of or intervention from management. These are often communicated through letters that are then received by the HRMO. These are forwarded to the Administrative Officer to solicit comments and information. Actions may be recommended for the resolution of the issue. However, it may be enforsed to the Legal Unit if necessary. A similar flow may also be followed for feedback involving HRM or its improvement.
+Communication is indispensable in maintaining positive employee relations. Once in a while, issues may arise that may sometimes need the information of or intervention from management. These are often communicated through letters that are then received by the HRMO. These are forwarded to the Administrative Officer to solicit comments and information. Actions may be recommended for the resolution of the issue. However, it may be endorsed to the Legal Unit if necessary. A similar flow may also be followed for feedback involving HRM or its improvement.
 
 ### 8. Personnel Performance Management (shared with SGOD-HRDS)
 
@@ -209,7 +213,7 @@ The HRDC of PRIME-HRM handles the planning and implementation of trainings and l
 
 #### 1. Learning and Development Needs Assessment (LDNA)
 
-The Learning and Development Needs Assessment (LDNA) is the foundational requirement for any L&D intervention which involves a through evaluation of the skills, knowledge, and abilities required for employees to perform their roles effectively.
+The Learning and Development Needs Assessment (LDNA) is the foundational requirement for any L&D intervention which involves a thorough evaluation of the skills, knowledge, and abilities required for employees to perform their roles effectively.
 
 1. __Conduct of L&D Needs Assessment.__ The LDNA is conducted annually to identify competency gaps and training needs. Individual and group LDNA assessments are integrated with the Results-Based Performance Management System (RPMS) and documented through Performance Review and Evaluations via the IPCRF/OPCRF.
 2. __Preparing an Individual Development Plan.__ The Individual Development Plan (IDP) is a personalized plan that outlines the specific learning and development needs and goals of an individual employee. Based on the results of the LDNA, the IDP identifies specific competency gaps and developmental needs and appropriate L&D interventions, such as trainings, workshops, seminars, or job-embedded learning, are determined to help the individual achieve their develomental goals. The IDP is reviews and approved by the individual's supervisor or unit head to ensure that the proposed interventions are relevant, timely, and effective.
@@ -217,7 +221,7 @@ The Learning and Development Needs Assessment (LDNA) is the foundational require
 
 #### 2. Learning Design and Development
 
-From the Annual Agency L&D Plan, L&D interventions are identified and designed, 
+From the Annual Agency L&D Plan, L&D interventions are identified and evaluation plans for them are also designed for quality assessments.
 
 1. __Identifying L&D Interventions__
 2. __Designing QA (Evaluation) Plans for the Interventions__
@@ -310,8 +314,13 @@ Nominations are screened and evaluated by the PRAISE Committee based on the set 
     * Indorsement
     * CTC of entire 201 file or specific 201 documents
 3. __Attendance Management.__ Please refer to Leave Management under the HRMD processes.
-5. __GSIS Separation Benefits.__
-6. __User Management.__
-7. __System Maintenance.__
-8. __Database Maintenance.__
-9. __System and Feature Updates (Continuous Development).__
+4. __GSIS Separation Claims/Benefits.__ Once an employee is separated through resignation or retirement, they may be eligible for some types of claims from the GSIS. These may range from a simple reimbursement of any applicable contributions or a claim of a pension or pension lump sum.
+5. __Survivorship Claims/Benefits.__ This is processed whenever an employee passes away while still in active service.
+6. __User Management.__ User management allows a system administrator to add, update, link, activate, deactivate, or delete user accounts along with the linked personal information. In addition, HR roles can be assigned using the HRMO account. User accounts may be of two (2) types: (a) external user account, which may be used by job applicants, auxilliary personnel (personnel that augment the workforce, i.e., job order, COS, GIP, etc.), and employees who have no DepED account, and (b) employee user account, for those who had been issued with a DepED account. The default user account role will be _job applicant,_ unless given by the HRMO an auxilliary role or linked with a DepED account. Once linked to a DepED account, a user account can no longer be unlinked unless through the intervention of a system administrator. For existing employees, user accounts will be pre-created by the system administrator and linked to DepED accounts, although the IHRMIS-SSP might suggest that a non-DepED email address be added to serve as an alternate login method. Meanwhile, account deletion will only be available to external user accounts, along with the option to delete user data. A separated employee is only able to access account deletion after getting their DepED account unlinked by the system administrator via a manual request or an online request via IHRMIS-SSP. Active employees will not be able to delete their account or request for unlinking. The system administrator is able to unlink DepEd accounts even for active employees, however, they shall do so for troubleshooting purposes, e.g., user is unable to login, user is issued a new DepED account, etc.
+7. __System Maintenance.__ A system administrator shall be responsible in keeping IHRMIS in top working condition. They may perform regular hardware maintenance or server maintenance anytime on the host computer(s) of IHRMIS. To aid in maintenance and troubleshooting of the actual IHRMIS, a technical manual and other technical documents shall be provided to the designated system administrator(s) so they can understand the inner workings of the IHRMIS.
+8. __Database Maintenance.__ The IHRMIS database shall be maintained alongside the IHRMIS suite. As such, information regarding the database and its structure shall also be made available in the technical manual for the system administrator.
+9. __System and Feature Updates (Continuous Development).__ System and feature updates involve both the system developer and the system administrator. The developer prepares these updates and, upon approval from the HRMO, informs the system administrator about them. The system administrator they sets a time window for the system update in the IHRMIS so the server software warns users of the scheduled system update, automatically disconnects from the network, performms a backup on itself, and then shuts down to allow the updates to be safely applied. The host system may be configured to enable the automatic activation of the server software after the time window.
+
+## Non-HRM Workflows
+
+The SSP is a front-facing system appropriate for front-line services. Although the SSP is initially intended to provide HRM services, it may also be extended to provide other services in the near future, as well. This may include administrative services such as requesting for supplies for work or the provision of transportation services for official travel. Extending this capability will eventually lead to improved workflows that may have unintended benefits, direct or otherwise, to the personnel that HRM manages.
