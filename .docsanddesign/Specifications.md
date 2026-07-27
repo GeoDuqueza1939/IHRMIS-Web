@@ -13,6 +13,7 @@ The Integrated Human Resource Management Information System (IHRMIS) is a suite 
 
 The following terms and acronyms are hereby adopted to simplify the identification of specific concepts and entities all throughout this specifications document and avoid wieldy repetition of lengthy names and identifiers.
 
+* __ARTA__ - Anti-Red Tape Act
 * __ASDS__ - Assistant Schools Division Superintendent; commonly serves as the Chairperson of the four (4) PRIME-HRM pillars.
 * __CAR__ - Comparative Assessment Result
 * __CAR-RQA__ - Comparative Assessment Result - Registry of Qualified Applicants
