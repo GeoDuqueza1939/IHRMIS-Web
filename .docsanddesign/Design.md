@@ -18,7 +18,7 @@ In general, the IHRMIS shall be implemented as a web-based application/informati
 The IHRMIS shall have two main interfaces:
 
 * The **main interface** shall be used by the HRMO and other personnel in day-to-day human resource management (HRM) operations. It will provide access to management-level features.
-* The **self-service portal** shall be accessible to all users, which includes job applicants and employees. It may also provide access to special features depending on user role.
+* The **self-service portal** shall be accessible to all users, which includes job applicants and employees. It may also provide access to special apps and features depending on user role.
 
 The main interface, in turn, shall provide access to HRM features and functions, which include, among others, employee records management, leave management, organization management, RSP (recruitment, selection, and placement) features, performance management, learning and development features, and rewards management.
 
@@ -65,7 +65,9 @@ Recommended system requirements:
 
 ![IHRMIS: MVC Design Pattern](./Design%20Diagrams/Design_Pattern-MVC.png "IHRMIS: MVC Design Pattern")
 
-The project will mostly be using the Model-View-Controller design pattern for the system architecture. System components will exchange data through RESTful APIs to ensure a statelessness among the components. Authentication will be handled through an open authentication framework and the generation and use of a JWT.
+The project will mostly be using the **Model-View-Controller** design pattern for the system architecture. System components will exchange data through RESTful APIs to ensure a statelessness among the components. Using this design paradigm, the *view* component may be replaced with a desktop application or a mobile device application using similar business logic with minimal to no changes in the *controller* business logic.
+
+As requests are passed from model to controller, requests will need to be authenticated before being processed. Authentication will be handled through an open authentication framework (e.g., Google, Microsoft, etc.) and the generation and use of JWTs.
 
 #### Route Endpoints
 
@@ -77,15 +79,35 @@ Route endpoints shall be categorized into the following types:
 
 To fully implement the principles of RESTful API design, the web API shall use endpoint nouns that directly mirror many of the tables and views in the database.
 
+#### Major Modules
+
+To cater to the different aspects of human resource management (HRM), particularly those accredited under the PRIME-HRM, while ensuring that the resulting information system is easy to maintain, the information system shall be divided into several major modules, each one handling either a specific aspect of HRM or a specific role within the MVC design paradigm.
+
+The following list of proposed modules for the IHRMIS is a running list which may updated anytime a specific feature that can be modularized is realized during development.
+
+* **IHRMIS** - Main API for handling most requests from IHRMIS_UI and SSP_UI
+* **PERSEUS** - Personnel Establishment, Roster, Structure, and Employee Utilization Support Module; Plantilla and designations management; mandatory dependency for IHRMIS
+* **EmRE** - Employee Records Engine Module; mandatory dependency for IHRMIS
+* **ALICE** - Attendance and Leave Information and Coordination Engine Module; mandatory dependency for IHRMIS
+* **JANUS** - Joint Authentication and Navigation for Unified Services module; will handle the sign-in, sign-up, and account management requests from the sign-in/sign-up page (JANUS UI)
+* **MPaSIS** - Merit Promotion and Selection Information System; PRIME-HRM API for handling requests related to recruitment, selection, and placement; optional dependency for IHRMIS module; might rename to *Assistant for Merit-based Acquisition, Inventory, Recruitment, and Appointment (AMAIRA)*; should have a separate UI
+* **PRIMA** - Performance Review and Improvement Management Assistant; PRIME-HRM API for handling requests related to performance management; optional dependency for IHRMIS module; should have a separate UI
+* **ELISE** - Employee Learning and Improvement System for Excellence; PRIME-HRM API for handling requests related to professional learning and development; optional dependency for IHRMIS module; should have a separate UI
+* **IRIS** - Incentive and Recognition Information System; PRIME-HRM API for handling requests related to rewards and recognition; optional dependency for IHRMIS module; should have a separate UI
+* **MIDAS** - Management of Income, Deductions, Allowances, and Compensation Services; Optional payroll management system module; should have a separate UI
+* **ARGUS** - Audit, Recording, and Governance for Usage of the System; logging system; dependency for all modules
+* **IHRMIS_UI** - Main interface for use by the HRMO and other HR level and Management level personnel
+* **AURORA_UI** - Agency Unified Resources, Operations, and Related Applications; Interface for general use
+
+Notwithstanding the major modules, some supporting classes, functions, or constants may also be organized into modules, albeit with lesser relevance to the major features.
+
 ## Database Design
 
-Data storage shall be handled by a MySQL database server. As the web API shall be designed according to RESTful principles, the database design shall also adhere to CRUD principles. Refer to the following list for the tables, views, and API endpoints that will be exposed by the web API.
+Data storage shall be handled by a MySQL database server. As the web API shall be designed according to RESTful principles, the database design shall also adhere to CRUD principles. 
 
-* Person
-* 
-* 
+Please refer to this [worksheet](https://depedph.sharepoint.com/:x:/r/sites/SDOSTC-Personnel/_layouts/15/doc2.aspx?sourcedoc=%7BAF834193-02F1-402E-853B-73579CE0F800%7D&file=Data%20Types.xlsx&action=default&mobileredirect=true "Data Types.xlsx") for lists of database tables organized according to categories.
 
-To improve database performance, an optional Redis cache may be configured.
+To improve database performance, an optional Redis cache may also be configured.
 
 ## Logging Features
 
