@@ -75,7 +75,16 @@ Route endpoints shall be categorized into the following types:
 
 * **API endpoint** - will be used in CRUD (create, retrieve, update, restore) operations; endpoint shall be of the following pattern: <br>```[BASE_URL]/ihrmis/api/vX.XX/[DATANAME]``` where *vX.XX* shall denote the API version
 * **Resource endpoint** - will be used to serve images, files, or streams of data; endpoint shall be of the following pattern: <br>```[BASE_URL]/ihrmis/res/[RESOURCE_ID]```
-* **User interface endpoint** - the VIEW component; will be used to serve and render web pages using HTML and CSS; may use any other directory under ```[BASE_URL]/ihrmis/```
+* **User interface endpoint** - the VIEW component; will be used to serve and render web pages using HTML and CSS; may use any other directory under ```[BASE_URL]/ihrmis/```. These routes include the following:
+  * ```[BASE_URL]/ihrmis/``` - the base IHRMIS route
+  * ```[BASE_URL]/ihrmis/aurora/``` - the Self-Service Portal
+  * ```[BASE_URL]/ihrmis/mpasis/``` - the RSP system
+  * ```[BASE_URL]/ihrmis/amaira/``` - the RSP system (new name)
+  * ```[BASE_URL]/ihrmis/prima/``` - the PM system
+  * ```[BASE_URL]/ihrmis/elise/``` - the L&D system
+  * ```[BASE_URL]/ihrmis/iris/``` - the R&R system
+  * ```[BASE_URL]/ihrmis/mia/``` - the Meeting Information Assistant
+  * ```[BASE_URL]/ihrmis/``` - 
 
 To fully implement the principles of RESTful API design, the web API shall use endpoint nouns that directly mirror many of the tables and views in the database.
 
