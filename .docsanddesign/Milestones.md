@@ -14,4 +14,10 @@ This documents the project milestones as they are achieved during the developmen
 * __2026-07-02:__ The draft of the __project governance structure__ is started.
 * __2026-07-03:__ The __proposal__ is presented in an online meeting.
 * __2026-07-06:__ _The __project governance structure__ has been completed._
-* __2026-07-16:__ The unfinished draft of the __General Specifications__ for IHRMIS is presented before the Project Sponsor/SDS, the Personnel Services Unit, and other stakeholders/end-users.
+* __2026-07-16:__ The draft of the __General Specifications__ for IHRMIS is presented before the Project Sponsor/SDS, the Personnel Services Unit, and other stakeholders/end-users.
+* __2026-07-22:__ Started database design.
+* __2026-07-28:__ Switched to Workbench for database design.
+* __2026-08-24:__ Drafted __Design document__.
+* __2026-08-26:__ Switched development platform/host OS from Windows to Linux.
+* __2026-09-01:__ Configured development platform and started running tests on the development environment.
+* __2026-09-03:__ Initialized project source code.
