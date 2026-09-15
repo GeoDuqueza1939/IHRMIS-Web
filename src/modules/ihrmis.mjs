@@ -21,7 +21,7 @@ export default class ihrmis_app {
 
     // Constructor
     constructor() {
-        this.app = express();
+        this.#app = express();
 
         this.#app.set('view engine', 'ejs');
         this.#app.use(express.urlencoded({ extended: true }));
