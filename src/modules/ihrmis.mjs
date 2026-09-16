@@ -109,7 +109,8 @@ export default class ihrmis_app {
         this.#app.use(this.#router);
         this.#app.use((err, req, res, next) => {
             const errorMessage = `Unhandled error: ${err.message}`;
-            this.#showError(err, errorMessage, res);
+            const friendlyErrorMessage = 'An unexpected error occurred.';
+            this.#showError(err, friendlyErrorMessage, errorMessage, res);
         });
     }
 
@@ -148,8 +149,8 @@ export default class ihrmis_app {
         console.log(`${this.#status}`);
     }
 
-    #showError(message, res, statusCode = 500) {
-        console.error(`Error: ${message}`);
-        res.status(statusCode).render('error', { message, statusCode });
+    #showError(err, friendlyErrorMessage, consoleErrorMessage, res, statusCode = 500) {
+        console.error(`Error: ${consoleErrorMessage}`);
+        res.status(statusCode).render('error', { message: friendlyErrorMessage, statusCode, app_name: this.#shortname });
     }
 }

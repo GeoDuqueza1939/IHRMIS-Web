@@ -1,2 +1,74 @@
-<h1>Something went wrong.</h1>
-Error <%= statusCode %>: <%= message %>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Error - <%= app_name %></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+    
+        .error-container {
+            text-align: center;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+    
+        p {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+    
+        .error-code-box {
+            background-color: #f1f3f5;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+    
+        .home-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+    
+        .home-link:hover {
+            background-color: #0056b3;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="app-shell">
+      <main class="main">
+        <section class="content">
+            <div class="error-container">
+            <h1>Error</h1>
+            <p>We're sorry, but an unexpected error occurred.</p>
+            <p>Please try again later or contact support if the issue persists.</p>
+            <p class="error-code-box"><b>Error <%= statusCode %>:</b> <%= message %></p>
+            <a href="/" class="home-link">Return to Home</a>
+            </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
