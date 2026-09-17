@@ -4,10 +4,8 @@ import fs from 'fs';
 import path from 'path';
 import express from 'express';
 import readline from 'readline';
-import url from 'url';
-import ejs from 'ejs';
 
-const __dirname = path.resolve();
+const __dirname = path.dirname(import.meta.dirname);
 
 export default class ihrmis_app {
     // Fields
@@ -22,24 +20,24 @@ export default class ihrmis_app {
     #port = {
         'local_http': 3000,
         'local_https': 8443,
-        'http': 80,
-        'https': 443,
     };
-    
+
     #status = '';
     #statusMsgType = {
         info: 'INFO',
         warn: 'WARN',
         error: 'ERROR',
     };
-    #isUserAuthenticated = false;
 
     // Constructor
     constructor() {
         this.#app = express();
 
+        this.#app.disable('x-powered-by');
         this.#app.set('view engine', 'ejs');
+        this.#app.set('views', path.join(__dirname, 'views'));
         this.#app.use(express.urlencoded({ extended: true }));
+        this.#app.use(express.json());
         this.#app.use(express.static(path.join(__dirname, 'public')));
 
         const securePath = process.env.IHRMIS_SECURE_PATH ||
@@ -48,9 +46,18 @@ export default class ihrmis_app {
                 : '/etc/ihrmis/tls'
             );
 
-        this.#httpsOptions = {
-            key: fs.readFileSync(path.join(securePath, 'server.key')),
-            cert: fs.readFileSync(path.join(securePath, 'server.crt')),
+        try {
+            this.#httpsOptions = {
+                key: fs.readFileSync(path.join(securePath, 'server.key')),
+                cert: fs.readFileSync(path.join(securePath, 'server.crt')),
+                minVersion: 'TLSv1.2',
+            }
+        } catch (err) {
+            this.#setStatus(`Unable to load TLS certificate from "${securePath}": ${err.message}. ` +
+                `Make sure server.key and server.crt exist at that location, or set the ` +
+                `IHRMIS_SECURE_PATH environment variable to the directory containing them.`,
+                this.#statusMsgType.error);
+            process.exit(1);
         }
 
         this.#setupRoutes();
@@ -76,7 +83,7 @@ export default class ihrmis_app {
 
         this.#secureServer = https.createServer(this.#httpsOptions, this.#app);
 
-        this.#secureServer.listen(this.#port.local_https || this.#port.https, () => {
+        this.#secureServer.listen(this.#port.local_https, () => {
             this.#setStatus('Secure server running.');
         }).addListener('error', (err) => {
             this.#setStatus(`Secure server error: ${err.message}`);
@@ -125,11 +132,20 @@ export default class ihrmis_app {
 
         this.#app.use(this.#router);
 
+        // 404 handler
+        this.#app.use((req, res) => {
+            const friendlyErrorMessage = 'The page you are looking for could not be found.';
+            const consoleErrorMessage = `404 Not Found: ${req.method} ${req.url}`;
+            res.status(404).render('error', { message: friendlyErrorMessage, statusCode: 404, app_name: this.#shortname });
+            this.#setStatus(consoleErrorMessage, this.#statusMsgType.warn);
+        });
+
         // Error handling middleware
         this.#app.use((err, req, res, next) => {
-            const errorMessage = `Unhandled error: ${err.message}`;
+            const statusCode = err?.statusCode ?? err?.status ?? 500;
+            const errorMessage = `Unhandled error: ${err?.message ?? String(err)}`;
             const friendlyErrorMessage = 'An unexpected error occurred.';
-            this.#showErrorPage(err, friendlyErrorMessage, errorMessage, res, 500);
+            this.#showErrorPage(err, friendlyErrorMessage, errorMessage, res, statusCode);
         });
     }
 
@@ -190,7 +206,7 @@ export default class ihrmis_app {
     }
 
     #showErrorPage(err, friendlyErrorMessage, consoleErrorMessage, res, statusCode = 0) {
-        statusCode = (statusCode === 0 ? err.statusCode ?? 500 : statusCode);
+        statusCode = (statusCode === 0 ? ((err && err.statusCode) || 500) : statusCode);
         this.#setStatus(consoleErrorMessage, this.#statusMsgType.error);
         res.status(statusCode).render('error', { message: friendlyErrorMessage, statusCode, app_name: this.#shortname });
     }
