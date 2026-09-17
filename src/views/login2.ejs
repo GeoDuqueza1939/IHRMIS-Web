@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign in - IHRMIS</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+      min-height: 100vh;
+      min-height: 100dvh;
+      color: #173a63;
+    }
+
+    .split {
+      display: flex;
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    .brand {
+      flex: 1.35;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2.5rem;
+      color: #ffffff;
+      background:
+        radial-gradient(circle at 18% 22%, rgba(241, 169, 37, 0.20), transparent 42%),
+        radial-gradient(circle at 85% 85%, rgba(255, 255, 255, 0.10), transparent 46%),
+        linear-gradient(155deg, #0e3a6d 0%, #123f7a 45%, #0a2547 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brand::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 60px);
+      pointer-events: none;
+    }
+
+    .brand-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 540px;
+      text-align: center;
+    }
+
+    .logo {
+      width: 160px;
+      height: 160px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.96);
+      padding: 8px;
+      box-shadow: 0 18px 44px rgba(3, 16, 34, 0.45);
+      margin-bottom: 1.5rem;
+    }
+
+    .brand h1 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      line-height: 1.25;
+      letter-spacing: 0.04em;
+    }
+
+    .brand .agency {
+      font-size: 0.92rem;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #ffe9b3;
+      margin-top: 0.6rem;
+    }
+
+    .brand .tagline {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #c6d9ef;
+      max-width: 44ch;
+      margin: 1.25rem auto 1.75rem;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+
+    .chip {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      padding: 0.5rem 0.95rem;
+      border-radius: 999px;
+      color: #0e3a6d;
+      background: #ffe9b3;
+      box-shadow: 0 6px 14px rgba(3, 16, 34, 0.25);
+    }
+
+    .form-side {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+      background: #f6f9fd;
+    }
+
+    .form-inner {
+      width: min(380px, 100%);
+      background: #ffffff;
+      border-radius: 16px;
+      padding: clamp(1.5rem, 4vw, 2.5rem);
+      box-shadow: 0 18px 48px rgba(20, 48, 84, 0.12);
+    }
+
+    .form-inner h2 {
+      font-size: 1.45rem;
+      color: #0e3a6d;
+      margin-bottom: 0.25rem;
+    }
+
+    .form-inner .hint {
+      font-size: 0.85rem;
+      color: #60758f;
+      margin-bottom: 1.5rem;
+    }
+
+    .field {
+      position: relative;
+      margin-bottom: 1.35rem;
+    }
+
+    .field input[type="text"],
+    .field input[type="password"] {
+      width: 100%;
+      padding: 1.35rem 0.95rem 0.5rem;
+      font-size: 0.95rem;
+      color: #173a63;
+      background: #f3f6fb;
+      border: 1px solid #d7e0ec;
+      border-radius: 10px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .field input[type="text"]:focus,
+    .field input[type="password"]:focus {
+      border-color: #f1a925;
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(241, 169, 37, 0.22);
+    }
+
+    .field label {
+      position: absolute;
+      left: 0.95rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.95rem;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      text-transform: none;
+      color: #8a9db2;
+      pointer-events: none;
+      transition: top 0.2s ease, transform 0.2s ease, font-size 0.2s ease,
+                  color 0.2s ease, font-weight 0.2s ease, letter-spacing 0.2s ease;
+    }
+
+    .field input:focus ~ label,
+    .field input:not(:placeholder-shown) ~ label {
+      top: 0.55rem;
+      transform: none;
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #f1a925;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+      margin: 0.1rem 0 1.25rem;
+    }
+
+    .check {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #5a6f88;
+      cursor: pointer;
+    }
+
+    .check input { accent-color: #0e3a6d; }
+
+    .row a {
+      color: #0e3a6d;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .row a:hover { text-decoration: underline; }
+
+    button {
+      width: 100%;
+      padding: 0.82rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: #0e3a6d;
+      background: linear-gradient(180deg, #ffc948 0%, #f1a925 100%);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(241, 169, 37, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+    }
+
+    button:hover {
+      filter: brightness(1.04);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(241, 169, 37, 0.42);
+    }
+
+    button:active { transform: translateY(0); }
+
+    .or-divider {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 1.25rem 0 1rem;
+      color: #8a9db2;
+      font-size: 0.76rem;
+      white-space: nowrap;
+    }
+
+    .or-divider::before,
+    .or-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #e6edf6;
+    }
+
+    .sso {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .sso-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      width: 100%;
+      padding: 0.72rem 0.8rem;
+      font-size: 0.86rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: #33557b;
+      background: #ffffff;
+      border: 1px solid #d7e0ec;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+    }
+
+    .sso-btn:hover {
+      border-color: #f1a925;
+      box-shadow: 0 4px 12px rgba(14, 58, 109, 0.10);
+      filter: none;
+      transform: translateY(-1px);
+    }
+
+    .sso-btn:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    .sso-icon {
+      width: 18px;
+      height: 18px;
+      flex: none;
+    }
+
+    .form-foot {
+      margin-top: 1.4rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: #8797ab;
+    }
+
+    .form-foot a {
+      color: #0e3a6d;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .form-foot a:hover { text-decoration: underline; }
+
+    @media (max-width: 920px) {
+      .split { flex-direction: column; }
+
+      .brand {
+        order: 2;
+        padding: 2.25rem 1.5rem;
+      }
+
+      .logo {
+        width: 96px;
+        height: 96px;
+        margin-bottom: 1rem;
+      }
+
+      .brand .tagline { margin: 0.75rem auto 1.1rem; }
+
+      .form-side {
+        order: 1;
+        padding: 2rem 1.25rem;
+      }
+
+      .form-inner { box-shadow: 0 10px 30px rgba(20, 48, 84, 0.10); }
+    }
+
+    @media (max-width: 420px) {
+      .brand h1 { font-size: 1.15rem; }
+      .brand .agency { letter-spacing: 0.12em; font-size: 0.78rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="split">
+    <section class="brand">
+      <div class="brand-inner">
+        <img class="logo" src="/images/logo-depedstotomas.webp" alt="DepEd Sto. Tomas logo" />
+        <h1>Schools Division of<br />Sto. Tomas</h1>
+        <p class="agency">Department of Education</p>
+        <p class="tagline">
+          One integrated system for recruitment, performance, learning, and rewards —
+          aligned with CSC PRIME-HRM and the 2025 E-Governance Act.
+        </p>
+        <div class="chips">
+          <span class="chip">RSP</span>
+          <span class="chip">Performance Mgmt</span>
+          <span class="chip">L&amp;D</span>
+          <span class="chip">Rewards</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="form-side">
+      <div class="form-inner">
+        <h2>Welcome back</h2>
+        <p class="hint">Sign in with your DepED account.</p>
+
+        <form method="POST" action="/login/2">
+          <div class="field">
+            <input type="text" id="username" name="username" placeholder=" "
+                   value="<%= username %>" autocomplete="username" required />
+            <label for="username">Username</label>
+          </div>
+          <div class="field">
+            <input type="password" id="password" name="password" placeholder=" "
+                   autocomplete="current-password" required />
+            <label for="password">Password</label>
+          </div>
+          <div class="row">
+            <label class="check"><input type="checkbox" name="remember" /> Remember me</label>
+            <a href="#">Forgot password?</a>
+          </div>
+          <button type="submit">Sign in</button>
+
+          <div class="or-divider">or continue with</div>
+          <div class="sso">
+            <button type="button" class="sso-btn" aria-label="Sign in with DepEd Google">
+              <svg class="sso-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z" />
+                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09C3.26 21.3 7.31 24 12 24z" />
+                <path fill="#FBBC05" d="M5.27 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.98-3.09z" />
+                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.98 3.09c.95-2.85 3.6-4.96 6.73-4.96z" />
+              </svg>
+              <span>Sign in with DepEd Google</span>
+            </button>
+            <button type="button" class="sso-btn" aria-label="Sign in with DepEd Microsoft 365">
+              <svg class="sso-icon" viewBox="0 0 23 23" aria-hidden="true">
+                <path fill="#F25022" d="M1 1h10v10H1z" />
+                <path fill="#7FBA00" d="M12 1h10v10H12z" />
+                <path fill="#00A4EF" d="M1 12h10v10H1z" />
+                <path fill="#FFB900" d="M12 12h10v10H12z" />
+              </svg>
+              <span>Sign in with Microsoft 365</span>
+            </button>
+          </div>
+        </form>
+
+        <p class="form-foot">New applicant? <a href="#">Create an account</a></p>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

@@ -1,0 +1,6 @@
+<form method="POST" action="/test">
+  <label for="testinput">Enter test data:</label>
+  <input id="testinput" name="testinput" type="text" placeholder="Test data" />
+  <button type="submit">Submit</button>
+</form>
+<%= testdata.body == null ? 'No test data provided' : testdata.body.testinput %>

@@ -19,26 +19,28 @@ export default class ihrmis_app {
 
     #secureServer = null;
     #httpsOptions = null;
-    #port = null;
+    #port = {
+        'local_http': 3000,
+        'local_https': 8443,
+        'http': 80,
+        'https': 443,
+    };
     
     #status = '';
+    #statusMsgType = {
+        info: 'INFO',
+        warn: 'WARN',
+        error: 'ERROR',
+    };
     #isUserAuthenticated = false;
 
     // Constructor
     constructor() {
         this.#app = express();
-        this.#router = express.Router();
 
         this.#app.set('view engine', 'ejs');
         this.#app.use(express.urlencoded({ extended: true }));
         this.#app.use(express.static(path.join(__dirname, 'public')));
-
-        this.#port = {
-            'local_http': 3000,
-            'local_https': 8443,
-            'http': 80,
-            'https': 443,
-        };
 
         const securePath = process.env.IHRMIS_SECURE_PATH ||
             (process.platform === 'win32'
@@ -63,25 +65,14 @@ export default class ihrmis_app {
         // redirect HTTP to HTTPS
         http.createServer((req, res) => {
             const location = `https://${req.headers.host}${req.url || '/'}`;
-
             this.#setStatus('Redirecting to secure server...');
-
             res.writeHead(301, { Location: location });
-
             res.end();
         }).listen(this.#port.local_http, () => {
             this.#setStatus('HTTP redirect server running.');
         }).addListener('error', (err) => {
             this.#setStatus(`HTTP redirect server error: ${err.message}`);
         });
-
-        // this.#secureServer = https.createServer(this.#httpsOptions, (req, res) => {
-        //     res.writeHead(200, { 'Content-Type': 'text/plain' });
-
-        //     res.end('Hello, World! This is the IHRMIS secure server running.');
-
-        //     this.#setStatus(`Secure server received request: ${req.method} ${req.url}`);
-        // });
 
         this.#secureServer = https.createServer(this.#httpsOptions, this.#app);
 
@@ -95,22 +86,50 @@ export default class ihrmis_app {
     }
 
     #setupRoutes() {
+        // create a router for handling routes
+        this.#router = express.Router();
+
+        // define routes
         this.#router.get('/', (req, res) => {
-            //console.log(req.);
+            this.#setStatus(req.method + ' ' + req.url);
             res.render('index', { name: '' });
         });
 
-        this.#router.post('/hello', (req, res) => {
-            const name = (req.body.name || '').trim();
-            console.log(`Submitted name: ${name || '(empty)'}`);
-            res.render('index', { name });
+        this.#router.get('/login', (req, res) => {
+            res.render('login1', { username: '', password: '' });
+        });
+
+        this.#router.post('/login', (req, res) => {
+            res.render('login1', { username: req.body.username || '', password: req.body.password || '' });
+        });
+
+        const loginDesigns = [1, 2, 3, 4];
+        for (const design of loginDesigns) {
+            this.#router.get(`/login/${design}`, (req, res) => {
+                res.render(`login${design}`, { username: '', password: '' });
+            });
+
+            this.#router.post(`/login/${design}`, (req, res) => {
+                res.render(`login${design}`, { username: req.body.username || '', password: req.body.password || '' });
+            });
+        }
+
+        // TEMPORARY TEST ROUTES
+        this.#router.get('/test', (req, res) => {
+            res.render('test', { testdata: req });
+        });
+
+        this.#router.post('/test', (req, res) => {
+            res.render('test', { testdata: req });
         });
 
         this.#app.use(this.#router);
+
+        // Error handling middleware
         this.#app.use((err, req, res, next) => {
             const errorMessage = `Unhandled error: ${err.message}`;
             const friendlyErrorMessage = 'An unexpected error occurred.';
-            this.#showError(err, friendlyErrorMessage, errorMessage, res);
+            this.#showErrorPage(err, friendlyErrorMessage, errorMessage, res, 500);
         });
     }
 
@@ -130,7 +149,7 @@ export default class ihrmis_app {
                     break;
                 case 'help':
                     console.log('\nAvailable commands:');
-                    console.log('  status - Show the server status.');
+                    console.log('  status - Show the latest server status.');
                     console.log('  help   - Show this help message.');
                     console.log('  exit   - Exit the application.\n');
                     break;
@@ -140,17 +159,39 @@ export default class ihrmis_app {
                     break;
                 default:
                     console.log(`\nUnknown command: ${input}\n`);
+                    break;
             }
         });
     }
 
-    #setStatus(statusMsg) {
+    #setStatus(statusMsg, statusType = this.#statusMsgType.info) {
         this.#status = statusMsg;
-        console.log(`${this.#status}`);
+        let timestamp = new Date();
+        timestamp = String(timestamp.getFullYear()).padStart(4, '0') +
+            String(timestamp.getMonth() + 1).padStart(2, '0') +
+            String(timestamp.getDate()).padStart(2, '0') + '-' +
+            String(timestamp.getHours()).padStart(2, '0') + ':' +
+            String(timestamp.getMinutes()).padStart(2, '0') + ':' +
+            String(timestamp.getSeconds()).padStart(2, '0');
+        switch (statusType) {
+            case this.#statusMsgType.info:
+                console.log(`[${timestamp}]-[INFO] ${statusMsg}`);
+                break;
+            case this.#statusMsgType.warn:
+                console.warn(`[${timestamp}]-[WARN] ${statusMsg}`);
+                break;
+            case this.#statusMsgType.error:
+                console.error(`[${timestamp}]-[ERROR] ${statusMsg}`);
+                break;
+            default:
+                console.log(`[${timestamp}]-[UNKNOWN] ${statusMsg}`);
+                break;
+        }
     }
 
-    #showError(err, friendlyErrorMessage, consoleErrorMessage, res, statusCode = 500) {
-        console.error(`Error: ${consoleErrorMessage}`);
+    #showErrorPage(err, friendlyErrorMessage, consoleErrorMessage, res, statusCode = 0) {
+        statusCode = (statusCode === 0 ? err.statusCode ?? 500 : statusCode);
+        this.#setStatus(consoleErrorMessage, this.#statusMsgType.error);
         res.status(statusCode).render('error', { message: friendlyErrorMessage, statusCode, app_name: this.#shortname });
     }
 }
