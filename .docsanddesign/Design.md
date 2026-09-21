@@ -121,3 +121,18 @@ To improve database performance, an optional Redis cache may also be configured.
 ## Logging Features
 
 There will be two types of IHRMIS logs: database history logs and system logs. Database logs are stored in the database and capture database-related operations, particularly CRUD operations. These may be useful in data security and policy compliance audits. On the other hand, system logs are stored as text files and capture system activities and exceptions encountered during the system's operation. These logs may prove to be useful in the maintenance and troubleshooting of the system.
+
+## Miscellaneous Server Assets and Configuration
+
+### NGINX Configuration
+
+By design, the IHRMIS server shall redirect from HTTP (local port 3000) to HTTPS (local port 8443). However, to implement this redirect in a natural web setting, e.g. redirect from ports 80 to 443, NGINX will be leveraged accordingly. The specific configuration for NGINX that will work for IHRMIS will be added to this document once established.
+
+### SSL/TLS Key and Certificate
+
+The SSL/TLS key and certificate shall be named as ```server.key``` and ```server.crt```, respectively. Both files shall be put in the following locations, depending on OS/platform:
+
+* ```/etc/ihrmis/tls``` - for Linux
+* ```C:\\ProgramData\\IHRMIS\\TLS``` - for Windows
+
+These certificates shall come from actual SSL/TLS certificate providers. However, self-signed certificates may be generated for use during development. The relevant commands and file permissions will be added to this document once established.

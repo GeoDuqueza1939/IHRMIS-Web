@@ -76,7 +76,7 @@ export default class ihrmis_app {
             res.writeHead(301, { Location: location });
             res.end();
         }).listen(this.#port.local_http, () => {
-            this.#setStatus('HTTP redirect server running.');
+            this.#setStatus('HTTP redirect server is running.');
         }).addListener('error', (err) => {
             this.#setStatus(`HTTP redirect server error: ${err.message}`);
         });
@@ -84,7 +84,7 @@ export default class ihrmis_app {
         this.#secureServer = https.createServer(this.#httpsOptions, this.#app);
 
         this.#secureServer.listen(this.#port.local_https, () => {
-            this.#setStatus('Secure server running.');
+            this.#setStatus('Secure server is running.');
         }).addListener('error', (err) => {
             this.#setStatus(`Secure server error: ${err.message}`);
         });
@@ -111,15 +111,36 @@ export default class ihrmis_app {
         });
 
         const loginDesigns = [1, 2, 3, 4];
-        for (const design of loginDesigns) {
-            this.#router.get(`/login/${design}`, (req, res) => {
-                res.render(`login${design}`, { username: '', password: '' });
-            });
+        // for (const design of loginDesigns) {
+        //     this.#router.get(`/login/${design}`, (req, res) => {
+        //         res.render(`login${design}`, { username: '', password: '' });
+        //     });
 
-            this.#router.post(`/login/${design}`, (req, res) => {
-                res.render(`login${design}`, { username: req.body.username || '', password: req.body.password || '' });
-            });
-        }
+        //     this.#router.post(`/login/${design}`, (req, res) => {
+        //         res.render(`login${design}`, { username: req.body.username || '', password: req.body.password || '' });
+        //     });
+        // }
+
+        this.#router.get(`/login/:id`, (req, res) => {
+            if (loginDesigns.includes(parseInt(req.params.id))) {
+                res.render(`login${req.params.id}`, { username: '', password: '' });
+            }
+            else {
+                res.status(404).render('error', { message: 'Login page not found.', statusCode: 404, app_name: this.#shortname });
+                return;
+            }
+        });
+
+        this.#router.post(`/login/:id`, (req, res) => {
+            if (loginDesigns.includes(parseInt(req.params.id))) {
+                res.render(`login${req.params.id}`, { username: req.body.username || '', password: req.body.password || '' });
+            }
+            else {
+                res.status(404).render('error', { message: 'Login page not found.', statusCode: 404, app_name: this.#shortname });
+                return;
+            }
+        });
+
 
         // TEMPORARY TEST ROUTES
         this.#router.get('/test', (req, res) => {
@@ -164,10 +185,10 @@ export default class ihrmis_app {
                     console.log(`\nLatest server status: ${this.#status}\n`);
                     break;
                 case 'help':
-                    console.log('\nAvailable commands:');
-                    console.log('  status - Show the latest server status.');
-                    console.log('  help   - Show this help message.');
-                    console.log('  exit   - Exit the application.\n');
+                    console.log('\nAvailable commands:\n' 
+                        + '  status - Show the latest server status.\n'
+                        + '  help   - Show this help message.\n'
+                        + '  exit   - Exit the application.\n');
                     break;
                 case 'exit':
                     console.log('\nExiting the application...\n');
