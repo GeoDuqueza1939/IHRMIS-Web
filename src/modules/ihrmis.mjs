@@ -1,36 +1,31 @@
-import http from 'http';
-import https from 'https';
-import fs from 'fs';
 import path from 'path';
 import express from 'express';
-import readline from 'readline';
+import argus from './argus.mjs';
+import config from './config.mjs';
+import server from './server.mjs';
+import lifecycle from './lifecycle.mjs';
+import controller from './controller.mjs';
 
-const __dirname = path.dirname(import.meta.dirname);
+const __dirname = config.rootDir;
 
 export default class ihrmis_app {
     // Fields
-    #name = 'Integrated Human Resource Management Information System';
-    #shortname = 'IHRMIS';
+    // #name and #shortname have been moved to src/modules/config.mjs.
+    // #name = 'Integrated Human Resource Management Information System';
+    // #shortname = 'IHRMIS';
 
+    #logger = null;
     #app = null;
-    #router = null;
-
-    #secureServer = null;
-    #httpsOptions = null;
-    #port = {
-        'local_http': 3000,
-        'local_https': 8443,
-    };
-
-    #status = '';
-    #statusMsgType = {
-        info: 'INFO',
-        warn: 'WARN',
-        error: 'ERROR',
-    };
+    #server = null;
+    #lifecycle = null;
+    #controller = null;
+    #ready = false;
 
     // Constructor
     constructor() {
+        this.#logger = new argus(config.logs);
+        this.#logger.banner(`=== ${config.name} (${config.shortname}) - ARGUS system logging started [directory: ${config.logs.dir}] ===`);
+
         this.#app = express();
 
         this.#app.disable('x-powered-by');
@@ -40,195 +35,34 @@ export default class ihrmis_app {
         this.#app.use(express.json());
         this.#app.use(express.static(path.join(__dirname, 'public')));
 
-        const securePath = process.env.IHRMIS_SECURE_PATH ||
-            (process.platform === 'win32'
-                ? 'C:\\ProgramData\\IHRMIS\\TLS'
-                : '/etc/ihrmis/tls'
-            );
+        this.#lifecycle = new lifecycle({
+            logger: this.#logger,
+            closeAll: () => this.#server?.closeAll()
+        });
 
         try {
-            this.#httpsOptions = {
-                key: fs.readFileSync(path.join(securePath, 'server.key')),
-                cert: fs.readFileSync(path.join(securePath, 'server.crt')),
-                minVersion: 'TLSv1.2',
-            }
+            this.#server = new server({ logger: this.#logger, app: this.#app });
         } catch (err) {
-            this.#setStatus(`Unable to load TLS certificate from "${securePath}": ${err.message}. ` +
-                `Make sure server.key and server.crt exist at that location, or set the ` +
-                `IHRMIS_SECURE_PATH environment variable to the directory containing them.`,
-                this.#statusMsgType.error);
-            process.exit(1);
+            this.#logger.error(err.message);
+            this.#lifecycle.shutdown(1);
+            return;
         }
 
-        this.#setupRoutes();
+        this.#controller = new controller({ app: this.#app, logger: this.#logger });
 
-        this.#setStatus('Server initialized.');
+        this.#ready = true;
+
+        this.#logger.info('Server initialized.');
     }
 
     // Methods
     run() {
-        this.#consoleControl();
-
-        // redirect HTTP to HTTPS
-        http.createServer((req, res) => {
-            const location = `https://${req.headers.host}${req.url || '/'}`;
-            this.#setStatus('Redirecting to secure server...');
-            res.writeHead(301, { Location: location });
-            res.end();
-        }).listen(this.#port.local_http, () => {
-            this.#setStatus('HTTP redirect server is running.');
-        }).addListener('error', (err) => {
-            this.#setStatus(`HTTP redirect server error: ${err.message}`);
-        });
-
-        this.#secureServer = https.createServer(this.#httpsOptions, this.#app);
-
-        this.#secureServer.listen(this.#port.local_https, () => {
-            this.#setStatus('Secure server is running.');
-        }).addListener('error', (err) => {
-            this.#setStatus(`Secure server error: ${err.message}`);
-        });
-
-        this.#setStatus('Server is running.');
-    }
-
-    #setupRoutes() {
-        // create a router for handling routes
-        this.#router = express.Router();
-
-        // define routes
-        this.#router.get('/', (req, res) => {
-            this.#setStatus(req.method + ' ' + req.url);
-            res.render('index', { name: '' });
-        });
-
-        this.#router.get('/login', (req, res) => {
-            res.render('login1', { username: '', password: '' });
-        });
-
-        this.#router.post('/login', (req, res) => {
-            res.render('login1', { username: req.body.username || '', password: req.body.password || '' });
-        });
-
-        const loginDesigns = [1, 2, 3, 4];
-        // for (const design of loginDesigns) {
-        //     this.#router.get(`/login/${design}`, (req, res) => {
-        //         res.render(`login${design}`, { username: '', password: '' });
-        //     });
-
-        //     this.#router.post(`/login/${design}`, (req, res) => {
-        //         res.render(`login${design}`, { username: req.body.username || '', password: req.body.password || '' });
-        //     });
-        // }
-
-        this.#router.get(`/login/:id`, (req, res) => {
-            if (loginDesigns.includes(parseInt(req.params.id))) {
-                res.render(`login${req.params.id}`, { username: '', password: '' });
-            }
-            else {
-                res.status(404).render('error', { message: 'Login page not found.', statusCode: 404, app_name: this.#shortname });
-                return;
-            }
-        });
-
-        this.#router.post(`/login/:id`, (req, res) => {
-            if (loginDesigns.includes(parseInt(req.params.id))) {
-                res.render(`login${req.params.id}`, { username: req.body.username || '', password: req.body.password || '' });
-            }
-            else {
-                res.status(404).render('error', { message: 'Login page not found.', statusCode: 404, app_name: this.#shortname });
-                return;
-            }
-        });
-
-
-        // TEMPORARY TEST ROUTES
-        this.#router.get('/test', (req, res) => {
-            res.render('test', { testdata: req });
-        });
-
-        this.#router.post('/test', (req, res) => {
-            res.render('test', { testdata: req });
-        });
-
-        this.#app.use(this.#router);
-
-        // 404 handler
-        this.#app.use((req, res) => {
-            const friendlyErrorMessage = 'The page you are looking for could not be found.';
-            const consoleErrorMessage = `404 Not Found: ${req.method} ${req.url}`;
-            res.status(404).render('error', { message: friendlyErrorMessage, statusCode: 404, app_name: this.#shortname });
-            this.#setStatus(consoleErrorMessage, this.#statusMsgType.warn);
-        });
-
-        // Error handling middleware
-        this.#app.use((err, req, res, next) => {
-            const statusCode = err?.statusCode ?? err?.status ?? 500;
-            const errorMessage = `Unhandled error: ${err?.message ?? String(err)}`;
-            const friendlyErrorMessage = 'An unexpected error occurred.';
-            this.#showErrorPage(err, friendlyErrorMessage, errorMessage, res, statusCode);
-        });
-    }
-
-    async #consoleControl() {
-        this.#setStatus('Configuring Console Controls...');
-
-        const rl = readline.createInterface({
-            input: process.stdin,
-            output: process.stdout
-        });
-
-        // add new console commands here
-        rl.on('line', (input) => {
-            switch (input.trim().toLowerCase()) {
-                case 'status':
-                    console.log(`\nLatest server status: ${this.#status}\n`);
-                    break;
-                case 'help':
-                    console.log('\nAvailable commands:\n' 
-                        + '  status - Show the latest server status.\n'
-                        + '  help   - Show this help message.\n'
-                        + '  exit   - Exit the application.\n');
-                    break;
-                case 'exit':
-                    console.log('\nExiting the application...\n');
-                    process.exit(0);
-                    break;
-                default:
-                    console.log(`\nUnknown command: ${input}\n`);
-                    break;
-            }
-        });
-    }
-
-    #setStatus(statusMsg, statusType = this.#statusMsgType.info) {
-        this.#status = statusMsg;
-        let timestamp = new Date();
-        timestamp = String(timestamp.getFullYear()).padStart(4, '0') +
-            String(timestamp.getMonth() + 1).padStart(2, '0') +
-            String(timestamp.getDate()).padStart(2, '0') + '-' +
-            String(timestamp.getHours()).padStart(2, '0') + ':' +
-            String(timestamp.getMinutes()).padStart(2, '0') + ':' +
-            String(timestamp.getSeconds()).padStart(2, '0');
-        switch (statusType) {
-            case this.#statusMsgType.info:
-                console.log(`[${timestamp}]-[INFO] ${statusMsg}`);
-                break;
-            case this.#statusMsgType.warn:
-                console.warn(`[${timestamp}]-[WARN] ${statusMsg}`);
-                break;
-            case this.#statusMsgType.error:
-                console.error(`[${timestamp}]-[ERROR] ${statusMsg}`);
-                break;
-            default:
-                console.log(`[${timestamp}]-[UNKNOWN] ${statusMsg}`);
-                break;
+        if (!this.#ready) {
+            return;
         }
-    }
 
-    #showErrorPage(err, friendlyErrorMessage, consoleErrorMessage, res, statusCode = 0) {
-        statusCode = (statusCode === 0 ? ((err && err.statusCode) || 500) : statusCode);
-        this.#setStatus(consoleErrorMessage, this.#statusMsgType.error);
-        res.status(statusCode).render('error', { message: friendlyErrorMessage, statusCode, app_name: this.#shortname });
+        this.#lifecycle.startRepl();
+        this.#server.start();
+        this.#logger.info('Server is running.');
     }
 }

@@ -1,0 +1,1094 @@
+<% const __def = {
+  employee: {
+    name: 'Juan A. Dela Cruz',
+    position: 'Teacher II',
+    office: 'Sto. Tomas North Elementary School',
+    employeeNo: '2023-00421',
+    email: 'juan.delacruz@deped.gov.ph',
+    initial: 'JD',
+    status: 'Permanent',
+    birthday: 'March 14, 1989',
+    sex: 'Female',
+    civilStatus: 'Married',
+    bloodType: 'O+',
+    gsis: 'GSIS-102-3349',
+    pagibig: '1212-3345-6789',
+    philhealth: '01-220134-889-1',
+    tin: '462-904-118',
+    prc: 'PRC 0034456',
+    serviceYears: 9,
+    firstAppointment: 'June 2, 2016'
+  },
+  schedule: [
+    { day: 'Monday', time: '7:00 AM - 4:00 PM' },
+    { day: 'Tuesday', time: '7:00 AM - 4:00 PM' },
+    { day: 'Wednesday', time: '7:00 AM - 4:00 PM' },
+    { day: 'Thursday', time: '7:00 AM - 4:00 PM' },
+    { day: 'Friday', time: '7:00 AM - 4:00 PM (clean-up)' }
+  ],
+  attendance: { timeIn: '6:58 AM', timeOut: '4:05 PM', day: 'September 22, 2026', presentDays: 18, workingDays: 20 },
+  tasks: [
+    { title: 'Submit RPMS portfolio for evaluation', due: 'Sep 25, 2026', done: false },
+    { title: 'Encode grades - Grade 5 Mapagmahal', due: 'Sep 28, 2026', done: true },
+    { title: 'Attend faculty meeting - Conference Room', due: 'Sep 29, 2026', done: false }
+  ],
+  taskList: [
+    { title: 'Submit RPMS portfolio for evaluation', due: 'Sep 25, 2026', done: false },
+    { title: 'Encode grades - Grade 5 Mapagmahal', due: 'Sep 28, 2026', done: true },
+    { title: 'Attend faculty meeting - Conference Room', due: 'Sep 29, 2026', done: false },
+    { title: 'Prepare school paper article drafts', due: 'Oct 2, 2026', done: false },
+    { title: 'Return borrowed books to the library', due: 'Oct 5, 2026', done: false },
+    { title: 'Complete GSIS membership data form', due: 'Oct 8, 2026', done: true }
+  ],
+  requests: [
+    { title: 'Leave Application (3 days)', ref: 'LVL-2026-181', date: 'Sep 10, 2026', status: 'Approved' },
+    { title: 'Certificate of Employment request', ref: 'DOC-2026-094', date: 'Aug 28, 2026', status: 'Processing' },
+    { title: 'Training enrollment - Math TOT', ref: 'TRN-2026-051', date: 'Aug 12, 2026', status: 'Received' }
+  ],
+  notices: [
+    { title: 'Division Memorandum No. 231, s. 2026', date: 'Sep 18, 2026', tag: 'Advisory' },
+    { title: 'Mid-year Performance Review schedule', date: 'Sep 10, 2026', tag: 'PM' }
+  ],
+  profileTabs: {
+    designations: [
+      { title: 'Class Adviser - Grade 5 Mapagmahal', text: 'SY 2025-2026' },
+      { title: 'School Focal, Gulayan sa Paaralan', text: 'SY 2024-2026' }
+    ],
+    duties: 'Prepare daily lesson plans and instructional materials; maintain class records and assess learner performance; coordinate with parents and the school head on learner concerns; implement school programs and activities as assigned; attend faculty and division meetings as required.',
+    education: [
+      { degree: 'Master of Arts in Education (degree in progress)', school: 'Batangas State University', year: '2022 - present' },
+      { degree: 'Bachelor of Science in Education', school: 'Batangas State University', year: '2007 - 2011' }
+    ],
+    training: [
+      { title: 'Division Training on Classroom Assessment for Learning', provider: 'SDO Sto. Tomas', year: '2024' },
+      { title: '2-Day Orientation on the MATATAG Curriculum', provider: 'SDO Sto. Tomas', year: '2023' },
+      { title: 'Seminar on Child Protection Policy (DepEd Order 40, s. 2012)', provider: 'SDO Sto. Tomas', year: '2022' }
+    ],
+    work: [
+      { title: 'Teacher II', office: 'Sto. Tomas North Elem. School', year: '2024 - present' },
+      { title: 'Teacher I', office: 'Sto. Tomas North Elem. School', year: '2016 - 2024' },
+      { title: 'Guidance Assistant (JO)', office: 'SDO Sto. Tomas', year: '2014 - 2016' }
+    ],
+    awards: [
+      { title: 'Service Recognition - 5 Years in Government Service', year: '2021' },
+      { title: 'Best Implementer of the School Learning Action Cell', year: '2019' }
+    ],
+    remarks: ''
+  },
+  records201: [
+    'Appointment - Teacher II',
+    'Appointment - Teacher I',
+    'Diploma - Bachelor of Secondary Education',
+    'Certificate of Training - MATATAG',
+    'Service Record',
+    'Medical Clearance / Physical Exam',
+    'PRC License'
+  ],
+  serviceRecord: [
+    { from: 'Jun 2, 2016', to: 'Apr 30, 2024', position: 'Teacher I', office: 'Sto. Tomas North Elem. School', sep: 'Promotion' },
+    { from: 'May 1, 2024', to: 'present', position: 'Teacher II', office: 'Sto. Tomas North Elem. School', sep: '' }
+  ],
+  documentsAvailable: [
+    { name: 'Certificate of Employment', desc: 'Proof of employment with the Schools Division of Sto. Tomas' },
+    { name: 'Service Record', desc: 'Official chronological record of service in the government' },
+    { name: 'Certificate of No Pending Administrative Case', desc: 'Cleared of any pending administrative case' },
+    { name: 'Certificate of Leave Balances', desc: 'Summary of accrued vacation and sick leave credits' }
+  ],
+  services: [
+    { name: 'Apply for Leave', desc: 'File vacation, sick, or special privilege leave online' },
+    { name: 'Request for Certificate of Employment', desc: 'Request a verified certificate for banks or other offices' },
+    { name: 'Request for Service Record', desc: 'Request the latest copy of your official service record' },
+    { name: 'Enroll in Learning & Development', desc: 'Register for division and national trainings, webinars, and programs' },
+    { name: 'Request for Travel Authority / COG', desc: 'File travel authority or certificate of appearance requests' },
+    { name: 'Update Personal Data', desc: 'File corrections to your personal information for HRMO approval' }
+  ],
+  queryList: [
+    { subject: 'Inquiry on leave balance computation', date: 'Sep 18, 2026', office: 'Records Unit', status: 'Replied' },
+    { subject: 'Request for COE for loan application', date: 'Sep 5, 2026', office: 'Records Unit', status: 'Received' },
+    { subject: 'Feedback: faster 201-file request turnaround', date: 'Aug 22, 2026', office: 'HRMO', status: 'Replied' },
+    { subject: 'Query on RPMS forms for SY 2025-2026', date: 'Aug 3, 2026', office: 'School Governance & Operations Division', status: 'Sent' }
+  ],
+  offices: [
+    'Human Resource Management Office',
+    'Records Unit',
+    'School Governance & Operations Division',
+    'Curriculum & Learning Management Division',
+    'Schools Division Superintendent\'s Office'
+  ]
+};
+const SSP = Object.assign({}, __def, locals); %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IHRMIS | Self-Service Portal</title>
+  <style>
+    :root {
+      --navy: #0e3a6d;
+      --navy-dark: #0a2547;
+      --blue: #14518f;
+      --blue-soft: #1b548f;
+      --gold: #f1a925;
+      --gold-light: #ffc948;
+      --gold-pale: #ffe9b3;
+      --bg: #f2f6fb;
+      --ink: #173a63;
+      --muted: #60758f;
+      --line: #d9e2ee;
+      --white: #ffffff;
+      --ok: #1f7a4d;
+      --warn: #b7791f;
+      --info: #1b548f;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+      color: var(--ink); background: var(--bg); min-height: 100vh;
+    }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    button { font-family: inherit; cursor: pointer; }
+
+    .shell { display: grid; grid-template-columns: 236px 1fr; min-height: 100vh; }
+    @media (max-width: 840px) { .shell { grid-template-columns: 1fr; } }
+
+    .sidebar {
+      background:
+        radial-gradient(circle at 20% 10%, rgba(241,169,37,0.16), transparent 44%),
+        linear-gradient(165deg, var(--navy-dark) 0%, var(--navy) 60%, #123f7a 100%);
+      color: #fff; display: flex; flex-direction: column;
+      position: sticky; top: 0; height: 100vh; overflow-y: auto;
+    }
+    .sidebar .s-brand { display: flex; align-items: center; gap: 0.7rem; padding: 1.1rem 1.15rem; border-bottom: 1px solid rgba(255,255,255,0.10); }
+    .sidebar .s-brand img { width: 38px; height: 38px; object-fit: contain; border-radius: 50%; background: #fff; padding: 2px; }
+    .sidebar .s-brand b { font-size: 1rem; letter-spacing: 0.04em; }
+    .sidebar .s-brand span { display: block; font-size: 0.68rem; font-weight: 400; color: #c6d9ef; }
+
+    .s-nav { flex: 1; padding: 0.9rem 0.65rem; display: flex; flex-direction: column; gap: 0.25rem; }
+    .s-nav .s-label { font-size: 0.64rem; letter-spacing: 0.14em; text-transform: uppercase; color: #8fb0d6; padding: 0.7rem 0.65rem 0.35rem; }
+    .s-nav button {
+      display: flex; align-items: center; gap: 0.75rem; width: 100%;
+      padding: 0.68rem 0.8rem; border: none; border-radius: 10px;
+      background: transparent; color: #cfe0f2; font-size: 0.86rem; font-weight: 600;
+      border-left: 3px solid transparent; transition: background 0.18s ease, color 0.18s ease;
+    }
+    .s-nav button:hover { background: rgba(255,255,255,0.07); color: #fff; }
+    .s-nav button.active { background: rgba(255,255,255,0.12); color: #fff; border-left-color: var(--gold); }
+    .s-nav button svg { flex: none; }
+    .s-nav button .count { margin-left: auto; font-size: 0.7rem; background: var(--gold); color: var(--navy-dark); border-radius: 999px; padding: 0.12rem 0.5rem; font-weight: 800; }
+
+    .s-foot { padding: 0.9rem; border-top: 1px solid rgba(255,255,255,0.10); }
+    .s-foot .mini { display: flex; align-items: center; gap: 0.65rem; padding: 0.55rem 0.65rem; border-radius: 10px; background: rgba(255,255,255,0.06); }
+    .s-foot .mini .dot { width: 9px; height: 9px; border-radius: 50%; background: #4fd18a; box-shadow: 0 0 0 3px rgba(79,209,138,0.25); }
+    .s-foot .mini b { display: block; font-size: 0.78rem; }
+    .s-foot .mini span { font-size: 0.68rem; color: #bcd2ee; }
+
+    .main { display: flex; flex-direction: column; min-width: 0; }
+
+    .topbar {
+      position: sticky; top: 0; z-index: 40;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      padding: 0.7rem clamp(1rem, 3vw, 1.8rem);
+      background: #fff; border-bottom: 1px solid var(--line);
+    }
+    .topbar .t-brand { display: flex; align-items: center; gap: 0.7rem; }
+    .topbar .t-brand img { width: 36px; height: 36px; object-fit: contain; border-radius: 50%; background: #fff; padding: 2px; }
+    .topbar .t-brand .wordmark { font-weight: 700; letter-spacing: 0.05em; color: var(--navy); }
+    .topbar .t-brand .portal { font-size: 0.82rem; color: var(--muted); }
+    .topbar .t-brand .divider { color: var(--line); }
+
+    .user-menu { position: relative; }
+    .user-btn { display: flex; align-items: center; gap: 0.5rem; background: none; border: none; padding: 0.25rem; border-radius: 999px; }
+    .user-btn:hover { background: #eef4fb; }
+    .avatar {
+      width: 38px; height: 38px; border-radius: 50%; flex: none;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.85rem; color: var(--navy-dark);
+      background: linear-gradient(180deg, var(--gold-light), var(--gold));
+    }
+    .user-btn .meta { text-align: left; line-height: 1.2; display: none; }
+    .user-btn .meta b { display: block; font-size: 0.83rem; color: var(--ink); }
+    .user-btn .meta span { font-size: 0.72rem; color: var(--muted); }
+    @media (min-width: 980px) { .user-btn .meta { display: block; } }
+
+    .dropdown {
+      position: absolute; right: 0; top: calc(100% + 8px); min-width: 258px;
+      background: #fff; border: 1px solid var(--line); border-radius: 12px;
+      box-shadow: 0 18px 44px rgba(14,58,109,0.18); padding: 0.45rem; display: none; z-index: 60;
+    }
+    .dropdown.open { display: block; animation: pop 0.16s ease; }
+    @keyframes pop { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+    .dd-head { padding: 0.7rem 0.8rem 0.6rem; border-bottom: 1px solid #eef2f7; margin-bottom: 0.3rem; }
+    .dd-head b { font-size: 0.88rem; display: block; }
+    .dd-head span { font-size: 0.76rem; color: var(--muted); }
+    .dropdown a { display: flex; align-items: center; gap: 0.65rem; padding: 0.62rem 0.8rem; border-radius: 8px; color: var(--ink); font-size: 0.86rem; }
+    .dropdown a:hover { background: #f2f6fc; text-decoration: none; }
+    .dropdown a svg { color: var(--muted); flex: none; }
+    .dropdown .sep { height: 1px; background: #eef2f7; margin: 0.35rem 0.4rem; }
+    .dropdown a.signout { color: #a33; } .dropdown a.signout svg { color: #a33; }
+
+    .content { padding: 1.4rem clamp(1rem, 3vw, 1.8rem) 3rem; }
+    .section { display: none; }
+    .section.active { display: block; animation: fade 0.22s ease; }
+    @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+    .card { background: #fff; border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 6px 18px rgba(14,58,109,0.05); }
+    .card .card-head { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.9rem 1.1rem; border-bottom: 1px solid #eef2f7; }
+    .card .card-head h3 { font-size: 0.9rem; letter-spacing: 0.03em; color: var(--navy); }
+    .card .card-head a { font-size: 0.76rem; }
+    .card .card-body { padding: 1.1rem; }
+
+    .page-title { margin-bottom: 1.1rem; }
+    .page-title h2 { font-size: 1.2rem; color: var(--navy); }
+    .page-title p { font-size: 0.82rem; color: var(--muted); margin-top: 0.2rem; }
+
+    .welcome { display: flex; align-items: center; gap: 1.1rem; background: #fff; border: 1px solid var(--line); border-left: 5px solid var(--gold); border-radius: 14px; padding: 1.15rem 1.3rem; margin-bottom: 1.25rem; }
+    .welcome .pic { width: 62px; height: 62px; border-radius: 50%; flex: none; background: linear-gradient(135deg, #0e3a6d, #1b548f); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem; }
+    .welcome b { font-size: 1.06rem; display: block; color: var(--navy); }
+    .welcome .role { font-size: 0.86rem; color: var(--muted); }
+    .welcome .office { font-size: 0.78rem; color: var(--blue); margin-top: 0.25rem; }
+
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.25rem; }
+    .stat { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 1rem 1.1rem; }
+    .stat .top { display: flex; align-items: center; justify-content: space-between; }
+    .stat .val { font-size: 1.5rem; font-weight: 800; color: var(--navy); margin-top: 0.3rem; }
+    .stat .lbl { font-size: 0.75rem; color: var(--muted); }
+    .stat .ico { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .stat .ico.navy { background: #e7eefb; color: var(--navy); }
+    .stat .ico.gold { background: #fdf1d7; color: var(--warn); }
+    .stat .ico.green { background: #e3f3ea; color: var(--ok); }
+    .stat .ico.blue { background: #e3edf7; color: var(--info); }
+
+    .two-col { display: grid; grid-template-columns: 1fr 320px; gap: 1.25rem; align-items: start; }
+    @media (max-width: 960px) { .two-col { grid-template-columns: 1fr; } }
+
+    .table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+    .table th, .table td { text-align: left; padding: 0.55rem 0.6rem; border-bottom: 1px solid #eef2f7; }
+    .table th { color: var(--muted); font-size: 0.71rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .table tr:last-child td { border-bottom: none; }
+
+    .task { display: flex; align-items: flex-start; gap: 0.7rem; padding: 0.5rem 0; border-bottom: 1px dashed #eef2f7; }
+    .task:last-child { border-bottom: none; }
+    .task .dot { width: 26px; height: 26px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center; }
+    .task .dot.open { background: #fdf1d7; color: var(--warn); }
+    .task .dot.done { background: #e3f3ea; color: var(--ok); }
+    .task b { display: block; font-size: 0.85rem; font-weight: 600; }
+    .task span { font-size: 0.74rem; color: var(--muted); }
+
+    .task-form { display: grid; grid-template-columns: 1fr 190px auto; gap: 0.85rem; align-items: end; }
+    @media (max-width: 640px) { .task-form { grid-template-columns: 1fr; } }
+    .pills { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .pill { padding: 0.45rem 1rem; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--muted); font-size: 0.82rem; font-weight: 600; transition: all 0.2s ease; }
+    .pill:hover { border-color: var(--gold); color: var(--navy); }
+    .pill.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+    .task-summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; font-size: 0.82rem; color: var(--muted); margin-bottom: 0.9rem; }
+    .task-summary b { color: var(--navy); }
+    .task-progress { flex: 1; min-width: 140px; max-width: 260px; height: 8px; border-radius: 999px; background: #eef2f7; overflow: hidden; display: none; }
+    .task-progress span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--gold-light), var(--gold)); transition: width 0.3s ease; }
+    .task-list { display: flex; flex-direction: column; }
+    .trow { display: flex; align-items: center; gap: 0.9rem; padding: 0.65rem 0.15rem; border-bottom: 1px solid #eef2f7; }
+    .trow:last-child { border-bottom: none; }
+    .trow input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--navy); cursor: pointer; }
+    .trow .tinfo { flex: 1; min-width: 0; }
+    .trow .ttitle { font-size: 0.9rem; color: var(--ink); display: block; transition: color 0.2s ease; }
+    .trow .tdue { font-size: 0.74rem; color: var(--muted); margin-top: 0.15rem; }
+    .trow.done .ttitle { text-decoration: line-through; color: var(--muted); }
+    .trow .tdel { border: none; background: #fff; color: #b9c6d6; width: 30px; height: 30px; border-radius: 50%; font-size: 1.15rem; line-height: 1; flex: none; transition: background 0.2s ease, color 0.2s ease; }
+    .trow .tdel:hover { background: #fbecec; color: #a33; }
+    .empty { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 1.4rem 0; }
+
+    .notice { display: flex; gap: 0.7rem; align-items: flex-start; padding: 0.7rem 0; border-bottom: 1px dashed #eef2f7; }
+    .notice:last-child { border-bottom: none; }
+    .notice .tag { flex: none; font-size: 0.64rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--navy); background: #e7eefb; padding: 0.2rem 0.5rem; border-radius: 6px; }
+    .notice b { font-size: 0.84rem; display: block; }
+    .notice span { font-size: 0.73rem; color: var(--muted); }
+
+    .chip { display: inline-block; padding: 0.22rem 0.6rem; border-radius: 999px; font-size: 0.7rem; font-weight: 700; }
+    .chip.approved, .chip.replied { background: #e3f3ea; color: var(--ok); }
+    .chip.processing, .chip.received { background: #e3edf7; color: var(--info); }
+    .chip.sent { background: #fdf1d7; color: var(--warn); }
+
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.55rem 1.05rem; border-radius: 10px; border: 1px solid transparent; font-size: 0.84rem; font-weight: 700; transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease; }
+    .btn:hover { text-decoration: none; transform: translateY(-1px); }
+    .btn-gold { background: linear-gradient(180deg, var(--gold-light), var(--gold)); color: var(--navy-dark); }
+    .btn-gold:hover { box-shadow: 0 8px 18px rgba(241,169,37,0.4); }
+    .btn-ghost { background: #fff; border-color: var(--line); color: var(--navy); }
+    .btn-ghost:hover { border-color: var(--gold); }
+    .btn-nav { background: #e7eefb; color: var(--navy); }
+
+    .profile-layout { display: grid; grid-template-columns: 300px 1fr; gap: 1.25rem; align-items: start; }
+    @media (max-width: 920px) { .profile-layout { grid-template-columns: 1fr; } }
+
+    .summary-card { text-align: center; padding: 1.6rem 1.2rem; position: sticky; top: 84px; }
+    .summary-card .pic { width: 84px; height: 84px; border-radius: 50%; margin: 0 auto 0.8rem; background: linear-gradient(135deg, #0e3a6d, #1b548f); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.5rem; }
+    .summary-card h3 { font-size: 1.05rem; color: var(--navy); }
+    .summary-card .role { font-size: 0.82rem; color: var(--muted); margin-top: 0.15rem; }
+    .summary-card .status { display: inline-block; margin-top: 0.7rem; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ok); background: #e3f3ea; border-radius: 999px; padding: 0.25rem 0.7rem; }
+    .summary-card .kv { text-align: left; margin-top: 1.1rem; padding-top: 1.1rem; border-top: 1px dashed #eef2f7; }
+    .summary-card .kv .k { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+    .summary-card .kv .v { font-size: 0.86rem; font-weight: 600; margin-top: 0.1rem; }
+    .summary-card .kv + .kv { margin-top: 0.7rem; padding-top: 0.7rem; }
+
+    .tabbar { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tabbar button { padding: 0.5rem 1rem; border-radius: 9px; border: 1px solid var(--line); background: #fff; color: var(--muted); font-size: 0.83rem; font-weight: 600; transition: all 0.2s ease; }
+    .tabbar button:hover { border-color: var(--gold); color: var(--navy); }
+    .tabbar button.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+    .tabpane { display: none; }
+    .tabpane.active { display: block; animation: fade 0.2s ease; }
+
+    .kv { display: flex; justify-content: space-between; gap: 1rem; padding: 0.55rem 0; border-bottom: 1px dashed #eef2f7; font-size: 0.85rem; }
+    .kv:last-child { border-bottom: none; }
+    .kv .k { color: var(--muted); }
+    .kv .v { font-weight: 600; text-align: right; }
+
+    .entries .ent { display: flex; gap: 0.85rem; padding: 0.7rem 0; border-bottom: 1px dashed #eef2f7; }
+    .entries .ent:last-child { border-bottom: none; }
+    .entries .ent .yr { flex: none; width: 118px; font-size: 0.78rem; color: var(--muted); padding-top: 0.1rem; }
+    .entries .ent b { font-size: 0.88rem; display: block; }
+    .entries .ent p { font-size: 0.82rem; color: var(--muted); margin-top: 0.15rem; line-height: 1.45; }
+    .duties p { font-size: 0.9rem; line-height: 1.6; }
+
+    .field label { display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 0.3rem; }
+    .field input, .field textarea, .field select { width: 100%; padding: 0.6rem 0.75rem; font-size: 0.86rem; color: var(--ink); background: #f8fbfe; border: 1px solid var(--line); border-radius: 9px; outline: none; font-family: inherit; transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease; }
+    .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--gold); background: #fff; box-shadow: 0 0 0 3px rgba(241,169,37,0.2); }
+    .field textarea { min-height: 120px; resize: vertical; line-height: 1.5; }
+
+    .rec-subnav { display: inline-flex; gap: 0.3rem; background: #eef4fb; padding: 0.3rem; border-radius: 12px; margin-bottom: 1.2rem; }
+    .rec-subnav button { border: none; background: transparent; padding: 0.5rem 1.05rem; border-radius: 9px; color: var(--muted); font-size: 0.85rem; font-weight: 600; }
+    .rec-subnav button.active { background: #fff; color: var(--navy); box-shadow: 0 4px 12px rgba(14,58,109,0.12); }
+    .rec-pane { display: none; }
+    .rec-pane.active { display: block; animation: fade 0.2s ease; }
+
+    .docbrowser { display: grid; grid-template-columns: 240px 1fr; gap: 1rem; }
+    @media (max-width: 760px) { .docbrowser { grid-template-columns: 1fr; } }
+    .doc-list { border: 1px solid var(--line); border-radius: 12px; background: #fff; overflow: hidden; }
+    .doc-list button { width: 100%; text-align: left; padding: 0.7rem 0.95rem; border: none; background: #fff; border-bottom: 1px solid #f2f6fc; display: flex; align-items: center; gap: 0.6rem; font-size: 0.84rem; color: var(--ink); }
+    .doc-list button:hover { background: #f6fafd; }
+    .doc-list button.active { background: #e7eefb; color: var(--navy); font-weight: 600; }
+    .doc-list button svg { color: var(--muted); flex: none; }
+    .viewer { border: 1px solid var(--line); border-radius: 12px; background: #fff; min-height: 420px; display: flex; flex-direction: column; }
+    .viewer .vhead { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; border-bottom: 1px solid #eef2f7; }
+    .viewer .vhead b { font-size: 0.88rem; color: var(--navy); }
+    .viewer .vhead span { font-size: 0.74rem; color: var(--muted); }
+    .viewer .page { flex: 1; margin: 1rem; border-radius: 8px; background: #fbfcfe; border: 1px solid #e4ecf5; padding: 2.2rem 2.4rem; }
+    .doc-label { text-align: center; color: var(--navy); font-weight: 700; letter-spacing: 0.04em; margin: 1rem 0 0.6rem; font-size: 0.95rem; }
+    .ph { display: block; height: 0.72rem; border-radius: 4px; background: #dfe8f3; margin-bottom: 0.7rem; }
+    .ph.w35 { width: 35%; } .ph.w80 { width: 80%; } .ph.w100 { width: 100%; } .ph.w20 { width: 20%; } .ph.w50 { width: 50%; }
+    .viewer .placeholder { text-align: center; color: var(--muted); font-size: 0.82rem; margin-top: auto; padding: 0.5rem; }
+
+    .svc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
+    .svc { display: flex; align-items: flex-start; gap: 0.85rem; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 1rem 1.1rem; text-align: left; transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease; }
+    .svc:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(14,58,109,0.10); border-color: var(--gold); }
+    .svc .ico { width: 42px; height: 42px; border-radius: 11px; flex: none; background: #e7eefb; color: var(--navy); display: flex; align-items: center; justify-content: center; }
+    .svc b { display: block; font-size: 0.9rem; color: var(--ink); }
+    .svc p { font-size: 0.76rem; color: var(--muted); margin-top: 0.25rem; line-height: 1.45; }
+    .svc span.go { font-size: 0.74rem; color: var(--blue); font-weight: 700; }
+
+    .q { display: flex; align-items: center; gap: 1rem; padding: 0.9rem 0.2rem; border-bottom: 1px solid #eef2f7; flex-wrap: wrap; }
+    .q:last-child { border-bottom: none; }
+    .q .qmain { flex: 1; min-width: 200px; }
+    .q .qmain b { font-size: 0.9rem; color: var(--ink); }
+    .q .qmain p { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+    .q .office { font-size: 0.76rem; color: var(--muted); background: #f2f6fc; padding: 0.25rem 0.6rem; border-radius: 999px; }
+
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(10,37,71,0.5); z-index: 200; display: none; align-items: flex-start; justify-content: center; padding: 2rem 1rem; overflow-y: auto; }
+    .modal-backdrop.open { display: flex; }
+    .modal { background: #fff; border-radius: 16px; width: min(560px, 100%); box-shadow: 0 30px 70px rgba(10,37,71,0.35); animation: pop 0.18s ease; }
+    .modal .mhead { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.3rem; border-bottom: 1px solid #eef2f7; }
+    .modal .mhead h3 { font-size: 1.02rem; color: var(--navy); }
+    .modal .mclose { border: none; background: #f2f6fc; border-radius: 50%; width: 30px; height: 30px; color: var(--muted); font-size: 1rem; display: flex; align-items: center; justify-content: center; }
+    .modal .mbody { padding: 1.3rem; }
+    .modal .mfoot { display: flex; justify-content: flex-end; gap: 0.6rem; padding: 1rem 1.3rem; border-top: 1px solid #eef2f7; }
+
+    .toast { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 300; background: var(--navy-dark); color: #fff; padding: 0.8rem 1.1rem; border-radius: 10px; font-size: 0.85rem; box-shadow: 0 14px 34px rgba(10,37,71,0.35); display: none; }
+    .toast.show { display: block; animation: pop 0.2s ease; }
+
+    .foot { text-align: center; padding: 1.1rem; font-size: 0.76rem; color: var(--muted); border-top: 1px solid var(--line); background: #fff; }
+    .foot a { margin: 0 0.4rem; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="s-brand">
+        <img src="/images/logo-depedstotomas.webp" alt="DepEd Sto. Tomas logo" />
+        <div><b>IHRMIS</b><span>Self-Service Portal</span></div>
+      </div>
+
+      <nav class="s-nav">
+        <div class="s-label">Main Menu</div>
+        <button class="active" data-section="home">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          Home
+        </button>
+        <button data-section="profile">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          Profile
+        </button>
+        <button data-section="records">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+          Records
+        </button>
+        <button data-section="tasks">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+          Tasks
+        </button>
+        <button data-section="services">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+          Services
+        </button>
+        <button data-section="query">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          Query/Feedback
+          <span class="count">2</span>
+        </button>
+      </nav>
+
+      <div class="s-foot">
+        <div class="mini">
+          <span class="dot"></span>
+          <div><b>Online</b><span>Signed in this session</span></div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <div class="t-brand">
+          <span class="portal">IHRMIS</span><span class="divider">|</span><b class="wordmark">Self-Service Portal</b>
+        </div>
+
+        <div class="user-menu">
+          <button class="user-btn" id="userBtn" aria-haspopup="true" aria-expanded="false">
+            <span class="avatar"><%= SSP.employee.initial %></span>
+            <span class="meta">
+              <b><%= SSP.employee.name %></b>
+              <span><%= SSP.employee.position %></span>
+            </span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--muted)"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="dropdown" id="userDropdown">
+            <div class="dd-head">
+              <b><%= SSP.employee.name %></b>
+              <span><%= SSP.employee.email %></span>
+            </div>
+            <a href="#"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> My Profile</a>
+            <a href="#"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg> Settings</a>
+            <a href="/"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg> Go to the IHRMIS Full Suite</a>
+            <div class="sep"></div>
+            <a href="#" class="signout"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Sign Out</a>
+          </div>
+        </div>
+      </header>
+
+      <main class="content">
+        <section class="section active" id="home">
+          <div class="page-title"><h2>Dashboard</h2><p>Your self-service overview for today</p></div>
+
+          <div class="welcome">
+            <div class="pic"><%= SSP.employee.initial %></div>
+            <div>
+              <b><%= SSP.employee.name %></b>
+              <div class="role"><%= SSP.employee.position %> &middot; Employee No. <%= SSP.employee.employeeNo %></div>
+              <div class="office"><%= SSP.employee.office %> <span style="color:var(--muted)">&middot;</span> Schools Division of Sto. Tomas</div>
+            </div>
+            <div style="margin-left:auto;text-align:right;">
+              <span class="chip" style="background:#e3f3ea;color:var(--ok)">Present today &middot; 6:58 AM</span>
+            </div>
+          </div>
+
+          <div class="stat-grid">
+            <div class="stat">
+              <div class="top"><div class="lbl">Attendance this month</div><div class="ico navy"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></div></div>
+              <div class="val"><%= SSP.attendance.presentDays %>/<%= SSP.attendance.workingDays %></div>
+              <div class="lbl">present out of <%= SSP.attendance.workingDays %> working days</div>
+            </div>
+            <div class="stat">
+              <div class="top"><div class="lbl">Leave balance</div><div class="ico gold"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></div></div>
+              <div class="val">18 days</div>
+              <div class="lbl">Vacation 8 &middot; Sick 10 &middot; Mandatory 5</div>
+            </div>
+            <div class="stat">
+              <div class="top"><div class="lbl">Pending tasks</div><div class="ico blue"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-6v6h6v-6z"></path><path d="M14 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"></path></svg></div></div>
+              <div class="val">2</div>
+              <div class="lbl">due within the next week</div>
+            </div>
+            <div class="stat">
+              <div class="top"><div class="lbl">Requests submitted</div><div class="ico green"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg></div></div>
+              <div class="val">3</div>
+              <div class="lbl">1 approved this month</div>
+            </div>
+          </div>
+
+          <div class="two-col">
+            <div style="display:grid;gap:1.25rem;">
+              <div class="card">
+                <div class="card-head"><h3>My Tasks</h3><a href="#">View all</a></div>
+                <div class="card-body">
+                  <% for (const t of SSP.tasks) { %>
+                  <div class="task">
+                    <div class="dot <%= t.done ? 'done' : 'open' %>">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </div>
+                    <div><b><%= t.title %></b><span>Due <%= t.due %> &middot; <%= t.done ? 'Completed' : 'Pending' %></span></div>
+                  </div>
+                  <% } %>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-head"><h3>Requests Submitted</h3><a href="#">View all</a></div>
+                <div class="card-body">
+                  <table class="table">
+                    <tr><th>Request</th><th>Status</th></tr>
+                    <% for (const r of SSP.requests) { %>
+                    <tr>
+                      <td><%= r.title %><br /><span style="font-size:0.7rem;color:var(--muted)"><%= r.ref %> &middot; <%= r.date %></span></td>
+                      <td><span class="chip <%= r.status.toLowerCase() %>"><%= r.status %></span></td>
+                    </tr>
+                    <% } %>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:grid;gap:1.25rem;">
+              <div class="card">
+                <div class="card-head"><h3>Weekly Schedule</h3></div>
+                <div class="card-body" style="padding:0.6rem 1.1rem;">
+                  <table class="table">
+                    <% for (const s of SSP.schedule) { %>
+                    <tr><td><%= s.day %></td><td style="text-align:right;color:var(--muted)"><%= s.time %></td></tr>
+                    <% } %>
+                  </table>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-head"><h3>Announcements</h3></div>
+                <div class="card-body">
+                  <% for (const n of SSP.notices) { %>
+                  <div class="notice">
+                    <span class="tag"><%= n.tag %></span>
+                    <div><b><%= n.title %></b><span><%= n.date %></span></div>
+                  </div>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="profile">
+          <div class="page-title"><h2>My Profile</h2><p>Personal data and your profile sections</p></div>
+          <div class="profile-layout">
+            <div class="card summary-card">
+              <div class="pic"><%= SSP.employee.initial %></div>
+              <h3><%= SSP.employee.name %></h3>
+              <div class="role"><%= SSP.employee.position %></div>
+              <div class="role"><%= SSP.employee.office %></div>
+              <span class="status"><%= SSP.employee.status %></span>
+              <div class="kv"><span class="k">Employee No.</span><span class="v"><%= SSP.employee.employeeNo %></span></div>
+              <div class="kv"><span class="k">First Appointment</span><span class="v"><%= SSP.employee.firstAppointment %></span></div>
+              <div class="kv"><span class="k">DepEd Email</span><span class="v"><%= SSP.employee.email %></span></div>
+              <div class="kv"><span class="k">Civil Status</span><span class="v"><%= SSP.employee.civilStatus %></span></div>
+            </div>
+
+            <div>
+              <div class="card" style="margin-bottom:1rem;">
+                <div class="card-head"><h3>Personal Data</h3><a href="#">Request update</a></div>
+                <div class="card-body">
+                  <% const pdata = [
+                    ['Date of Birth', SSP.employee.birthday],
+                    ['Sex', SSP.employee.sex],
+                    ['Blood Type', SSP.employee.bloodType],
+                    ['GSIS', SSP.employee.gsis],
+                    ['Pag-IBIG', SSP.employee.pagibig],
+                    ['PhilHealth', SSP.employee.philhealth],
+                    ['TIN', SSP.employee.tin],
+                    ['PRC License', SSP.employee.prc]
+                  ]; %>
+                  <% for (const p of pdata) { %>
+                  <div class="kv"><span class="k"><%= p[0] %></span><span class="v"><%= p[1] %></span></div>
+                  <% } %>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-head"><h3>Profile Sections</h3></div>
+                <div class="card-body">
+                  <div class="tabbar" id="profileTabs" style="margin-bottom:1rem;">
+                    <button class="active" data-tab="p-designations">Designations</button>
+                    <button data-tab="p-duties">Duties</button>
+                    <button data-tab="p-education">Education</button>
+                    <button data-tab="p-training">Training</button>
+                    <button data-tab="p-work">Work</button>
+                    <button data-tab="p-awards">Awards</button>
+                    <button data-tab="p-remarks">Remarks</button>
+                  </div>
+
+                  <div class="tabpane active" id="p-designations">
+                    <div class="entries">
+                      <% for (const d of SSP.profileTabs.designations) { %>
+                      <div class="ent"><div class="yr"><%= d.text %></div><div><b><%= d.title %></b></div></div>
+                      <% } %>
+                    </div>
+                  </div>
+                  <div class="tabpane" id="p-duties"><div class="duties"><p><%= SSP.profileTabs.duties %></p></div></div>
+                  <div class="tabpane" id="p-education">
+                    <div class="entries">
+                      <% for (const e of SSP.profileTabs.education) { %>
+                      <div class="ent"><div class="yr"><%= e.year %></div><div><b><%= e.degree %></b><p><%= e.school %></p></div></div>
+                      <% } %>
+                    </div>
+                  </div>
+                  <div class="tabpane" id="p-training">
+                    <div class="entries">
+                      <% for (const t of SSP.profileTabs.training) { %>
+                      <div class="ent"><div class="yr"><%= t.year %></div><div><b><%= t.title %></b><p><%= t.provider %></p></div></div>
+                      <% } %>
+                    </div>
+                  </div>
+                  <div class="tabpane" id="p-work">
+                    <div class="entries">
+                      <% for (const w of SSP.profileTabs.work) { %>
+                      <div class="ent"><div class="yr"><%= w.year %></div><div><b><%= w.title %></b><p><%= w.office %></p></div></div>
+                      <% } %>
+                    </div>
+                  </div>
+                  <div class="tabpane" id="p-awards">
+                    <div class="entries">
+                      <% for (const a of SSP.profileTabs.awards) { %>
+                      <div class="ent"><div class="yr"><%= a.year %></div><div><b><%= a.title %></b></div></div>
+                      <% } %>
+                    </div>
+                  </div>
+                  <div class="tabpane" id="p-remarks">
+                    <div class="field">
+                      <label for="remarksInput">Remarks (editable)</label>
+                      <textarea id="remarksInput" placeholder="Enter remarks here..."><%= SSP.profileTabs.remarks %></textarea>
+                    </div>
+                    <div style="display:flex;justify-content:flex-end;margin-top:1rem;">
+                      <button class="btn btn-gold" onclick="showToast('Remarks saved. HRMO will be notified for review.')">Save Remarks</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="records">
+          <div class="page-title"><h2>Records</h2><p>201 files, service record, and requests for official documents</p></div>
+
+          <div class="rec-subnav" id="recSubnav">
+            <button class="active" data-rec="rec-files">201 Files</button>
+            <button data-rec="rec-service">Service Record</button>
+            <button data-rec="rec-others">Others</button>
+          </div>
+
+          <div class="rec-pane active" id="rec-files">
+            <div class="docbrowser">
+              <div class="doc-list" id="docList">
+                <% for (const f of SSP.records201) { %>
+                <button data-doc="<%= f %>" onclick="selectDoc(this)">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                  <%= f %>
+                </button>
+                <% } %>
+              </div>
+              <div class="viewer">
+                <div class="vhead">
+                  <div><b id="docTitle">Service Record</b><br /><span id="docMeta">Updated 2026 &middot; Scanned 2 pages</span></div>
+                  <button class="btn btn-ghost" style="padding:0.4rem 0.8rem;">Download</button>
+                </div>
+                <div class="page">
+                  <div class="doc-label">SCHOOLS DIVISION OF STO. TOMAS</div>
+                  <div style="text-align:center;font-size:0.8rem;color:var(--muted);margin-bottom:1.4rem;">Department of Education</div>
+                  <span class="ph w35"></span><span class="ph w80"></span><span class="ph w100"></span>
+                  <span class="ph w50"></span><span class="ph w100"></span><span class="ph w100"></span>
+                  <span class="ph w20"></span><span class="ph w80"></span><span class="ph w50"></span>
+                  <div class="placeholder">Document preview (scanned copy). Full rendering will stream from the 201 file repository.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="rec-pane" id="rec-service">
+            <div class="card" style="margin-bottom:1.25rem;">
+              <div class="card-head"><h3>Employee Information</h3></div>
+              <div class="card-body">
+                <div class="personal-grid">
+                  <% const einfo = [
+                    ['Name', SSP.employee.name],
+                    ['Date of Birth', SSP.employee.birthday],
+                    ['Position', SSP.employee.position],
+                    ['Office / School', SSP.employee.office],
+                    ['First Appointment', SSP.employee.firstAppointment],
+                    ['Status', SSP.employee.status]
+                  ]; %>
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.5rem 1.2rem;">
+                    <% for (const p of einfo) { %>
+                    <div><div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);"><%= p[0] %></div><div style="font-size:0.9rem;font-weight:600;margin-top:0.12rem;"><%= p[1] %></div></div>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card" style="margin-bottom:1.25rem;">
+              <div class="card-head"><h3>Service Record Table</h3></div>
+              <div class="card-body" style="overflow-x:auto;">
+                <table class="table">
+                  <tr><th>From</th><th>To</th><th>Position / Designation</th><th>Office / Station</th><th>Separation</th></tr>
+                  <% for (const r of SSP.serviceRecord) { %>
+                  <tr><td><%= r.from %></td><td><%= r.to %></td><td><%= r.position %></td><td><%= r.office %></td><td><%= r.sep %></td></tr>
+                  <% } %>
+                </table>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:0.7rem;flex-wrap:wrap;">
+              <button class="btn btn-nav" onclick="showToast('Preparing your service record for printing...')">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                Print
+              </button>
+              <button class="btn btn-gold" onclick="showToast('Request for signed copy has been sent to the Records Unit.')">Request Signed Copy</button>
+              <button class="btn btn-ghost" onclick="showToast('Update request submitted to the HRMO for validation.')">Request Update</button>
+            </div>
+          </div>
+
+          <div class="rec-pane" id="rec-others">
+            <div class="svc-grid">
+              <% for (const d of SSP.documentsAvailable) { %>
+              <div class="svc" style="cursor:default;">
+                <div class="ico">
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                </div>
+                <div style="flex:1;"><b><%= d.name %></b><p><%= d.desc %></p></div>
+                <button class="btn btn-gold" onclick="showToast('Request for &lsquo;<%= d.name %>&rsquo; has been submitted.')">Request</button>
+              </div>
+              <% } %>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="tasks">
+          <div class="page-title">
+            <h2>My Tasks</h2>
+            <p>Your personal task list - add items and tick them off as you go</p>
+          </div>
+
+          <div class="card" style="margin-bottom:1.25rem;">
+            <div class="card-head"><h3>Add a Task</h3></div>
+            <div class="card-body">
+              <form id="taskForm" class="task-form">
+                <div class="field">
+                  <label for="taskTitle">Task</label>
+                  <input id="taskTitle" type="text" placeholder="e.g., Prepare lesson plan for Grade 5 Science" required />
+                </div>
+                <div class="field">
+                  <label for="taskDue">Due date (optional)</label>
+                  <input id="taskDue" type="date" />
+                </div>
+                <button type="submit" class="btn btn-gold">Add Task</button>
+              </form>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <h3>Task List</h3>
+              <div class="pills" id="taskFilters">
+                <button class="pill active" data-filter="all">All</button>
+                <button class="pill" data-filter="pending">Pending</button>
+                <button class="pill" data-filter="done">Done</button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="task-summary">
+                <span id="taskSummary"></span>
+                <div class="task-progress"><span id="taskProgress"></span></div>
+              </div>
+              <div class="task-list" id="taskList">
+                <% for (const t of SSP.taskList) { %>
+                <div class="trow <%= t.done ? 'done' : '' %>">
+                  <label class="tchk"><input type="checkbox" <%= t.done ? 'checked' : '' %> /></label>
+                  <div class="tinfo"><b class="ttitle"><%= t.title %></b><span class="tdue">Due <%= t.due %></span></div>
+                  <button class="tdel" title="Delete task" onclick="deleteTask(this)">&times;</button>
+                </div>
+                <% } %>
+              </div>
+              <div class="empty" id="taskEmpty" style="display:none;">No tasks match this filter.</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="services">
+          <div class="page-title"><h2>Services</h2><p>Choose a service applicable to you</p></div>
+          <div class="svc-grid">
+            <% for (const s of SSP.services) { %>
+            <button class="svc" onclick="showToast('&lsquo;<%= s.name %>&rsquo; will open here.')">
+              <div class="ico">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+              </div>
+              <div><b><%= s.name %></b><p><%= s.desc %></p><span class="go">Start &rarr;</span></div>
+            </button>
+            <% } %>
+          </div>
+        </section>
+
+        <section class="section" id="query">
+          <div class="page-title" style="display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.1rem;">
+            <div><h2>Query / Feedback</h2><p>Track your communications and raise new ones</p></div>
+            <button class="btn btn-gold" data-modal="queryModal">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              New Communication
+            </button>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <% for (const q of SSP.queryList) { %>
+              <div class="q">
+                <div class="qmain">
+                  <b><%= q.subject %></b>
+                  <p>Sent to <%= q.office %> &middot; <%= q.date %></p>
+                </div>
+                <span class="office"><%= q.office %></span>
+                <span class="chip <%= q.status.toLowerCase() %>"><%= q.status %></span>
+              </div>
+              <% } %>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="foot">
+        <b>Schools Division of Sto. Tomas</b> &middot; Department of Education &mdash; IHRMIS Integrated Human Resource Management Information System
+        <br /><a href="#">Data Privacy Act (RA 10173)</a> &middot; <a href="#">E-Governance Act (RA 12254)</a>
+      </footer>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="queryModal">
+    <div class="modal">
+      <div class="mhead">
+        <h3>New Communication</h3>
+        <button class="mclose" data-modal-close="queryModal">&times;</button>
+      </div>
+      <form id="queryForm">
+        <div class="mbody">
+          <div class="field" style="margin-bottom:1rem;">
+            <label for="qSubject">Subject</label>
+            <input id="qSubject" type="text" placeholder="e.g., Inquiry on leave balance" required />
+          </div>
+          <div class="field" style="margin-bottom:1rem;">
+            <label for="qOffice">Office unit concerned</label>
+            <select id="qOffice" required>
+              <option value="" disabled selected>Select an office...</option>
+              <% for (const o of SSP.offices) { %>
+              <option value="<%= o %>"><%= o %></option>
+              <% } %>
+            </select>
+          </div>
+          <div class="field">
+            <label for="qBody">Message</label>
+            <textarea id="qBody" placeholder="Write your query or feedback here..." required></textarea>
+          </div>
+        </div>
+        <div class="mfoot">
+          <button type="button" class="btn btn-ghost" data-modal-close="queryModal">Cancel</button>
+          <button type="submit" class="btn btn-gold">Send Communication</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var navBtns = document.querySelectorAll('.s-nav button[data-section]');
+      for (var i = 0; i < navBtns.length; i++) {
+        navBtns[i].addEventListener('click', function () { setSection(this.getAttribute('data-section')); });
+      }
+
+      var profileTabs = document.querySelectorAll('#profileTabs button[data-tab]');
+      for (var j = 0; j < profileTabs.length; j++) {
+        profileTabs[j].addEventListener('click', function () {
+          for (var k = 0; k < profileTabs.length; k++) profileTabs[k].classList.remove('active');
+          this.classList.add('active');
+          var panes = document.querySelectorAll('.tabpane');
+          for (var m = 0; m < panes.length; m++) panes[m].classList.remove('active');
+          document.getElementById(this.getAttribute('data-tab')).classList.add('active');
+        });
+      }
+
+      var recBtns = document.querySelectorAll('#recSubnav button[data-rec]');
+      for (var n = 0; n < recBtns.length; n++) {
+        recBtns[n].addEventListener('click', function () {
+          for (var p = 0; p < recBtns.length; p++) recBtns[p].classList.remove('active');
+          this.classList.add('active');
+          var panes = document.querySelectorAll('.rec-pane');
+          for (var r = 0; r < panes.length; r++) panes[r].classList.remove('active');
+          document.getElementById(this.getAttribute('data-rec')).classList.add('active');
+        });
+      }
+
+      var userBtn = document.getElementById('userBtn');
+      var dd = document.getElementById('userDropdown');
+      userBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = dd.classList.toggle('open');
+        userBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      document.addEventListener('click', function (e) {
+        if (!dd.contains(e.target)) dd.classList.remove('open');
+      });
+
+      var modalTriggers = document.querySelectorAll('[data-modal]');
+      for (var q = 0; q < modalTriggers.length; q++) {
+        modalTriggers[q].addEventListener('click', function () { openModal(this.getAttribute('data-modal')); });
+      }
+      var modalClosers = document.querySelectorAll('[data-modal-close]');
+      for (var w = 0; w < modalClosers.length; w++) {
+        modalClosers[w].addEventListener('click', function () { closeModal(this.getAttribute('data-modal-close')); });
+      }
+
+      document.getElementById('queryForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var subject = document.getElementById('qSubject').value;
+        var office = document.getElementById('qOffice').value;
+        closeModal('queryModal');
+        this.reset();
+        showToast('Communication submitted to the ' + office + '.');
+        prependQuery(subject, office);
+      });
+
+      var taskForm = document.getElementById('taskForm');
+      if (taskForm) {
+        taskForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var title = document.getElementById('taskTitle').value.trim();
+          if (!title) return;
+          var dueInput = document.getElementById('taskDue').value;
+          var due = dueInput ? new Date(dueInput + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'No due date';
+          addTask(title, due);
+          taskForm.reset();
+        });
+      }
+      var taskListEl = document.getElementById('taskList');
+      if (taskListEl) {
+        taskListEl.addEventListener('change', function (e) {
+          if (e.target.type === 'checkbox') {
+            var rowEl = e.target.closest('.trow');
+            rowEl.classList.toggle('done', e.target.checked);
+            updateTaskSummary();
+          }
+        });
+      }
+      var taskFilters = document.querySelectorAll('#taskFilters .pill');
+      for (var tf = 0; tf < taskFilters.length; tf++) {
+        taskFilters[tf].addEventListener('click', function () {
+          for (var tf2 = 0; tf2 < taskFilters.length; tf2++) taskFilters[tf2].classList.remove('active');
+          this.classList.add('active');
+          filterTasks(this.getAttribute('data-filter'));
+        });
+      }
+      updateTaskSummary();
+    });
+
+    var currentTaskFilter = 'all';
+    function updateTaskSummary() {
+      var listEl = document.getElementById('taskList');
+      if (!listEl) return;
+      var rows = listEl.querySelectorAll('.trow');
+      var total = rows.length;
+      var doneCount = listEl.querySelectorAll('.trow.done').length;
+      var sum = document.getElementById('taskSummary');
+      if (sum) sum.innerHTML = '<b>' + total + '</b> tasks &middot; <b>' + (total - doneCount) + '</b> pending &middot; <b>' + doneCount + '</b> completed';
+      var bar = document.getElementById('taskProgress');
+      if (bar) {
+        bar.style.width = (total ? Math.round(doneCount / total * 100) : 0) + '%';
+        bar.parentElement.style.display = total ? 'block' : 'none';
+      }
+      var visible = listEl.querySelectorAll('.trow:not([style*="display: none"])').length;
+      var empty = document.getElementById('taskEmpty');
+      if (empty) empty.style.display = visible ? 'none' : 'block';
+    }
+    function filterTasks(mode) {
+      currentTaskFilter = mode;
+      var rows = document.querySelectorAll('#taskList .trow');
+      for (var i = 0; i < rows.length; i++) {
+        var isDone = rows[i].classList.contains('done');
+        rows[i].style.display = (mode === 'all' || (mode === 'done' && isDone) || (mode === 'pending' && !isDone)) ? '' : 'none';
+      }
+      updateTaskSummary();
+    }
+    function addTask(title, due) {
+      var listEl = document.getElementById('taskList');
+      if (!listEl) return;
+      var div = document.createElement('div');
+      div.className = 'trow';
+      div.innerHTML = '<label class="tchk"><input type="checkbox" /></label>' +
+        '<div class="tinfo"><b class="ttitle"></b><span class="tdue"></span></div>' +
+        '<button class="tdel" title="Delete task" onclick="deleteTask(this)">\u00d7</button>';
+      div.querySelector('.ttitle').textContent = title;
+      div.querySelector('.tdue').textContent = 'Due ' + due;
+      listEl.prepend(div);
+      showToast('Task added to your list.');
+      updateTaskSummary();
+    }
+    function deleteTask(btn) {
+      btn.closest('.trow').remove();
+      updateTaskSummary();
+      filterTasks(currentTaskFilter);
+    }
+
+    function setSection(id) {
+      var navBtns = document.querySelectorAll('.s-nav button[data-section]');
+      for (var i = 0; i < navBtns.length; i++) navBtns[i].classList.remove('active');
+      document.querySelector('.s-nav button[data-section="' + id + '"]').classList.add('active');
+      var sections = document.querySelectorAll('.section');
+      for (var j = 0; j < sections.length; j++) sections[j].classList.remove('active');
+      document.getElementById(id).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function selectDoc(btn) {
+      var all = document.querySelectorAll('#docList button');
+      for (var i = 0; i < all.length; i++) all[i].classList.remove('active');
+      btn.classList.add('active');
+      document.getElementById('docTitle').textContent = btn.textContent.trim();
+      document.getElementById('docMeta').textContent = 'Scanned copy';
+    }
+
+    function openModal(id) { document.getElementById(id).classList.add('open'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+    var toastTimer = null;
+    function showToast(msg) {
+      var toast = document.getElementById('toast');
+      toast.innerHTML = msg;
+      toast.classList.add('show');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 3200);
+    }
+
+    function prependQuery(subject, office) {
+      var today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      var card = document.querySelector('#query .card > .card-body');
+      var el = document.createElement('div');
+      el.className = 'q';
+      el.innerHTML = '<div class="qmain"><b>' + subject.replace(/</g, '&lt;') + '</b><p>Sent to ' + office.replace(/</g, '&lt;') + ' &middot; ' + today + '</p></div>' +
+        '<span class="office">' + office.replace(/</g, '&lt;') + '</span>' +
+        '<span class="chip sent">Sent</span>';
+      card.prepend(el);
+    }
+
+    selectDoc(document.querySelector('#docList button:nth-child(5)'));
+  </script>
+</body>
+</html>

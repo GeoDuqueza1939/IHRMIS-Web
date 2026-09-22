@@ -1,3 +1,6 @@
 # Ignore the node_modules directory (dependencies)
 src/node_modules/
 
+# Ignore the runtime log directory (system logs from the ARGUS module)
+src/logs/
+
