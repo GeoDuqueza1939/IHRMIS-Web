@@ -470,6 +470,34 @@ const SSP = Object.assign({}, __def, locals); %>
 
     .foot { text-align: center; padding: 1.25rem; font-size: 0.76rem; color: var(--muted); border-top: 1px solid var(--line); background: #fff; }
     .foot a { margin: 0 0.4rem; }
+
+    @media (max-width: 900px) {
+      .navbar { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .navbar button { flex: none; }
+    }
+    @media (max-width: 760px) {
+      .doc-list { display: flex; overflow-x: auto; }
+      .doc-list button { flex: none; width: auto; }
+    }
+    @media (max-width: 720px) {
+      .brand .portal { display: none; }
+    }
+    @media (max-width: 640px) {
+      .header { padding-top: 0.55rem; padding-bottom: 0.55rem; }
+      .wrap { padding-top: 1rem; }
+      .hero-banner { padding: 1.2rem 1.05rem; }
+      .hero-banner .empno { text-align: left; margin-top: 0.7rem; }
+      .card .card-head { flex-wrap: wrap; }
+      .card .card-body { padding: 0.95rem; }
+      .sec-title { flex-wrap: wrap; row-gap: 0.4rem; }
+      .entries .ent { flex-wrap: wrap; gap: 0.35rem; }
+      .entries .ent .yr { width: auto; }
+      .viewer .page { padding: 1.3rem 1rem; }
+      .modal-backdrop { padding: 1rem 0.75rem; }
+      .modal .mbody { padding: 1.05rem; }
+      .modal .mhead, .modal .mfoot { padding: 0.8rem 1rem; }
+      .toast { left: 1rem; right: 1rem; text-align: center; }
+    }
   </style>
 </head>
 <body>

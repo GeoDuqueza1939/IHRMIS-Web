@@ -406,6 +406,35 @@ const SSP = Object.assign({}, __def, locals); %>
 
     .foot { text-align: center; padding: 1.1rem; font-size: 0.76rem; color: var(--muted); border-top: 1px solid var(--line); background: #fff; }
     .foot a { margin: 0 0.4rem; }
+
+    @media (max-width: 840px) {
+      .sidebar { position: relative; height: auto; flex-direction: row; align-items: center; padding: 0; }
+      .sidebar .s-brand { flex: none; border-bottom: none; padding: 0.6rem 1rem; }
+      .sidebar .s-brand span { display: none; }
+      .s-nav { flex: 1; min-width: 0; flex-direction: row; align-items: center; overflow-x: auto; padding: 0.45rem 0.4rem 0.45rem 0; -webkit-overflow-scrolling: touch; }
+      .s-nav .s-label { display: none; }
+      .s-nav button { flex: none; width: auto; padding: 0.5rem 0.85rem; border-left: none; }
+      .s-foot { display: none; }
+      .summary-card { position: static; }
+    }
+    @media (max-width: 760px) {
+      .doc-list { display: flex; overflow-x: auto; }
+      .doc-list button { flex: none; width: auto; }
+    }
+    @media (max-width: 560px) {
+      .topbar .t-brand .divider, .topbar .t-brand .portal { display: none; }
+      .content { padding-top: 1rem; }
+      .welcome { flex-wrap: wrap; padding: 1rem; }
+      .card .card-head { flex-wrap: wrap; }
+      .card .card-body { padding: 0.95rem; }
+      .entries .ent { flex-wrap: wrap; gap: 0.35rem; }
+      .entries .ent .yr { width: auto; }
+      .viewer .page { padding: 1.3rem 1rem; }
+      .modal-backdrop { padding: 1rem 0.75rem; }
+      .modal .mbody { padding: 1.05rem; }
+      .modal .mhead, .modal .mfoot { padding: 0.8rem 1rem; }
+      .toast { left: 1rem; right: 1rem; text-align: center; }
+    }
   </style>
 </head>
 <body>
