@@ -471,6 +471,22 @@ const SSP = Object.assign({}, __def, locals); %>
     .foot { text-align: center; padding: 1.25rem; font-size: 0.76rem; color: var(--muted); border-top: 1px solid var(--line); background: #fff; }
     .foot a { margin: 0 0.4rem; }
 
+    .navbar { position: relative; }
+    .navbar::before, .navbar::after { content: ""; position: absolute; top: 0; bottom: 0; width: 36px; z-index: 2; opacity: 0; transition: opacity 0.2s ease; pointer-events: none; }
+    .navbar::before { left: 0; background: linear-gradient(90deg, rgba(14,58,109,0.96), rgba(14,58,109,0)); }
+    .navbar::after { right: 0; background: linear-gradient(270deg, rgba(14,58,109,0.96), rgba(14,58,109,0)); }
+    .navbar.has-overflow:not(.at-end)::after, .navbar.scrolled::before { opacity: 1; }
+    .n-scroll {
+      position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
+      width: 30px; height: 30px; display: none; align-items: center; justify-content: center;
+      border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); background: rgba(255,255,255,0.18);
+      color: #fff; box-shadow: 0 3px 10px rgba(10,37,71,0.35); transition: background 0.2s ease;
+    }
+    .n-scroll:hover { background: rgba(255,255,255,0.32); }
+    .n-scroll.show { display: flex; }
+    .n-left { left: 5px; }
+    .n-right { right: 5px; }
+
     @media (max-width: 900px) {
       .navbar { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
       .navbar button { flex: none; }
@@ -1087,6 +1103,7 @@ const SSP = Object.assign({}, __def, locals); %>
         });
       }
       updateTaskSummary();
+      initNavScrollHint();
     });
 
     var currentTaskFilter = 'all';
@@ -1134,6 +1151,38 @@ const SSP = Object.assign({}, __def, locals); %>
       btn.closest('.trow').remove();
       updateTaskSummary();
       filterTasks(currentTaskFilter);
+    }
+
+    function initNavScrollHint() {
+      var nav = document.getElementById('mainNav') || document.querySelector('.s-nav, .band-nav');
+      if (!nav || window.__navHint) return;
+      window.__navHint = true;
+      var mk = function (cls, html, label) {
+        var b = document.createElement('button');
+        b.className = 'n-scroll ' + cls;
+        b.setAttribute('aria-label', label);
+        b.innerHTML = html;
+        return b;
+      };
+      var left = mk('n-left', '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>', 'Scroll to earlier items');
+      var right = mk('n-right', '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>', 'Scroll to more items');
+      nav.appendChild(left);
+      nav.appendChild(right);
+      var update = function () {
+        var scrollable = getComputedStyle(nav).overflowX === 'auto';
+        var max = scrollable ? nav.scrollWidth - nav.clientWidth : 0;
+        var more = max > 16;
+        nav.classList.toggle('has-overflow', more);
+        nav.classList.toggle('scrolled', nav.scrollLeft > 8);
+        nav.classList.toggle('at-end', more && nav.scrollLeft >= max - 8);
+        left.classList.toggle('show', more && nav.scrollLeft > 8);
+        right.classList.toggle('show', more && nav.scrollLeft < max - 8);
+      };
+      left.addEventListener('click', function () { nav.scrollBy({ left: -Math.min(240, nav.clientWidth * 0.6), behavior: 'smooth' }); });
+      right.addEventListener('click', function () { nav.scrollBy({ left: Math.min(240, nav.clientWidth * 0.6), behavior: 'smooth' }); });
+      nav.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
     }
 
     function setSection(id) {
