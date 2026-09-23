@@ -8,7 +8,7 @@ const config = {
 
     rootDir: path.dirname(import.meta.dirname),
 
-    basePath: process.env.IHRMIS_BASE_URL || '/ihrmis', // Base path URL for the application, e.g., '/ihrmis' if hosted under a subdirectory; should not include the protocol and domain/hostname; no need to end in a slash
+    baseDir: process.env.IHRMIS_BASE_DIR || '/ihrmis', // Base path URL for the application, e.g., '/ihrmis' if hosted under a subdirectory; should not include the protocol and domain/hostname; no need to end in a slash
 
     ports: {
         local_http: Number(process.env.IHRMIS_LOCAL_HTTP_PORT) || 3000,
@@ -30,7 +30,7 @@ const config = {
         maxSize: process.env.IHRMIS_LOG_MAXSIZE || '20m',
         maxFiles: process.env.IHRMIS_LOG_MAXFILES || '14d',
         zippedArchive: true,
-        level: process.env.IHRMIS_LOG_LEVEL || 'error',
+        level: process.env.IHRMIS_LOG_LEVEL || 'info',
     },
 };
 

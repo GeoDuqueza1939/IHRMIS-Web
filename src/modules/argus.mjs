@@ -19,7 +19,7 @@ export default class argus { // Audit, Recording, and Governance for Usage of th
             maxSize: options?.maxSize || '20m',
             maxFiles: options?.maxFiles || '14d',
             zippedArchive: options?.zippedArchive ?? true,
-            level: options?.level || 'info',
+            level: options?.level || 'error',
         };
 
         this.#config = config;

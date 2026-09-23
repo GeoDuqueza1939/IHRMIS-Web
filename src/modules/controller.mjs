@@ -20,16 +20,16 @@ export default class controller {
         this.#router = express.Router();
 
         // define routes
-        this.#router.get(config.basePath, (req, res) => {
+        this.#router.get(config.baseDir, (req, res) => {
             this.#logger.info(`${req.method} ${req.url}`);
             res.render('index', { name: '' });
         });
 
-        this.#router.get(`${config.basePath}/login`, (req, res) => {
+        this.#router.get(`${config.baseDir}/login`, (req, res) => {
             res.render('login1', { username: '', password: '' });
         });
 
-        this.#router.post(`${config.basePath}/login`, (req, res) => {
+        this.#router.post(`${config.baseDir}/login`, (req, res) => {
             res.render('login1', { username: req.body.username || '', password: req.body.password || '' });
         });
 
@@ -44,7 +44,7 @@ export default class controller {
         //     });
         // }
 
-        this.#router.get(`${config.basePath}/login/:id`, (req, res) => {
+        this.#router.get(`${config.baseDir}/login/:id`, (req, res) => {
             if (loginDesigns.includes(parseInt(req.params.id))) {
                 res.render(`login${req.params.id}`, { username: '', password: '' });
             }
@@ -54,7 +54,7 @@ export default class controller {
             }
         });
 
-        this.#router.post(`${config.basePath}/login/:id`, (req, res) => {
+        this.#router.post(`${config.baseDir}/login/:id`, (req, res) => {
             if (loginDesigns.includes(parseInt(req.params.id))) {
                 res.render(`login${req.params.id}`, { username: req.body.username || '', password: req.body.password || '' });
             }
@@ -66,7 +66,7 @@ export default class controller {
 
         const sspDesigns = [1, 2, 3];
 
-        this.#router.get(`${config.basePath}/ssp/:id`, (req, res) => {
+        this.#router.get(`${config.baseDir}/ssp/:id`, (req, res) => {
             if (sspDesigns.includes(parseInt(req.params.id))) {
                 res.render(`ssp${req.params.id}`, {});
             }
@@ -93,22 +93,22 @@ export default class controller {
             }
         };
 
-        this.#router.get(`/main`, renderMain);
-        this.#router.get(`/main/:id`, renderMainById);
+        this.#router.get(`${config.baseDir}/main`, renderMain);
+        this.#router.get(`${config.baseDir}/main/:id`, renderMainById);
 
         // Legacy alias - /dashboard still serves the main interface
-        this.#router.get(`/dashboard`, renderMain);
-        this.#router.get(`/dashboard/:id`, renderMainById);
+        this.#router.get(`${config.baseDir}/dashboard`, renderMain);
+        this.#router.get(`${config.baseDir}/dashboard/:id`, renderMainById);
 
 
         // TEMPORARY TEST ROUTES
-        this.#router.get(`${config.basePath}/test`, (req, res) => {
+        const renderTest = (req, res) => {
             res.render('test', { testdata: req });
-        });
+        }
 
-        this.#router.post(`${config.basePath}/test`, (req, res) => {
-            res.render('test', { testdata: req });
-        });
+        this.#router.get(`${config.baseDir}/test`, renderTest);
+
+        this.#router.post(`${config.baseDir}/test`, renderTest);
 
         this.#app.use(this.#router);
 
