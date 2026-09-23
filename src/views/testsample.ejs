@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Sample <%= sampleLayoutName %></title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        html {
+            margin: 0;
+            padding: 0em;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0em;
+        }
+        
+        #links {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: end;
+            height: 2.25em;
+        }
+        
+        #links li {
+            display: inline-block;
+            margin: 5px 0 0;
+        }
+        
+        #links a {
+            text-decoration: none;
+            padding: 5px 15px 3px;
+            border-radius: 20px 20px 0 0;
+            border: 0.1em outset;
+            background-color: lightgrey;
+            color: inherit;
+        }
+
+        #links a.selected {
+            border: 0.1em inset #007BFF;
+            background-color: #007BFF;
+            color: white;
+        }
+
+        /* #links a:hover {
+            text-decoration: underline;
+        } */
+
+        div#sample-frame-container {
+            margin: 0;
+            padding: 0;
+            border: 2px inset black;
+            /* border-radius: 0.5em; */
+            position: fixed;
+            top: 2.3em;
+            left: 0.1em;
+            right: 0.1em;
+            bottom: 0.1em;
+            height: calc(100% - 2.5em);
+            width: calc(100% - 0.2em);
+            background-color: white;
+            overflow: auto;
+        }
+
+        iframe#sample-frame {
+            display: block;
+            padding: 0;
+            margin: 0;
+            /* border-radius: 0.4em; */
+            position: fixed;
+            top: 2.5em;
+            left: 0.3em;
+            right: 0.3em;
+            bottom: 0.3em;
+            height: calc(100% - 2.9em);
+            width: calc(100% - 0.6em);
+        }
+    </style>
+</head>
+<body>
+<ul id="links"><% sampleLayoutIds.forEach((id) => { %>
+    <li><a href="<%= url %>/<%= id %>/" target="sample-frame"><%= sampleLayoutName %> Design <%= id %></a></li><% }); %>
+</ul>
+<div id="sample-frame-container">
+    <iframe id="sample-frame" name="sample-frame" src="" width="100%" height="600px" style="border: none;"></iframe>
+</div>
+</body>
+<script>
+"use strict";
+
+let items = Array.from(document.getElementById("links").children);
+items.forEach(item => {
+
+    item.getElementsByTagName("A")[0].addEventListener("click", event=>{
+        Array.from(document.getElementsByClassName("selected")).forEach(el=>{ el.classList.remove("selected") });
+        item.getElementsByTagName("A")[0].classList.toggle("selected");
+    });
+});
+</script>
+</html>
