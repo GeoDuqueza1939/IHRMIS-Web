@@ -1,0 +1,197 @@
+<% const __def = {
+  user: { name: 'Maria C. Santos', position: 'HRMO III', office: 'Personnel Services Unit', initial: 'MS', email: 'maria.santos@deped.gov.ph' },
+  stats: { total: 486, permanent: 392, coterminous: 12, joborder: 82, vacancies: 27, pendingDoc: 18, pendingHR: 16, queries: 9 },
+  personnel: [
+    { no: '2016-00102', name: 'Juan A. Dela Cruz', position: 'Teacher II', office: 'Sto. Tomas North ES', status: 'Permanent' },
+    { no: '2018-00211', name: 'Ana B. Reyes', position: 'Teacher III', office: 'Sta. Anastacia ES', status: 'Permanent' },
+    { no: '2019-00344', name: 'Mark D. Villanueva', position: 'Administrative Aide VI', office: 'SDO Proper', status: 'Permanent' },
+    { no: '2021-00471', name: 'Liza M. Gonzales', position: 'Teacher I', office: 'San Pedro ES', status: 'Permanent' },
+    { no: '2022-00590', name: 'Ramon T. Aquino', position: 'Administrative Officer II', office: 'Personnel Unit', status: 'Coterminous' },
+    { no: '2023-00421', name: 'Jose P. Ramos', position: 'Teacher I', office: 'Sto. Tomas South CS', status: 'Probationary' },
+    { no: '2024-00712', name: 'Karen L. Mendoza', position: 'Project Development Officer I', office: 'SGOD', status: 'Job Order' },
+    { no: '2024-00733', name: 'Paolo S. Navarro', position: 'Teacher I', office: 'San Agustin ES', status: 'Job Order' }
+  ],
+  record: {
+    name: 'Juan A. Dela Cruz', no: '2023-00421', position: 'Teacher II', office: 'Sto. Tomas North ES',
+    birthday: 'March 14, 1989', sex: 'Male', civil: 'Married', gsis: 'GSIS-102-3349', pagibig: '1212-3345-6789', philhealth: '01-220134-889-1', tin: '462-904-118',
+    education: [{ deg: 'MA in Education (in progress)', sch: 'Batangas State University', yr: '2022-present' }, { deg: 'BS Education', sch: 'Batangas State University', yr: '2007-2011' }],
+    training: [{ t: 'MATATAG Curriculum Orientation', p: 'SDO Sto. Tomas', y: '2023' }, { t: 'Classroom Assessment for Learning', p: 'SDO Sto. Tomas', y: '2024' }],
+    work: [{ t: 'Teacher II', o: 'Sto. Tomas North ES', y: '2024-present' }, { t: 'Teacher I', o: 'Sto. Tomas North ES', y: '2016-2024' }],
+    files: [{ n: 'Appointment - Teacher II', m: '2024' }, { n: 'Service Record', m: 'Updated 2026' }, { n: 'PRC License', m: 'Valid 2027' }, { n: 'Diploma - BSEd', m: '2011' }]
+  },
+  orgUnits: [
+    { code: 'OSDS', name: 'Office of the SDS', head: 'Dr. R. Castillo', staff: 12 },
+    { code: 'CID', name: 'Curriculum Implementation Division', head: 'Dr. L. Mercado', staff: 48 },
+    { code: 'SGOD', name: 'School Governance & Operations Division', head: 'Dr. J. Lim', staff: 56 },
+    { code: 'PSU', name: 'Personnel Services Unit', head: 'M. C. Santos', staff: 9 }
+  ],
+  positions: [
+    { title: 'Teacher II', sg: 'SG-12', count: 142, filled: 138 },
+    { title: 'Teacher III', sg: 'SG-13', count: 86, filled: 79 },
+    { title: 'Administrative Aide VI', sg: 'SG-6', count: 24, filled: 22 },
+    { title: 'Administrative Officer II', sg: 'SG-11', count: 8, filled: 6 }
+  ],
+  plantilla: [
+    { item: 'OSEC-DECSB-TCH2-410021-2016', pos: 'Teacher II', station: 'Sto. Tomas North ES', status: 'Filled' },
+    { item: 'OSEC-DECSB-TCH3-410118-2019', pos: 'Teacher III', station: 'Sta. Anastacia ES', status: 'Filled' },
+    { item: 'OSEC-DECSB-ADOF2-410005-2022', pos: 'Administrative Officer II', station: 'SDO Proper', status: 'Vacant' },
+    { item: 'OSEC-DECSB-TCH1-411204-2024', pos: 'Teacher I', station: 'San Agustin ES', status: 'Vacant' }
+  ],
+  docReq: [
+    { ref: 'DOC-2026-094', type: 'Certificate of Employment', req: 'J. Dela Cruz', date: 'Aug 28, 2026', status: 'For processing' },
+    { ref: 'DOC-2026-095', type: 'Service Record', req: 'A. Reyes', date: 'Sep 02, 2026', status: 'For signature' },
+    { ref: 'DOC-2026-096', type: 'Leave Balances', req: 'M. Villanueva', date: 'Sep 10, 2026', status: 'Received' }
+  ],
+  hrReq: [
+    { ref: 'LVL-2026-181', type: 'Leave (3 days)', req: 'J. Dela Cruz', date: 'Sep 10, 2026', status: 'For approval' },
+    { ref: 'HR-2026-220', type: 'Transfer request', req: 'L. Gonzales', date: 'Sep 12, 2026', status: 'Received' },
+    { ref: 'HR-2026-221', type: 'Update personal data', req: 'P. Navarro', date: 'Sep 15, 2026', status: 'For verification' }
+  ],
+  vacancies: [
+    { post: 'Teacher I - San Agustin ES', items: 3, deadline: 'Oct 10, 2026', apps: 41 },
+    { post: 'Administrative Officer II - SDO', items: 1, deadline: 'Oct 08, 2026', apps: 18 },
+    { post: 'Teacher III - Sta. Anastacia ES', items: 2, deadline: 'Oct 15, 2026', apps: 12 }
+  ],
+  applicants: [
+    { name: 'Rica D. Bautista', applied: 'Teacher I', ier: 'Qualified', car: 'Rank 3 - 82.4' },
+    { name: 'Enrico F. Salazar', applied: 'Teacher I', ier: 'Qualified', car: 'Rank 1 - 88.1' },
+    { name: 'Divina G. Torres', applied: 'Admin Officer II', ier: 'For verification', car: '-' }
+  ],
+  pmCycles: [{ cycle: 'SY 2025-2026 Mid-Year', phase: 'Review', ratees: 412, submitted: 288 }, { cycle: 'SY 2024-2025 Year-End', phase: 'Closed', ratees: 405, submitted: 405 }],
+  ldPrograms: [{ prog: 'Division TOT on Classroom Assessment', date: 'Oct 20-22, 2026', slots: 60, enrolled: 44 }, { prog: 'MATATAG Rollout Batch 4', date: 'Nov 05, 2026', slots: 120, enrolled: 97 }],
+  awards: [{ award: 'Gawad Parangal - Most Outstanding Teacher', cycle: '2026', nominees: 24 }, { award: 'Loyalty Award - 10 Years', cycle: '2026', nominees: 31 }],
+  queries: [{ s: 'Leave balance computation', from: 'J. Dela Cruz', off: 'Records Unit', st: 'Replied' }, { s: 'RPMS forms SY 2025-2026', from: 'L. Gonzales', off: 'SGOD', st: 'Received' }]
+};
+const HRM = Object.assign({}, __def, locals); %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>IHRMIS | HRMO Console (Design 3)</title>
+<style>
+:root{--navy:#0e3a6d;--navy-dark:#0a2547;--blue:#14518f;--gold:#f1a925;--gold-light:#ffc948;--gold-pale:#ffe9b3;--bg:#f6f9fd;--ink:#173a63;--muted:#60758f;--line:#d7e0ec;--ok:#1f7a4d;--warn:#b7791f;--info:#1b548f}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:"Segoe UI",system-ui,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);min-height:100vh}
+a{color:var(--blue);text-decoration:none}button{font-family:inherit;cursor:pointer}
+.band{background:radial-gradient(circle at 12% 8%,rgba(241,169,37,.18),transparent 40%),linear-gradient(135deg,var(--navy-dark),var(--navy) 45%,var(--blue));color:#fff}
+.band-inner{max-width:1180px;margin:0 auto;padding:1rem clamp(1rem,4vw,2.25rem) 0}
+.band-top{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:.7rem}.brand img{width:42px;height:42px;border-radius:50%;background:#fff;padding:2px}.brand b{display:block;letter-spacing:.06em}.brand span{font-size:.74rem;color:#cfe0f2}
+.search{flex:1;min-width:200px;max-width:420px;position:relative}.search input{width:100%;padding:.6rem 2.2rem .6rem .9rem;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.14);color:#fff;font-family:inherit;font-size:.84rem;outline:none}.search input::placeholder{color:#cfe0f2}
+.user-btn{display:flex;align-items:center;gap:.55rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:.3rem .7rem .3rem .3rem;border-radius:999px;color:#fff}.avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;color:var(--navy-dark);background:var(--gold)}
+.band-nav{display:flex;gap:.3rem;flex-wrap:nowrap;overflow-x:auto;margin-top:1rem;padding-bottom:.8rem}
+.band-nav button{flex:none;padding:.55rem 1rem;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#dbe7f6;font-size:.8rem;font-weight:600}
+.band-nav button:hover{background:rgba(255,255,255,.18);color:#fff}.band-nav button.active{background:linear-gradient(180deg,var(--gold-light),var(--gold));color:var(--navy-dark);border-color:transparent}
+.subnav{display:flex;gap:.4rem;flex-wrap:wrap;padding:.6rem clamp(1rem,4vw,2.25rem);background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+.subnav button{padding:.4rem .9rem;border-radius:999px;border:1px solid var(--line);background:#f8fbfe;color:var(--muted);font-size:.78rem;font-weight:600}
+.subnav button.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.wrap{max-width:1180px;margin:0 auto;padding:1.4rem clamp(1rem,4vw,2.25rem) 3rem}
+.section{display:none}.section.active{display:block;animation:fade .2s ease}@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 8px 22px rgba(14,58,109,.06);margin-bottom:1.2rem}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.9rem 1.15rem;border-bottom:1px solid #eef2f7;flex-wrap:wrap}
+.card-head h3{font-size:.92rem;color:var(--navy)}.card-body{padding:1.15rem}
+.hero{background:radial-gradient(circle at 88% 12%,rgba(241,169,37,.25),transparent 42%),linear-gradient(135deg,var(--navy-dark),var(--navy) 55%,var(--blue));color:#fff;border-radius:16px;padding:1.5rem 1.7rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.2rem}
+.hero h2{font-size:clamp(1.2rem,3vw,1.5rem)}.hero p{color:#cfe0f2;font-size:.88rem}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin-bottom:1.2rem}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1rem 1.1rem}.stat .val{font-size:1.3rem;font-weight:800;color:var(--navy)}.stat .lbl{font-size:.76rem;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem}@media(max-width:900px){.grid2{grid-template-columns:1fr}}
+.table{width:100%;border-collapse:collapse;font-size:.84rem}.table th,.table td{text-align:left;padding:.55rem .6rem;border-bottom:1px solid #eef2f7}.table th{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em}
+.chip{display:inline-block;padding:.2rem .6rem;border-radius:999px;font-size:.7rem;font-weight:700;background:#e3edf7;color:var(--info)}
+.chip.ok{background:#e3f3ea;color:var(--ok)}.chip.warn{background:#fdf1d7;color:var(--warn)}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1rem;border-radius:10px;border:1px solid transparent;font-size:.82rem;font-weight:700}
+.btn-gold{background:linear-gradient(180deg,var(--gold-light),var(--gold));color:var(--navy-dark)}.btn-ghost{background:#fff;border-color:var(--line);color:var(--navy)}
+.toolbar{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:.9rem}
+.toolbar input,.toolbar select{padding:.55rem .7rem;border:1px solid var(--line);border-radius:9px;font-size:.84rem;background:#f8fbfe;font-family:inherit}
+.foot{text-align:center;padding:1.2rem;font-size:.76rem;color:var(--muted);border-top:1px solid var(--line);background:#fff}
+.badge{display:inline-block;min-width:20px;text-align:center;background:var(--gold);color:var(--navy-dark);border-radius:999px;font-size:.7rem;font-weight:800;padding:.1rem .45rem;margin-left:.3rem}
+.design-note{text-align:center;font-size:.75rem;color:var(--muted);padding:.6rem}
+@media(max-width:640px){.wrap{padding-top:1rem}.hero{padding:1.2rem 1rem}}
+</style>
+</head>
+<body>
+<header class="band">
+<div class="band-inner">
+<div class="band-top">
+<div class="brand"><img src="/images/logo-depedstotomas.webp" alt="logo" /><div><b>IHRMIS &middot; HRMO CONSOLE</b><span>Design 3 (Band + Search) &middot; Schools Division of Sto. Tomas</span></div></div>
+<div class="search"><input id="bandSearch" placeholder="Search personnel, plantilla, vacancies..." oninput="filterTable('pTable',this.value);go('personnel','personnel-list')" /></div>
+<div><button class="user-btn"><span class="avatar"><%= HRM.user.initial %></span><span style="text-align:left;line-height:1.2"><b style="display:block;font-size:.82rem"><%= HRM.user.name %></b><span style="font-size:.7rem;color:#ffe9b3"><%= HRM.user.position %></span></span></button></div>
+</div>
+<nav class="band-nav" id="mainNav">
+<button class="active" data-top="dashboard">Dashboard</button>
+<button data-top="personnel">Personnel</button>
+<button data-top="org">Organization</button>
+<button data-top="requests">Requests (<%= HRM.stats.pendingDoc + HRM.stats.pendingHR %>)</button>
+<button data-top="rsp">RSP</button>
+<button data-top="pm">Performance</button>
+<button data-top="ld">L&amp;D</button>
+<button data-top="rr">Rewards</button>
+<button data-top="queries">Queries (<%= HRM.stats.queries %>)</button>
+<button data-top="settings">Settings</button>
+</nav>
+</div>
+</header>
+<div class="subnav" id="subNav"></div>
+<main class="wrap">
+<section class="section active" id="sec-dashboard">
+<div class="hero"><div><div style="font-size:.75rem;color:var(--gold-pale);letter-spacing:.06em">HRMO OVERVIEW &middot; SDO STO. TOMAS</div><h2>Good morning, <%= HRM.user.name %></h2><p><%= HRM.user.office %> &middot; <%= HRM.stats.pendingDoc + HRM.stats.pendingHR %> items need action today</p></div><div><button class="btn btn-gold" onclick="go('requests','docreq')">Review approvals</button></div></div>
+<div class="stat-grid">
+<div class="stat"><div class="val"><%= HRM.stats.total %></div><div class="lbl">Total personnel</div></div>
+<div class="stat"><div class="val"><%= HRM.stats.vacancies %></div><div class="lbl">Vacant positions</div></div>
+<div class="stat"><div class="val"><%= HRM.stats.pendingDoc + HRM.stats.pendingHR %></div><div class="lbl">Pending requests</div></div>
+<div class="stat"><div class="val"><%= HRM.stats.queries %></div><div class="lbl">Open queries</div></div>
+</div>
+<div class="grid2">
+<div class="card"><div class="card-head"><h3>Pending documentary requests</h3><a href="#" onclick="go('requests','docreq');return false;">View all</a></div><div class="card-body"><table class="table"><tr><th>Ref</th><th>Type</th><th>Status</th></tr><% for(const r of HRM.docReq){ %><tr><td><%= r.ref %></td><td><%= r.type %><br/><span style="font-size:.72rem;color:var(--muted)"><%= r.req %></span></td><td><span class="chip"><%= r.status %></span></td></tr><% } %></table></div></div>
+<div class="card"><div class="card-head"><h3>Active vacancies</h3><a href="#" onclick="go('rsp','vac');return false;">View all</a></div><div class="card-body"><table class="table"><tr><th>Posting</th><th>Apps</th><th>Deadline</th></tr><% for(const v of HRM.vacancies){ %><tr><td><%= v.post %></td><td><%= v.apps %></td><td><%= v.deadline %></td></tr><% } %></table></div></div>
+</div>
+</section>
+<section class="section" id="sec-personnel-list">
+<div class="card"><div class="card-head"><h3>List of Personnel (<%= HRM.stats.total %>)</h3><div><button class="btn btn-ghost">Export</button> <button class="btn btn-gold">+ Add personnel</button></div></div>
+<div class="card-body"><div class="toolbar"><input id="pSearch" placeholder="Search name, position, office..." oninput="filterTable('pTable',this.value)" /><select><option>All statuses</option><option>Permanent</option><option>Job Order</option></select></div>
+<table class="table" id="pTable"><tr><th>Employee No.</th><th>Name</th><th>Position</th><th>Office</th><th>Status</th><th></th></tr>
+<% for(const p of HRM.personnel){ %><tr><td><%= p.no %></td><td><b><%= p.name %></b></td><td><%= p.position %></td><td><%= p.office %></td><td><span class="chip <%= p.status==='Permanent'?'ok':'' %>"><%= p.status %></span></td><td><a href="#" onclick="go('personnel','records');return false;">Open 201</a></td></tr><% } %></table></div></div>
+</section>
+<section class="section" id="sec-records">
+<div class="card"><div class="card-head"><h3>Personnel Records &mdash; <%= HRM.record.name %> (<%= HRM.record.no %>)</h3><button class="btn btn-ghost">Request update</button></div>
+<div class="card-body"><div class="grid2"><div><table class="table"><tr><td>Position</td><td><b><%= HRM.record.position %></b></td></tr><tr><td>Office</td><td><%= HRM.record.office %></td></tr><tr><td>Date of Birth</td><td><%= HRM.record.birthday %></td></tr><tr><td>GSIS / Pag-IBIG / PhilHealth / TIN</td><td style="font-size:.78rem"><%= HRM.record.gsis %> &middot; <%= HRM.record.pagibig %><br/><%= HRM.record.philhealth %> &middot; <%= HRM.record.tin %></td></tr></table>
+<h4 style="margin:1rem 0 .5rem;color:var(--navy)">Education</h4><table class="table"><% for(const e of HRM.record.education){ %><tr><td><%= e.deg %><br/><span style="color:var(--muted);font-size:.75rem"><%= e.sch %> &middot; <%= e.yr %></span></td></tr><% } %></table>
+<h4 style="margin:1rem 0 .5rem;color:var(--navy)">Training &amp; Work Experience</h4><table class="table"><% for(const t of HRM.record.training){ %><tr><td><%= t.t %><br/><span style="color:var(--muted);font-size:.75rem"><%= t.p %> &middot; <%= t.y %></span></td></tr><% } %><% for(const w of HRM.record.work){ %><tr><td><b><%= w.t %></b><br/><span style="color:var(--muted);font-size:.75rem"><%= w.o %> &middot; <%= w.y %></span></td></tr><% } %></table></div>
+<div><h4 style="color:var(--navy);margin-bottom:.6rem">201 Files (GSIS service records &amp; attachments)</h4><table class="table"><% for(const f of HRM.record.files){ %><tr><td><%= f.n %></td><td style="color:var(--muted)"><%= f.m %></td><td><a href="#">Preview</a></td></tr><% } %></table><div style="margin-top:1rem"><button class="btn btn-gold">Verify documents</button> <button class="btn btn-ghost">Notify employee</button></div></div></div></div></div>
+</section>
+<section class="section" id="sec-payroll"><div class="card"><div class="card-head"><h3>Payroll Integration (DBF / Central Office compatible)</h3><button class="btn btn-gold">Prepare remittance</button></div><div class="card-body"><table class="table"><tr><th>Payroll batch</th><th>Period</th><th>Headcount</th><th>Status</th></tr><tr><td>REG-2026-09-A</td><td>Sep 1-15, 2026</td><td>412</td><td><span class="chip ok">Audited</span></td></tr><tr><td>REG-2026-09-B</td><td>Sep 16-30, 2026</td><td>414</td><td><span class="chip warn">For pre-audit</span></td></tr><tr><td>SUP-2026-14 (new hires)</td><td>Supplementary</td><td>6</td><td><span class="chip">Draft</span></td></tr></table><p style="font-size:.8rem;color:var(--muted);margin-top:.8rem">Accepts DBF table + PRG script updates cascaded from Central Office via Regional Office. Supplementary payrolls cover new hires, adjustments, and benefits claims.</p></div></div></section>
+<section class="section" id="sec-workforce"><div class="card"><div class="card-head"><h3>Workforce Management &mdash; Shifts &amp; Assigned Schedules</h3><button class="btn btn-gold">Assign schedule</button></div><div class="card-body"><table class="table"><tr><th>Shift</th><th>Time</th><th>Assigned</th></tr><tr><td>Teaching - Regular</td><td>7:00 AM - 4:00 PM</td><td>342</td></tr><tr><td>Office - Flexi</td><td>8:00 AM - 5:00 PM</td><td>96</td></tr><tr><td>Security / Utility - Night</td><td>10:00 PM - 6:00 AM</td><td>14</td></tr></table></div></div></section>
+<section class="section" id="sec-attendance"><div class="card"><div class="card-head"><h3>Attendance and Leave Management</h3><button class="btn btn-ghost">Leave ledger</button></div><div class="card-body"><table class="table"><tr><th>Employee</th><th>Present (Sep)</th><th>VL balance</th><th>SL balance</th></tr><tr><td>J. Dela Cruz</td><td>18/20</td><td>8</td><td>10</td></tr><tr><td>A. Reyes</td><td>20/20</td><td>12</td><td>11</td></tr><tr><td>M. Villanueva</td><td>17/20</td><td>5</td><td>7</td></tr></table></div></div></section>
+<section class="section" id="sec-orgunits"><div class="card"><div class="card-head"><h3>Organizational Units</h3><button class="btn btn-gold">+ New unit</button></div><div class="card-body"><table class="table"><tr><th>Code</th><th>Unit</th><th>Head</th><th>Staff</th></tr><% for(const o of HRM.orgUnits){ %><tr><td><%= o.code %></td><td><%= o.name %></td><td><%= o.head %></td><td><%= o.staff %></td></tr><% } %></table></div></div></section>
+<section class="section" id="sec-positions"><div class="card"><div class="card-head"><h3>Positions</h3><button class="btn btn-gold">+ New position</button></div><div class="card-body"><table class="table"><tr><th>Title</th><th>Salary Grade</th><th>Authorized</th><th>Filled</th></tr><% for(const p of HRM.positions){ %><tr><td><%= p.title %></td><td><%= p.sg %></td><td><%= p.count %></td><td><%= p.filled %></td></tr><% } %></table></div></div></section>
+<section class="section" id="sec-plantilla"><div class="card"><div class="card-head"><h3>Plantilla Items</h3><button class="btn btn-ghost">Allocation list (DBM)</button></div><div class="card-body"><table class="table"><tr><th>Item No.</th><th>Position</th><th>Station</th><th>Status</th></tr><% for(const p of HRM.plantilla){ %><tr><td style="font-size:.76rem"><%= p.item %></td><td><%= p.pos %></td><td><%= p.station %></td><td><span class="chip <%= p.status==='Filled'?'ok':'warn' %>"><%= p.status %></span></td></tr><% } %></table></div></div></section>
+<section class="section" id="sec-docreq"><div class="card"><div class="card-head"><h3>Documentary Requests</h3><button class="btn btn-gold">Process selected</button></div><div class="card-body"><table class="table"><tr><th>Ref</th><th>Type</th><th>Requested by</th><th>Date</th><th>Status</th></tr><% for(const r of HRM.docReq){ %><tr><td><%= r.ref %></td><td><%= r.type %></td><td><%= r.req %></td><td><%= r.date %></td><td><span class="chip"><%= r.status %></span></td></tr><% } %></table></div></div></section>
+<section class="section" id="sec-hrreq"><div class="card"><div class="card-head"><h3>HR Action Requests</h3><button class="btn btn-gold">Approve selected</button></div><div class="card-body"><table class="table"><tr><th>Ref</th><th>Type</th><th>Requested by</th><th>Date</th><th>Status</th></tr><% for(const r of HRM.hrReq){ %><tr><td><%= r.ref %></td><td><%= r.type %></td><td><%= r.req %></td><td><%= r.date %></td><td><span class="chip warn"><%= r.status %></span></td></tr><% } %></table></div></div></section>
+<section class="section" id="sec-vac"><div class="card"><div class="card-head"><h3>RSP &mdash; Vacancies</h3><button class="btn btn-gold">+ Publish vacancy</button></div><div class="card-body"><table class="table"><tr><th>Posting</th><th>Items</th><th>Applicants</th><th>Deadline</th></tr><% for(const v of HRM.vacancies){ %><tr><td><%= v.post %></td><td><%= v.items %></td><td><%= v.apps %></td><td><%= v.deadline %></td></tr><% } %></table></div></div></section>
+<section class="section" id="sec-rspcycles"><div class="card"><div class="card-head"><h3>RSP Cycles and Roles (HRMPSB)</h3><button class="btn btn-gold">+ New cycle</button></div><div class="card-body"><table class="table"><tr><th>Cycle</th><th>Chair</th><th>Members</th><th>Status</th></tr><tr><td>Teacher I Hiring - Batch 2026-03</td><td>ASDS (Chair)</td><td>7 + Secretariat</td><td><span class="chip warn">Comparative assessment</span></td></tr><tr><td>Admin Officer II - 2026-02</td><td>ASDS (Chair)</td><td>5 + Secretariat</td><td><span class="chip">Initial evaluation</span></td></tr></table></div></div></section>
+<section class="section" id="sec-applicants"><div class="card"><div class="card-head"><h3>Applicants</h3><button class="btn btn-ghost">Export CAR-RQA</button></div><div class="card-body"><table class="table"><tr><th>Name</th><th>Applied for</th><th>IER</th><th>CAR</th></tr><% for(const a of HRM.applicants){ %><tr><td><%= a.name %></td><td><%= a.applied %></td><td><%= a.ier %></td><td><%= a.car %></td></tr><% } %></table></div></div></section>
+<section class="section" id="sec-ier"><div class="card"><div class="card-head"><h3>Initial Evaluation (IER)</h3><button class="btn btn-gold">Issue IER letters</button></div><div class="card-body"><table class="table"><tr><th>Applicant</th><th>Result</th><th>Remarks</th></tr><tr><td>E. Salazar</td><td><span class="chip ok">Qualified</span></td><td>For CAR</td></tr><tr><td>D. Torres</td><td><span class="chip warn">For verification</span></td><td> lacking PRC authentication</td></tr></table></div></div></section>
+<section class="section" id="sec-car"><div class="card"><div class="card-head"><h3>Comparative Assessment (CAR / CAR-RQA)</h3><button class="btn btn-gold">Generate ranking</button></div><div class="card-body"><table class="table"><tr><th>Rank</th><th>Applicant</th><th>Score</th></tr><tr><td>1</td><td>Enrico F. Salazar</td><td>88.1</td></tr><tr><td>2</td><td>Maria J. Cruz</td><td>84.6</td></tr><tr><td>3</td><td>Rica D. Bautista</td><td>82.4</td></tr></table></div></div></section>
+<section class="section" id="sec-appt"><div class="card"><div class="card-head"><h3>Appointment and Designation</h3><button class="btn btn-gold">Endorse to SDS</button></div><div class="card-body"><p style="font-size:.85rem;color:var(--muted)">Appointing Authority: Schools Division Superintendent. Digital signing via password / self-signed / PNPKI certificate. Batch signing supported.</p><table class="table" style="margin-top:.7rem"><tr><th>Appointee</th><th>Position / Station</th><th>Status</th></tr><tr><td>E. Salazar</td><td>Teacher I - San Agustin ES</td><td><span class="chip warn">For SDS approval</span></td></tr></table></div></div></section>
+<section class="section" id="sec-ratees"><div class="card"><div class="card-head"><h3>PM &mdash; Ratees</h3><button class="btn btn-ghost">Upload IPCRF/OPCRF</button></div><div class="card-body"><table class="table"><tr><th>Ratee</th><th>Office</th><th>Rating</th><th>Status</th></tr><tr><td>J. Dela Cruz</td><td>Sto. Tomas North ES</td><td>4.62 VS</td><td><span class="chip ok">Submitted</span></td></tr><tr><td>A. Reyes</td><td>Sta. Anastacia ES</td><td>-</td><td><span class="chip warn">Pending</span></td></tr></table></div></div></section>
+<section class="section" id="sec-pmcycles"><div class="card"><div class="card-head"><h3>PM Cycles and Roles (PMT)</h3><button class="btn btn-gold">Open new phase</button></div><div class="card-body"><table class="table"><tr><th>Cycle</th><th>Phase</th><th>Ratees</th><th>Submitted</th></tr><% for(const c of HRM.pmCycles){ %><tr><td><%= c.cycle %></td><td><%= c.phase %></td><td><%= c.ratees %></td><td><%= c.submitted %></td></tr><% } %></table></div></div></section>
+<section class="section" id="sec-ldneeds"><div class="card"><div class="card-head"><h3>L&amp;D Needs (IDP Summary)</h3><button class="btn btn-ghost">Analyze gaps</button></div><div class="card-body"><table class="table"><tr><th>Competency gap</th><th>Affected</th><th>Priority</th></tr><tr><td>Classroom assessment literacy</td><td>132 teachers</td><td><span class="chip warn">High</span></td></tr><tr><td>ICT integration (MATATAG)</td><td>98 teachers</td><td><span class="chip warn">High</span></td></tr></table></div></div></section>
+<section class="section" id="sec-ldprog"><div class="card"><div class="card-head"><h3>L&amp;D Programs and Interventions (HRDC)</h3><button class="btn btn-gold">+ New program</button></div><div class="card-body"><table class="table"><tr><th>Program</th><th>Date</th><th>Slots</th><th>Enrolled</th></tr><% for(const l of HRM.ldPrograms){ %><tr><td><%= l.prog %></td><td><%= l.date %></td><td><%= l.slots %></td><td><%= l.enrolled %></td></tr><% } %></table></div></div></section>
+<section class="section" id="sec-ldrec"><div class="card"><div class="card-head"><h3>L&amp;D Recipients</h3><button class="btn btn-ghost">Nominate participants</button></div><div class="card-body"><table class="table"><tr><th>Participant</th><th>Program</th><th>Status</th></tr><tr><td>J. Dela Cruz</td><td>TOT Classroom Assessment</td><td><span class="chip ok">Confirmed</span></td></tr><tr><td>L. Gonzales</td><td>MATATAG Batch 4</td><td><span class="chip">Nominated</span></td></tr></table></div></div></section>
+<section class="section" id="sec-awards"><div class="card"><div class="card-head"><h3>Awards and Incentives (PRAISE)</h3><button class="btn btn-gold">+ New award cycle</button></div><div class="card-body"><table class="table"><tr><th>Award</th><th>Cycle</th><th>Nominees</th></tr><% for(const a of HRM.awards){ %><tr><td><%= a.award %></td><td><%= a.cycle %></td><td><%= a.nominees %></td></tr><% } %></table></div></div></section>
+<section class="section" id="sec-nominees"><div class="card"><div class="card-head"><h3>Nominees and Awardees</h3><button class="btn btn-ghost">Record deliberation</button></div><div class="card-body"><table class="table"><tr><th>Nominee</th><th>Award</th><th>Status</th></tr><tr><td>Ana B. Reyes</td><td>Most Outstanding Teacher</td><td><span class="chip warn">Shortlisted</span></td></tr><tr><td>Mark D. Villanueva</td><td>Loyalty - 10 Years</td><td><span class="chip ok">Awardee</span></td></tr></table></div></div></section>
+<section class="section" id="sec-queries"><div class="card"><div class="card-head"><h3>Queries / Feedback (ARTA-monitored)</h3><button class="btn btn-gold">Reply</button></div><div class="card-body"><table class="table"><tr><th>Subject</th><th>From</th><th>Office</th><th>Status</th></tr><% for(const q of HRM.queries){ %><tr><td><%= q.s %></td><td><%= q.from %></td><td><%= q.off %></td><td><span class="chip"><%= q.st %></span></td></tr><% } %></table></div></div></section>
+<section class="section" id="sec-settings"><div class="card"><div class="card-head"><h3>Settings &mdash; Roles, Committees, Signing</h3></div><div class="card-body"><table class="table"><tr><th>Setting</th><th>Value</th><th></th></tr><tr><td>HRMPSB Chair</td><td>ASDS</td><td><a href="#">Manage</a></td></tr><tr><td>PMT Focal</td><td>Planning Officer</td><td><a href="#">Manage</a></td></tr><tr><td>L&amp;D Focal</td><td>SEPS-HRD</td><td><a href="#">Manage</a></td></tr><tr><td>R&amp;R Focal</td><td>EPS II-HRD</td><td><a href="#">Manage</a></td></tr><tr><td>Document signing</td><td>Password + PNPKI</td><td><a href="#">Configure</a></td></tr></table></div></div></section>
+</main>
+<div class="design-note">Design 3 of 3 &middot; Based on SSP3 (navy band + search + tab nav) &middot; <a href="/main/1">Design 1</a> &middot; <a href="/main/2">Design 2</a> &middot; <a href="/ssp/3">SSP</a></div>
+<footer class="foot">IHRMIS &middot; Schools Division of Sto. Tomas &middot; HRMO Console prototype with mock data &middot; No business logic yet</footer>
+<script>
+const groups={dashboard:[['dashboard','Dashboard']],personnel:[['personnel-list','List of Personnel'],['records','Personnel Records'],['payroll','Payroll Integration'],['workforce','Workforce Management'],['attendance','Attendance & Leave']],org:[['orgunits','Organizational Units'],['positions','Positions'],['plantilla','Plantilla Items']],requests:[['docreq','Documentary Requests'],['hrreq','HR Action Requests']],rsp:[['vac','Vacancies'],['rspcycles','RSP Cycles & Roles'],['applicants','Applicants'],['ier','Initial Evaluation'],['car','Comparative Assessment'],['appt','Appointment']],pm:[['ratees','Ratees'],['pmcycles','PM Cycles & Roles']],ld:[['ldneeds','L&D Needs'],['ldprog','Programs'],['ldrec','Recipients']],rr:[['awards','Awards & Incentives'],['nominees','Nominees & Awardees']],queries:[['queries','Queries/Feedback']],settings:[['settings','Settings']]};
+let curTop='dashboard';
+function renderSub(){const el=document.getElementById('subNav');el.innerHTML='';groups[curTop].forEach((s,i)=>{const b=document.createElement('button');b.textContent=s[1];b.dataset.sec='sec-'+s[0];if(i===0)b.classList.add('active');b.onclick=()=>{document.querySelectorAll('#subNav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');showSec(b.dataset.sec)};el.appendChild(b)});showSec('sec-'+groups[curTop][0][0])}
+function showSec(id){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0})}
+function go(top,sub){curTop=top;document.querySelectorAll('#mainNav button').forEach(b=>b.classList.toggle('active',b.dataset.top===top));renderSub();if(sub){const btn=[...document.querySelectorAll('#subNav button')].find(b=>b.dataset.sec==='sec-'+sub);if(btn)btn.click()}}
+document.querySelectorAll('#mainNav button').forEach(b=>b.onclick=()=>go(b.dataset.top));
+function filterTable(id,q){q=q.toLowerCase();document.querySelectorAll('#'+id+' tr').forEach((tr,i)=>{if(i===0)return;tr.style.display=tr.textContent.toLowerCase().includes(q)?'':'none'})}
+renderSub();
+</script>
+</body>
+</html>

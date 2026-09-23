@@ -77,6 +77,30 @@ export default class controller {
         });
 
 
+        const mainDesigns = [1, 2, 3];
+
+        const renderMain = (req, res) => {
+            res.render(`main1`, {});
+        };
+
+        const renderMainById = (req, res) => {
+            if (mainDesigns.includes(parseInt(req.params.id))) {
+                res.render(`main${req.params.id}`, {});
+            }
+            else {
+                res.status(404).render('error', { message: 'HRMO main page not found.', statusCode: 404, app_name: config.shortname });
+                return;
+            }
+        };
+
+        this.#router.get(`/main`, renderMain);
+        this.#router.get(`/main/:id`, renderMainById);
+
+        // Legacy alias - /dashboard still serves the main interface
+        this.#router.get(`/dashboard`, renderMain);
+        this.#router.get(`/dashboard/:id`, renderMainById);
+
+
         // TEMPORARY TEST ROUTES
         this.#router.get(`${config.basePath}/test`, (req, res) => {
             res.render('test', { testdata: req });
