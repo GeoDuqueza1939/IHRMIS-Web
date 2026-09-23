@@ -20,31 +20,31 @@ export default class controller {
         this.#router = express.Router();
 
         // define routes
-        this.#router.get('/', (req, res) => {
+        this.#router.get(config.basePath, (req, res) => {
             this.#logger.info(`${req.method} ${req.url}`);
             res.render('index', { name: '' });
         });
 
-        this.#router.get('/login', (req, res) => {
+        this.#router.get(`${config.basePath}/login`, (req, res) => {
             res.render('login1', { username: '', password: '' });
         });
 
-        this.#router.post('/login', (req, res) => {
+        this.#router.post(`${config.basePath}/login`, (req, res) => {
             res.render('login1', { username: req.body.username || '', password: req.body.password || '' });
         });
 
         const loginDesigns = [1, 2, 3, 4];
         // for (const design of loginDesigns) {
-        //     this.#router.get(`/login/${design}`, (req, res) => {
+        //     this.#router.get(`${config.baseURL}/login/${design}`, (req, res) => {
         //         res.render(`login${design}`, { username: '', password: '' });
         //     });
 
-        //     this.#router.post(`/login/${design}`, (req, res) => {
+        //     this.#router.post(`${config.baseURL}/login/${design}`, (req, res) => {
         //         res.render(`login${design}`, { username: req.body.username || '', password: req.body.password || '' });
         //     });
         // }
 
-        this.#router.get(`/login/:id`, (req, res) => {
+        this.#router.get(`${config.basePath}/login/:id`, (req, res) => {
             if (loginDesigns.includes(parseInt(req.params.id))) {
                 res.render(`login${req.params.id}`, { username: '', password: '' });
             }
@@ -54,7 +54,7 @@ export default class controller {
             }
         });
 
-        this.#router.post(`/login/:id`, (req, res) => {
+        this.#router.post(`${config.basePath}/login/:id`, (req, res) => {
             if (loginDesigns.includes(parseInt(req.params.id))) {
                 res.render(`login${req.params.id}`, { username: req.body.username || '', password: req.body.password || '' });
             }
@@ -66,7 +66,7 @@ export default class controller {
 
         const sspDesigns = [1, 2, 3];
 
-        this.#router.get(`/ssp/:id`, (req, res) => {
+        this.#router.get(`${config.basePath}/ssp/:id`, (req, res) => {
             if (sspDesigns.includes(parseInt(req.params.id))) {
                 res.render(`ssp${req.params.id}`, {});
             }
@@ -78,11 +78,11 @@ export default class controller {
 
 
         // TEMPORARY TEST ROUTES
-        this.#router.get('/test', (req, res) => {
+        this.#router.get(`${config.basePath}/test`, (req, res) => {
             res.render('test', { testdata: req });
         });
 
-        this.#router.post('/test', (req, res) => {
+        this.#router.post(`${config.basePath}/test`, (req, res) => {
             res.render('test', { testdata: req });
         });
 
