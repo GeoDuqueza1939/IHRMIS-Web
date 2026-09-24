@@ -32,6 +32,17 @@ const config = {
         zippedArchive: true,
         level: process.env.IHRMIS_LOG_LEVEL || 'info',
     },
+
+    mysql: {
+        host: process.env.IHRMIS_MYSQL_HOST || 'localhost',
+        port: Number(process.env.IHRMIS_MYSQL_PORT) || 3306,
+        user: process.env.IHRMIS_MYSQL_USER,
+        password: process.env.IHRMIS_MYSQL_PASSWORD,
+        database: process.env.IHRMIS_MYSQL_DATABASE || 'ihrmis',
+        waitForConnections: true,
+        connectionLimit: Number(process.env.IHRMIS_MYSQL_CONNECTION_LIMIT) || 10,
+        queueLimit: 0,
+    },
 };
 
 export default config;

@@ -7,6 +7,7 @@ import config from './config.mjs';
 import server from './server.mjs';
 import lifecycle from './lifecycle.mjs';
 import controller from './controller.mjs';
+import database from './database.mjs';
 
 const __dirname = config.rootDir;
 
@@ -21,6 +22,7 @@ export default class ihrmis_app {
     #server = null;
     #lifecycle = null;
     #controller = null;
+    #database = null;
     #ready = false;
 
     // Constructor
@@ -39,8 +41,10 @@ export default class ihrmis_app {
 
         this.#lifecycle = new lifecycle({
             logger: this.#logger,
-            closeAll: () => this.#server?.closeAll()
+            closeAll: () => this.#closeResources()
         });
+
+        this.#database = new database({ logger: this.#logger });
 
         try {
             this.#server = new server({ logger: this.#logger, app: this.#app });
@@ -66,6 +70,11 @@ export default class ihrmis_app {
         this.#lifecycle.startRepl();
         this.#server.start();
         this.#logger.info('Server is running.');
+        this.#database?.checkConnection();
+    }
+
+    getDatabase(app) {
+        return (app.app_name === config.shortname ? this.#database : null);
     }
 
     getLogger(app) {
@@ -74,5 +83,19 @@ export default class ihrmis_app {
     
     getController(app) {
         return (app.app_name === config.shortname ? this.#controller : null);
+    }
+
+    // Private methods
+    #closeResources() {
+        const closing = [];
+
+        if (this.#server) {
+            closing.push(this.#server.closeAll());
+        }
+        if (this.#database) {
+            closing.push(this.#database.close());
+        }
+
+        return Promise.all(closing);
     }
 }
