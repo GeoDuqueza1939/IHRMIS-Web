@@ -25,10 +25,18 @@ export default class controller {
             res.render('index', { baseDir: config.baseDir, name: '' });
         });
 
+        // this.#setupJanusRoutes();
+        // this.#setupSSPRoutes();
+        // this.#setupMainRoutes();
+        // this.#setupEmreRoutes(); // employee record views for iframes
+
+        // TEMP ROUTES
+        this.#setupTestRoutes();
+        // TEMP ROUTES
+
+        // use defined routes
         this.#app.use(this.#router);
         
-        this.#setupTestRoutes();
-
         // 404 handler
         this.#app.use((req, res) => {
             const friendlyErrorMessage = 'The page you are looking for could not be found.';
@@ -44,6 +52,27 @@ export default class controller {
             this.#showErrorPage(err, friendlyErrorMessage, errorMessage, res, statusCode);
         });
     }
+
+    // #setupJanusRoutes() {
+    //     const urls = {
+    //         janus: `${config.baseDir}/janus`,
+    //         login: `${config.baseDir}/janus/login`,
+    //     };
+
+    //     const renderLogin = (req, res) => {
+    //         this.#logger.info("Loading login page...");
+    //         res.render('login3', { baseDir: config.baseDir, username: req.body?.username, password: req.body?.password, });
+    //     };
+
+    //     this.#router.get(urls.login, renderLogin);
+    //     this.#router.post(urls.login, renderLogin);
+    // }
+
+    // #setupSSPRoutes() {
+    //     const urls = {
+    //         ssp: `${config.baseDir}/aurora`,
+    //     };
+    // }
 
     // TEMPORARY TEST ROUTES : BEGIN
     #setupTestRoutes() {
@@ -72,7 +101,7 @@ export default class controller {
         this.#router.get(urlSample.login, this.#sampleLayoutViewer("Login", loginDesigns, urlSample.login));
 
         // SSP sample layouts
-        const sspDesigns = [1, 2, 3];
+        const sspDesigns = [1, 2, 3, 4];
 
         const renderSSP = (req, res) => {
             if (sspDesigns.includes(parseInt(req.params.id))) {
@@ -124,5 +153,11 @@ export default class controller {
         return (req, res) => {
             res.render('testsample', { sampleLayoutName, sampleLayoutIds, url });
         };
+    }
+
+    addCustomRoute(method, url, renderFunc) {
+        if (method !== '' && method != null && ['get', 'post', 'push', 'patch', 'delete'].contains(method)) {
+            this.#router[method](url, renderFunc);
+        }
     }
 }

@@ -1,0 +1,1116 @@
+<% const __def = {
+  auth: {
+    signedIn: true,
+    provider: 'Janus',
+    grant: 'OAuth 2.0  (Authorization Code + PKCE)',
+    issuer: 'https://janus.deped.gov.ph/oidc',
+    audience: 'ihrmis-ssp',
+    issued: 'September 20, 2026',
+    expires: 'December 20, 2026',
+    sessionId: '71f8c3a6-3d50-4c85-b9ca-0b9c0e06e6fb',
+    token: 'eyJhbGciOiJSUzI1NiIsImtpZCI6ImphbnVzLW9pZGMtMjAyNiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2phbnVzLmRlcGVkLmdvdi5waC9vaWRjIiwic3ViIjoiaHJtbS0yMDI2LTAwNDIxIiwiZW1haWwiOiJqdWFuLmRlbGFjcnV6QGRlcGVkLmdvdi5waCIsIm5hbWUiOiJKdWFuIEEuIERlbGEgQ3J1eiIsImVtcGxveWVlX25vIjoiMjAyMy0wMDQyMSIsInJvbGVzIjpbImVtcGxveWVlIl0sImF1ZCI6Imlocm1pcy1zc3AiLCJpYXQiOjE3Njg5NDg4MDAsImV4cCI6MTc3NTk1OTIwMH0.SAMPLE_SIGNATURE_v42',
+  },
+  employee: {
+    name: 'Juan A. Dela Cruz',
+    initial: 'JD',
+    position: 'Teacher II',
+    office: 'Sto. Tomas North Elementary School',
+    employeeNo: '2023-00421',
+    email: 'juan.delacruz@deped.gov.ph',
+    contact: '0917 555 1284',
+    status: 'Permanent',
+    birthday: 'March 14, 1989',
+    sex: 'Female',
+    civilStatus: 'Married',
+    bloodType: 'O+',
+    prc: 'PRC 0034456 (valid 2027)',
+    gsis: 'GSIS-102-3349',
+    pagibig: '1212-3345-6789',
+    philhealth: '01-220134-889-1',
+    tin: '462-904-118',
+    serviceYears: 10,
+    dateAppointed: 'June 2, 2016',
+  },
+  professional: {
+    current: { title: 'Teacher II', office: 'Sto. Tomas North Elementary School', status: 'Active', tenure: 'May 1, 2024 - present' },
+    designations: [
+      { role: 'Class Adviser - Grade 5 Mapagmahal', period: 'SY 2025-2026' },
+      { role: 'School Focal, Gulayan sa Paaralan', period: 'SY 2024-2026' }
+    ],
+    education: [
+      { degree: 'Master of Arts in Education (in progress)', school: 'Batangas State University', year: '2022 - present' },
+      { degree: 'Bachelor of Secondary Education', school: 'Batangas State University', year: '2007 - 2011' }
+    ],
+    work: [
+      { title: 'Teacher II', office: 'Sto. Tomas North Elem. School', year: '2024 - present' },
+      { title: 'Teacher I', office: 'Sto. Tomas North Elem. School', year: '2016 - 2024' },
+      { title: 'Guidance Assistant (JO)', office: 'SDO Sto. Tomas', year: '2014 - 2016' }
+    ],
+    trainings: [
+      { title: 'Division Training on Classroom Assessment', provider: 'SDO Sto. Tomas', year: '2024' },
+      { title: '2-Day Orientation on the MATATAG Curriculum', provider: 'SDO Sto. Tomas', year: '2023' }
+    ]
+  },
+  records201: [
+    { name: 'Appointment - Teacher II', meta: '2024' },
+    { name: 'Appointment - Teacher I', meta: '2016' },
+    { name: 'Diploma - Bachelor of Secondary Education', meta: '2011' },
+    { name: 'Service Record', meta: 'Updated 2026' },
+    { name: 'Certificate of Training - MATATAG', meta: '2023' },
+    { name: 'PRC License', meta: 'Valid 2027' }
+  ],
+  serviceRecord: [
+    { from: 'Jun 2, 2016', to: 'Apr 30, 2024', position: 'Teacher I', office: 'Sto. Tomas North Elem. School', sep: 'Promotion' },
+    { from: 'May 1, 2024', to: 'present', position: 'Teacher II', office: 'Sto. Tomas North Elem. School', sep: '' }
+  ],
+  announcements: [
+    { type: 'Job Posting', title: 'Hiring for SY 2026-2027: Teacher I and Teacher II positions', date: 'Sep 22, 2026', excerpt: 'Schools with plantilla vacancies across the division may now accept applications until the posting deadline.' },
+    { type: 'Activity', title: 'Division Teachers Day & Outstanding Personnel Awarding', date: 'Oct 12, 2026', excerpt: 'Annual celebration honoring teaching and non-teaching personnel. Program and venue to be announced.' },
+    { type: 'Issuance', title: 'Memorandum on the 2026 RPMS Portfolio Submission', date: 'Sep 8, 2026', excerpt: 'Schedule, offline checklist, and submission workflow for the Results-based Performance Management System.' },
+    { type: 'Policy', title: 'Guidelines on Flexible Work Arrangements (DepEd Order 33, s. 2026)', date: 'Sep 2, 2026', excerpt: 'Policy on telecommuting and compressed workweeks for eligible administrative personnel.' },
+    { type: 'Advisory', title: 'Schedule of School-Based Training on MATATAG Curriculum', date: 'Aug 28, 2026', excerpt: 'Training calendar for the four-day school-based orientation beginning October 2026.' },
+    { type: 'Job Posting', title: 'Administrative Assistant III (Records Unit)', date: 'Aug 20, 2026', excerpt: 'One vacancy under the Records Unit, Human Resource Management Office.' }
+  ],
+  vacancies: [
+    { title: 'Teacher III', office: 'Sto. Tomas North Elementary School', quals: 'BSEd/BEEd with 18 units in major; 2 years teaching experience; LET passer', deadline: 'Oct 15, 2026', recommended: true },
+    { title: 'Guidance Associate (Contract of Service)', office: 'SDO Sto. Tomas - School Governance & Operations Division', quals: 'BSEd in Guidance or related; trained in child protection; 1 year relevant experience', deadline: 'Oct 5, 2026', recommended: true },
+    { title: 'Teacher I (Multiple stations)', office: 'School-based, SDO Sto. Tomas', quals: 'BEEd/BSEd; LET passer; no teaching experience required', deadline: 'Nov 5, 2026', recommended: false },
+    { title: 'Administrative Assistant II', office: 'SDO Sto. Tomas - Administrative Division', quals: 'Bachelor degree; 1 year relevant experience; 4 hours relevant training', deadline: 'Sep 30, 2026', recommended: false },
+    { title: 'Administrative Assistant III (Records)', office: 'Records Unit, HRMO', quals: 'Bachelor degree; 2 years relevant experience; 8 hours relevant training', deadline: 'Sep 28, 2026', recommended: false }
+  ],
+  tasks: [
+    { title: 'Submit RPMS portfolio for evaluation', due: 'Sep 25, 2026', done: false },
+    { title: 'Encode grades - Grade 5 Mapagmahal', due: 'Sep 28, 2026', done: true }
+  ],
+  assignedTasks: [
+    { title: 'Submit updated PDS (CS Form 212) to the Records Unit', from: 'Records Unit', due: 'Sep 30, 2026', done: false },
+    { title: 'Complete the 2026 RPMS Portfolio per Meg. of the HRMO', from: 'HRMO', due: 'Oct 10, 2026', done: false },
+    { title: 'Acknowledge Appointment Order for Teacher II promotion', from: 'HRMO', due: 'Sep 18, 2026', done: true }
+  ],
+  docRequests: [
+    { name: 'Certificate of Employment', desc: 'Verified proof of government employment for banks or other offices' },
+    { name: 'Service Record', desc: 'Official chronological record of your service in the government' },
+    { name: 'Certificate of Leave Balances', desc: 'Summary of accrued vacation and sick leave credits' },
+    { name: 'Certificate of No Pending Administrative Case', desc: 'Cleared of any pending administrative case' }
+  ],
+  otherRequests: [
+    { name: 'Apply for Leave', desc: 'File vacation, sick, or special privilege leave online' },
+    { name: 'Travel Authority / Certificate of Appearance', desc: 'File travel authority or certificate of appearance requests' },
+    { name: 'Enroll in Learning & Development', desc: 'Register for division and national trainings and programs' },
+    { name: 'Update Personal Data', desc: 'File corrections to personal information for HRMO approval' }
+  ],
+  feedbackTypes: ['Suggestion', 'Compliment', 'Complaint', 'Inquiry'],
+  offices: ['HRMO - Records Unit', 'School Governance & Operations Division', 'Curriculum & Learning Management Division', 'Administrative Division', 'Schools Division Superintendent\'s Office'],
+  feedbackHistory: [
+    { type: 'Inquiry', subject: 'Leave balance computation for Q3', office: 'HRMO - Records Unit', date: 'Sep 12, 2026', status: 'Replied' },
+    { type: 'Suggestion', subject: 'Faster 201-file request turnaround', office: 'HRMO - Records Unit', date: 'Aug 22, 2026', status: 'Received' }
+  ]
+};
+const SSP = Object.assign({}, __def, locals); %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="<%= baseDir %>">
+  <title>IHRMIS | Self-Service Portal</title>
+  <style>
+    :root {
+      --navy: #153e6f;
+      --navy-soft: #eef3fa;
+      --ink: #232b36;
+      --muted: #67748a;
+      --line: #e6eaf1;
+      --line-soft: #f1f3f7;
+      --bg: #f7f8fb;
+      --gold: #e9a01f;
+      --gold-soft: #fdf3dd;
+      --ok: #1f7a4d;
+      --ok-soft: #e9f4ee;
+      --info: #2f6db0;
+      --info-soft: #eaf2fb;
+      --warn: #a06a13;
+      --warn-soft: #fdf4dc;
+      --danger: #b4473a;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      min-height: 100vh;
+    }
+    a { color: var(--navy); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    button { font-family: inherit; cursor: pointer; }
+    input, select, textarea { font-family: inherit; }
+
+    .topbar {
+      position: sticky; top: 0; z-index: 40;
+      background: #fff; border-bottom: 1px solid var(--line);
+    }
+    .bar1 {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 0.7rem clamp(1rem, 4vw, 2rem); flex-wrap: wrap;
+    }
+    .brand { display: flex; align-items: center; gap: 0.6rem; }
+    .brand img { width: 34px; height: 34px; object-fit: contain; border-radius: 50%; background: #fff; padding: 1px; }
+    .brand .wordmark { font-weight: 700; letter-spacing: 0.05em; color: var(--navy); font-size: 1rem; }
+    .brand .divider { color: var(--line); }
+    .brand .portal { font-size: 0.78rem; color: var(--muted); }
+    @media (max-width: 720px) { .brand .portal { display: none; } }
+
+    .mainnav {
+      position: relative; display: flex; align-items: center; gap: 0.2rem;
+      flex: 1; justify-content: center; min-width: 0;
+      overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    }
+    .mainnav::-webkit-scrollbar { display: none; }
+    .mainnav button, .mainnav a.item {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.38rem 0.7rem; border-radius: 999px; border: none;
+      background: transparent; color: var(--ink); font-size: 0.83rem; font-weight: 600;
+      white-space: nowrap; transition: background 0.15s ease, color 0.15s ease;
+    }
+    .mainnav button:hover, .mainnav a.item:hover { background: var(--navy-soft); color: var(--navy); text-decoration: none; }
+    .mainnav button.active, .mainnav a.item.active { background: var(--navy); color: #fff; }
+    .mainnav a.item.signin { background: var(--navy); color: #fff; }
+    .mainnav a.item.signin:hover { background: #12355f; }
+
+    @media (max-width: 900px) {
+      .mainnav { order: 3; flex-basis: 100%; justify-content: flex-start; }
+    }
+    .mainnav { position: relative; }
+    .mainnav::before, .mainnav::after { content: ""; position: absolute; top: 0; bottom: 0; width: 30px; z-index: 2; opacity: 0; transition: opacity 0.2s ease; pointer-events: none; }
+    .mainnav::before { left: 0; background: linear-gradient(90deg, #fff, rgba(255,255,255,0)); }
+    .mainnav::after { right: 0; background: linear-gradient(270deg, #fff, rgba(255,255,255,0)); }
+    .mainnav.has-overflow:not(.at-end)::after, .mainnav.scrolled::before { opacity: 1; }
+    .n-scroll {
+      position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
+      width: 26px; height: 26px; display: none; align-items: center; justify-content: center;
+      border-radius: 50%; border: 1px solid var(--line); background: #fff;
+      color: var(--navy); box-shadow: 0 2px 8px rgba(16, 24, 40, 0.12);
+    }
+    .n-scroll.show { display: flex; }
+    .n-left { left: 2px; }
+    .n-right { right: 2px; }
+
+    .actions { display: flex; align-items: center; gap: 0.6rem; }
+    .demo { display: inline-flex; align-items: center; gap: 2px; background: var(--line-soft); border: 1px solid var(--line); border-radius: 999px; padding: 2px; }
+    .demo span { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; color: var(--muted); padding: 0 0.35rem; }
+    .demo button { border: none; background: transparent; padding: 0.26rem 0.5rem; border-radius: 999px; font-size: 0.7rem; font-weight: 700; color: var(--muted); transition: all 0.15s ease; }
+    .demo button.active { background: #fff; color: var(--navy); box-shadow: 0 1px 2px rgba(16,24,40,0.12); }
+
+    .userpill { display: flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0.55rem 0.25rem 0.3rem; border: 1px solid var(--line); border-radius: 999px; background: #fff; position: relative; }
+    .userpill .avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--navy); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; }
+    .userpill .meta b { display: block; font-size: 0.78rem; color: var(--ink); line-height: 1.1; }
+    .userpill .meta span { font-size: 0.68rem; color: var(--muted); }
+    .userpill svg { color: var(--muted); }
+    @media (max-width: 560px) { .userpill .meta { display: none; } }
+    .dropdown {
+      position: absolute; right: 0; top: calc(100% + 8px); min-width: 230px;
+      background: #fff; border: 1px solid var(--line); border-radius: 10px;
+      box-shadow: 0 16px 36px rgba(16,24,40,0.16); padding: 0.4rem; display: none; z-index: 60;
+    }
+    .dropdown.open { display: block; animation: pop 0.15s ease; }
+    .dropdown a { display: flex; align-items: center; gap: 0.55rem; padding: 0.55rem 0.7rem; border-radius: 8px; color: var(--ink); font-size: 0.84rem; }
+    .dropdown a:hover { background: var(--line-soft); text-decoration: none; }
+    .dropdown a.signout { color: var(--danger); }
+    @keyframes pop { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 1.5rem clamp(1rem, 4vw, 2rem) 3rem; }
+    .section { display: none; }
+    .section.active { display: block; animation: fade 0.18s ease; }
+    @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+    .sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 0.75rem; margin: 0 0 0.85rem; flex-wrap: wrap; }
+    .sec-head .eyebrow { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+    .sec-head h2 { font-size: 1.25rem; color: var(--navy); }
+    .sec-head p { font-size: 0.82rem; color: var(--muted); margin-top: 0.1rem; }
+
+    .card { border: 1px solid var(--line); border-radius: 12px; background: #fff; padding: 1.05rem 1.15rem; }
+    .card + .card { margin-top: 1rem; }
+    .card .title { font-size: 0.92rem; color: var(--navy); margin-bottom: 0.75rem; display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      padding: 0.5rem 0.95rem; border-radius: 8px; border: 1px solid transparent;
+      font-size: 0.84rem; font-weight: 600; transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease, background 0.15s ease;
+    }
+    .btn:hover { text-decoration: none; transform: translateY(-1px); }
+    .btn-primary { background: var(--navy); color: #fff; }
+    .btn-primary:hover { background: #12355f; }
+    .btn-ghost { background: #fff; border-color: var(--line); color: var(--ink); }
+    .btn-ghost:hover { border-color: var(--navy); color: var(--navy); }
+    .btn-gold { background: var(--gold); color: #fff; }
+    .btn-gold:hover { background: #d9901a; }
+    .link-btn { background: none; border: none; color: var(--navy); font-size: 0.82rem; font-weight: 600; padding: 0; }
+    .link-btn:hover { text-decoration: underline; }
+
+    .chip { display: inline-block; padding: 0.2rem 0.55rem; border-radius: 999px; font-size: 0.68rem; font-weight: 700; white-space: nowrap; }
+    .chip.job { background: var(--ok-soft); color: var(--ok); }
+    .chip.activity { background: var(--info-soft); color: var(--info); }
+    .chip.policy { background: var(--navy-soft); color: var(--navy); }
+    .chip.issuance { background: var(--warn-soft); color: var(--warn); }
+    .chip.advisory { background: var(--line-soft); color: var(--muted); }
+    .chip.replied, .chip.done { background: var(--ok-soft); color: var(--ok); }
+    .chip.received, .chip.pending { background: var(--warn-soft); color: var(--warn); }
+    .chip.ro { background: var(--line-soft); color: var(--muted); }
+
+    .home-hero { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding: 1.3rem 1.4rem; border: 1px solid var(--line); border-radius: 12px; background: linear-gradient(180deg, #fff, #fbfcfe); }
+    .home-hero h1 { font-size: 1.4rem; color: var(--navy); }
+    .home-hero .sub { color: var(--muted); font-size: 0.9rem; margin-top: 0.3rem; }
+    .home-hero .session { margin-top: 0.7rem; font-size: 0.72rem; color: var(--muted); display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
+    .statstrip { display: flex; gap: 2rem; border-top: 1px solid var(--line-soft); margin-top: 1rem; padding-top: 1rem; flex-wrap: wrap; }
+    .stat .val { font-size: 1.1rem; font-weight: 700; color: var(--navy); }
+    .stat .lbl { font-size: 0.74rem; color: var(--muted); }
+
+    .quick-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem; }
+    .quick {
+      border: 1px solid var(--line); border-radius: 10px; background: #fff;
+      padding: 0.85rem 1rem; text-align: left; transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+    .quick:hover { border-color: var(--navy); transform: translateY(-2px); }
+    .quick b { font-size: 0.88rem; color: var(--ink); display: block; }
+    .quick span { font-size: 0.74rem; color: var(--muted); margin-top: 0.15rem; display: block; }
+
+    .introbanner { padding: 1.4rem 1.5rem; border: 1px solid var(--line); border-radius: 12px; background: #fff; margin-bottom: 1.25rem; }
+    .introbanner h1 { font-size: 1.35rem; color: var(--navy); }
+    .introbanner p { font-size: 0.9rem; color: var(--muted); margin-top: 0.3rem; max-width: 62ch; }
+
+    .ann { border: 1px solid var(--line); border-radius: 10px; background: #fff; padding: 0.9rem 1.05rem; margin-bottom: 0.75rem; }
+    .ann .head { display: flex; align-items: center; gap: 0.55rem; flex-wrap: wrap; }
+    .ann .head .date { margin-left: auto; font-size: 0.74rem; color: var(--muted); }
+    .ann h3 { font-size: 0.98rem; color: var(--ink); margin-top: 0.35rem; font-weight: 650; }
+    .ann p { font-size: 0.83rem; color: var(--muted); margin-top: 0.3rem; line-height: 1.5; }
+    .ann .foot { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.55rem; }
+    .ann .foot a { font-size: 0.8rem; font-weight: 600; }
+
+    .vac { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; border: 1px solid var(--line); border-radius: 10px; background: #fff; padding: 1rem 1.1rem; margin-bottom: 0.75rem; }
+    .vac.recommended { border-left: 3px solid var(--gold); }
+    .vac .vinfo { flex: 1; min-width: 0; }
+    .vac .vinfo b { font-size: 0.98rem; color: var(--ink); display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .vac .vinfo .office { font-size: 0.8rem; color: var(--navy); margin-top: 0.15rem; }
+    .vac .vinfo .qual { font-size: 0.8rem; color: var(--muted); margin-top: 0.3rem; }
+    .vac .vmeta { font-size: 0.72rem; color: var(--muted); text-align: right; flex: none; }
+    .vac .vmeta .btn { margin-top: 0.45rem; }
+    @media (max-width: 560px) { .vac { flex-direction: column; } .vac .vmeta { text-align: left; } }
+
+    .note { font-size: 0.78rem; color: var(--muted); margin-top: 0.9rem; }
+
+    .tabs { display: flex; gap: 0.3rem; border-bottom: 1px solid var(--line); margin-bottom: 1.05rem; overflow-x: auto; scrollbar-width: none; }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tabs button { border: none; background: none; padding: 0.55rem 0.9rem; font-size: 0.86rem; font-weight: 600; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+    .tabs button:hover { color: var(--navy); }
+    .tabs button.active { color: var(--navy); border-bottom-color: var(--navy); }
+    .pane { display: none; }
+    .pane.active { display: block; animation: fade 0.18s ease; }
+
+    .kv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.85rem 1.1rem; }
+    .kv .k { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+    .kv .v { font-size: 0.9rem; font-weight: 600; color: var(--ink); margin-top: 0.12rem; }
+
+    .entries .ent { display: flex; gap: 0.85rem; padding: 0.65rem 0; border-bottom: 1px dashed var(--line-soft); }
+    .entries .ent:last-child { border-bottom: none; }
+    .entries .ent .yr { flex: none; width: 130px; font-size: 0.78rem; color: var(--muted); padding-top: 0.1rem; }
+    .entries .ent b { font-size: 0.88rem; display: block; }
+    .entries .ent p { font-size: 0.82rem; color: var(--muted); margin-top: 0.12rem; }
+    @media (max-width: 600px) { .entries .ent { flex-wrap: wrap; gap: 0.3rem; } .entries .ent .yr { width: auto; } }
+
+    .recrow { display: flex; align-items: center; gap: 0.7rem; padding: 0.6rem 0.15rem; border-bottom: 1px solid var(--line-soft); }
+    .recrow:last-child { border-bottom: none; }
+    .recrow .name { flex: 1; min-width: 0; }
+    .recrow .name b { font-size: 0.88rem; color: var(--ink); display: block; }
+    .recrow .name span { font-size: 0.74rem; color: var(--muted); }
+    .recrow button { border: none; background: var(--line-soft); color: var(--navy); border-radius: 7px; padding: 0.35rem 0.7rem; font-size: 0.76rem; font-weight: 600; }
+
+    .table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .table th, .table td { text-align: left; padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--line-soft); }
+    .table th { color: var(--muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .table tr:last-child td { border-bottom: none; }
+
+    .svc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; }
+    .svc { border: 1px solid var(--line); border-radius: 10px; background: #fff; padding: 1rem 1.1rem; }
+    .svc h4 { font-size: 0.92rem; color: var(--ink); }
+    .svc .desc { font-size: 0.79rem; color: var(--muted); margin-top: 0.2rem; }
+    .svc ul { list-style: none; margin: 0.6rem 0 0; }
+    .svc li { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; padding: 0.35rem 0; border-bottom: 1px dashed var(--line-soft); font-size: 0.83rem; }
+    .svc li:last-child { border-bottom: none; }
+    .svc li .ldesc { color: var(--muted); font-size: 0.72rem; }
+
+    .field label { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 0.3rem; }
+    .field input, .field select, .field textarea {
+      width: 100%; padding: 0.55rem 0.7rem; font-size: 0.85rem; color: var(--ink);
+      background: #fafbfd; border: 1px solid var(--line); border-radius: 8px; outline: none; transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--navy); background: #fff; }
+    .field textarea { min-height: 90px; resize: vertical; line-height: 1.45; }
+
+    .trow { display: flex; align-items: center; gap: 0.8rem; padding: 0.6rem 0.15rem; border-bottom: 1px solid var(--line-soft); }
+    .trow:last-child { border-bottom: none; }
+    .trow input[type="checkbox"] { width: 17px; height: 17px; accent-color: var(--navy); cursor: pointer; flex: none; }
+    .trow .tinfo { flex: 1; min-width: 0; }
+    .trow .ttitle { font-size: 0.88rem; color: var(--ink); display: block; }
+    .trow .tdue { font-size: 0.73rem; color: var(--muted); margin-top: 0.12rem; }
+    .trow.done .ttitle { text-decoration: line-through; color: var(--muted); }
+    .trow .tdel { border: none; background: none; color: #b9c4d3; width: 28px; height: 28px; border-radius: 50%; font-size: 1.1rem; line-height: 1; flex: none; }
+    .trow .tdel:hover { background: #fbecec; color: var(--danger); }
+    .trow.ro .lock { flex: none; width: 17px; text-align: center; color: var(--muted); display: inline-block; }
+    .pills { display: flex; gap: 0.35rem; }
+    .pill { padding: 0.35rem 0.85rem; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--muted); font-size: 0.78rem; font-weight: 600; }
+    .pill.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+    .pill:hover { border-color: var(--navy); color: var(--navy); }
+    .empty { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 1.2rem 0; }
+
+    .fb-item { padding: 0.65rem 0; border-bottom: 1px solid var(--line-soft); }
+    .fb-item:last-child { border-bottom: none; }
+    .fb-item .head { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .fb-item .head .date { margin-left: auto; font-size: 0.72rem; color: var(--muted); }
+    .fb-item b { font-size: 0.88rem; color: var(--ink); display: block; margin-top: 0.2rem; }
+    .fb-item p { font-size: 0.76rem; color: var(--muted); margin-top: 0.1rem; }
+
+    .toast {
+      position: fixed; bottom: 1.3rem; left: 50%; transform: translateX(-50%); z-index: 300;
+      background: var(--navy); color: #fff; padding: 0.72rem 1.1rem; border-radius: 9px;
+      font-size: 0.84rem; box-shadow: 0 12px 30px rgba(16,24,40,0.28); display: none;
+    }
+    .toast.show { display: block; animation: pop 0.18s ease; }
+
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(21, 35, 52, 0.45); z-index: 200; display: none; align-items: flex-start; justify-content: center; padding: 2rem 1rem; overflow-y: auto; }
+    .modal-backdrop.open { display: flex; }
+    .modal { background: #fff; border-radius: 12px; width: min(520px, 100%); box-shadow: 0 24px 60px rgba(16,24,40,0.3); animation: pop 0.16s ease; }
+    .modal .mhead { display: flex; align-items: center; justify-content: space-between; padding: 0.9rem 1.15rem; border-bottom: 1px solid var(--line); }
+    .modal .mhead h3 { font-size: 1rem; color: var(--navy); }
+    .modal .mclose { border: none; background: var(--line-soft); border-radius: 50%; width: 28px; height: 28px; color: var(--muted); font-size: 0.95rem; }
+    .modal .mbody { padding: 1.15rem; }
+    .modal .mfoot { display: flex; justify-content: flex-end; gap: 0.55rem; padding: 0.9rem 1.15rem; border-top: 1px solid var(--line); }
+
+    .foot { text-align: center; padding: 1.2rem; font-size: 0.75rem; color: var(--muted); border-top: 1px solid var(--line); background: #fff; }
+    .foot a { margin: 0 0.4rem; }
+
+    body[data-mode="signed"] .guest-only { display: none !important; }
+    body[data-mode="guest"] .signed-only { display: none !important; }
+
+    @media (max-width: 560px) {
+      .statstrip { gap: 1.1rem; }
+      .home-hero { padding: 1.1rem 1.05rem; }
+      .card { padding: 0.9rem 1rem; }
+    }
+  </style>
+</head>
+<body data-mode="<%= SSP.auth.signedIn ? 'signed' : 'guest' %>">
+  <header class="topbar">
+    <div class="bar1">
+      <div class="brand">
+        <img src="/images/logo-depedstotomas.webp" alt="DepEd Sto. Tomas logo" />
+        <span class="wordmark">IHRMIS</span>
+        <span class="divider">|</span>
+        <span class="portal">Self-Service Portal</span>
+      </div>
+
+      <nav class="mainnav signed-only" id="navSigned" data-mode-nav="signed" aria-label="Primary navigation">
+        <button class="active" data-section="home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Home</button>
+        <button data-section="profile"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Profile</button>
+        <button data-section="career"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"></path><path d="M12 5c2.5 0 5 2.5 5 6v8H7v-8c0-3.5 2.5-6 5-6z"></path><path d="M16 21a2 2 0 0 0 2-2"></path></svg> Career</button>
+        <button data-section="announcements"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="14" y2="18"></line></svg> Announcements</button>
+        <button data-section="tasks"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg> Tasks</button>
+        <button data-section="services"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> Services</button>
+      </nav>
+
+      <nav class="mainnav guest-only" id="navGuest" data-mode-nav="guest" aria-label="Public navigation">
+        <button class="active" data-section="g-announcements"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="14" y2="18"></line></svg> Announcements</button>
+        <button data-section="g-career"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"></path><path d="M12 5c2.5 0 5 2.5 5 6v8H7v-8c0-3.5 2.5-6 5-6z"></path></svg> Career</button>
+        <a class="item signin" href="/janus/login"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg> Sign in / Sign up</a>
+      </nav>
+
+      <div class="actions">
+        <div class="userpill signed-only" id="userPill" role="button" tabindex="0" aria-haspopup="true">
+          <span class="avatar"><%= SSP.employee.initial %></span>
+          <span class="meta">
+            <b><%= SSP.employee.name %></b>
+            <span><%= SSP.employee.position %></span>
+          </span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          <div class="dropdown" id="userDropdown">
+            <a href="#" data-goto="profile"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> My Profile</a>
+            <a href="#" data-signout><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Sign out</a>
+          </div>
+        </div>
+        <div class="demo" title="Sample preview toggle">
+          <span>DEMO</span>
+          <button id="guestBtn" data-mode-target="guest">Signed out</button>
+          <button id="signedBtn" class="active" data-mode-target="signed">Signed in</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="section guest-only active" id="g-announcements">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Stay informed</div>
+          <h2>Announcements</h2>
+          <p>Job postings, upcoming activities, and HR-related policies and issuances</p>
+        </div>
+      </div>
+      <% for (const a of SSP.announcements) { %>
+      <div class="ann">
+        <div class="head">
+          <span class="chip <%= a.type.toLowerCase().replace(' ', '-') %>"><%= a.type %></span>
+          <span class="date"><%= a.date %></span>
+        </div>
+        <h3><%= a.title %></h3>
+        <p><%= a.excerpt %></p>
+        <div class="foot"><a href="#">Read more</a></div>
+      </div>
+      <% } %>
+    </section>
+
+    <section class="section guest-only" id="g-career">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Career opportunities</div>
+          <h2>Vacancies</h2>
+          <p>Current job openings in the Schools Division of Sto. Tomas</p>
+        </div>
+      </div>
+      <% for (const v of SSP.vacancies) { %>
+      <div class="vac">
+        <div class="vinfo">
+          <b><%= v.title %></b>
+          <div class="office"><%= v.office %></div>
+          <div class="qual"><%= v.quals %></div>
+        </div>
+        <div class="vmeta">
+          Open until <b><%= v.deadline %></b><br />
+          <a class="btn btn-primary" href="/janus/login">Apply to this position</a>
+        </div>
+      </div>
+      <% } %>
+      <p class="note"><a href="/janus/login">Sign in</a> to check your qualification match and submit an application.</p>
+    </section>
+
+    <section class="section signed-only active" id="home">
+      <div class="home-hero">
+        <div>
+          <h1>Welcome back, <%= SSP.employee.name %>.</h1>
+          <div class="sub"><%= SSP.employee.position %> &middot; <%= SSP.employee.office %></div>
+          <div class="session">
+            <span class="chip ro">Active session</span>
+            <span>Signed in via <%= SSP.auth.provider %> (<%= SSP.auth.grant %>) &middot; token issued <%= SSP.auth.issued %> &middot; expires <%= SSP.auth.expires %></span>
+          </div>
+        </div>
+        <div class="statstrip">
+          <div class="stat"><div class="val">18 days</div><div class="lbl">Leave balance (VL 8 &middot; SL 10)</div></div>
+          <div class="stat"><div class="val">3</div><div class="lbl">Pending tasks</div></div>
+          <div class="stat"><div class="val">2</div><div class="lbl">Recommended vacancies</div></div>
+          <div class="stat"><div class="val">1</div><div class="lbl">New announcements</div></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:1.1rem;">
+        <div class="title">Shortcuts</div>
+        <div class="quick-grid">
+          <button class="quick" data-goto="profile"><b>My Profile</b><span>Personal, professional, records</span></button>
+          <button class="quick" data-goto="career"><b>Career</b><span>Position &amp; current vacancies</span></button>
+          <button class="quick" data-goto="tasks"><b>My Tasks</b><span>Checklist and assigned items</span></button>
+          <button class="quick" data-goto="services"><b>Services</b><span>Requests and feedback</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section signed-only" id="profile">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">About you</div>
+          <h2>Profile</h2>
+          <p>Personal and professional data integrated with your records</p>
+        </div>
+      </div>
+
+      <div class="tabs" id="profileTabs">
+        <button class="active" data-tab="tab-personal">Personal</button>
+        <button data-tab="tab-professional">Professional</button>
+        <button data-tab="tab-records">Records</button>
+      </div>
+
+      <div class="card pane active" id="tab-personal">
+        <div class="title">Personal Data</div>
+        <div class="kv-grid">
+          <div class="kv"><div class="k">Full Name</div><div class="v"><%= SSP.employee.name %></div></div>
+          <div class="kv"><div class="k">Employee No.</div><div class="v"><%= SSP.employee.employeeNo %></div></div>
+          <div class="kv"><div class="k">Position</div><div class="v"><%= SSP.employee.position %></div></div>
+          <div class="kv"><div class="k">Office / School</div><div class="v"><%= SSP.employee.office %></div></div>
+          <div class="kv"><div class="k">Employment Status</div><div class="v"><%= SSP.employee.status %></div></div>
+          <div class="kv"><div class="k">DepEd Email</div><div class="v"><%= SSP.employee.email %></div></div>
+          <div class="kv"><div class="k">Contact No.</div><div class="v"><%= SSP.employee.contact %></div></div>
+          <div class="kv"><div class="k">Date of Birth</div><div class="v"><%= SSP.employee.birthday %></div></div>
+          <div class="kv"><div class="k">Sex</div><div class="v"><%= SSP.employee.sex %></div></div>
+          <div class="kv"><div class="k">Civil Status</div><div class="v"><%= SSP.employee.civilStatus %></div></div>
+          <div class="kv"><div class="k">Blood Type</div><div class="v"><%= SSP.employee.bloodType %></div></div>
+          <div class="kv"><div class="k">PRC License</div><div class="v"><%= SSP.employee.prc %></div></div>
+          <div class="kv"><div class="k">GSIS</div><div class="v"><%= SSP.employee.gsis %></div></div>
+          <div class="kv"><div class="k">Pag-IBIG</div><div class="v"><%= SSP.employee.pagibig %></div></div>
+          <div class="kv"><div class="k">PhilHealth</div><div class="v"><%= SSP.employee.philhealth %></div></div>
+          <div class="kv"><div class="k">TIN</div><div class="v"><%= SSP.employee.tin %></div></div>
+        </div>
+      </div>
+
+      <div class="card pane" id="tab-professional">
+        <div class="title">Current Position
+          <span class="chip job"><%= SSP.professional.current.status %></span>
+        </div>
+        <div class="kv-grid" style="margin-bottom:1rem;">
+          <div class="kv"><div class="k">Current Position</div><div class="v"><%= SSP.professional.current.title %></div></div>
+          <div class="kv"><div class="k">Office / School</div><div class="v"><%= SSP.professional.current.office %></div></div>
+          <div class="kv"><div class="k">Tenure</div><div class="v"><%= SSP.professional.current.tenure %></div></div>
+          <div class="kv"><div class="k">Years in Service</div><div class="v"><%= SSP.employee.serviceYears %> years</div></div>
+        </div>
+
+        <div class="entries text">
+          <div class="ent"><span class="yr">Designations</span><div>
+            <% for (const d of SSP.professional.designations) { %>
+            <b><%= d.role %></b><p><%= d.period %></p>
+            <% } %>
+          </div></div>
+          <div class="ent"><span class="yr">Education</span><div>
+            <% for (const e of SSP.professional.education) { %>
+            <b><%= e.degree %></b><p><%= e.school %> &middot; <%= e.year %></p>
+            <% } %>
+          </div></div>
+          <div class="ent"><span class="yr">Work Experience</span><div>
+            <% for (const w of SSP.professional.work) { %>
+            <b><%= w.title %></b><p><%= w.office %> &middot; <%= w.year %></p>
+            <% } %>
+          </div></div>
+          <div class="ent"><span class="yr">Trainings</span><div>
+            <% for (const t of SSP.professional.trainings) { %>
+            <b><%= t.title %></b><p><%= t.provider %> &middot; <%= t.year %></p>
+            <% } %>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="card pane" id="tab-records">
+        <div class="title">201 File</div>
+        <% for (const r of SSP.records201) { %>
+        <div class="recrow">
+          <span class="name"><b><%= r.name %></b><span><%= r.meta %></span></span>
+          <button onclick="showToast('Downloading &lsquo;<%= r.name %>&rsquo;...')">Download</button>
+        </div>
+        <% } %>
+        <div class="title" style="margin-top:1rem;">Service Record</div>
+        <div style="overflow-x:auto;">
+          <table class="table">
+            <tr><th>From</th><th>To</th><th>Position / Designation</th><th>Office / Station</th></tr>
+            <% for (const r of SSP.serviceRecord) { %>
+            <tr><td><%= r.from %></td><td><%= r.to %></td><td><%= r.position %></td><td><%= r.office %></td></tr>
+            <% } %>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:1rem;">
+        <div class="title">Session &amp; Security
+          <span class="chip ro">Active session</span>
+        </div>
+        <div class="kv-grid">
+          <div class="kv"><div class="k">Identity Provider</div><div class="v"><%= SSP.auth.provider %></div></div>
+          <div class="kv"><div class="k">Grant Type</div><div class="v"><%= SSP.auth.grant %></div></div>
+          <div class="kv"><div class="k">Issuer</div><div class="v"><%= SSP.auth.issuer %></div></div>
+          <div class="kv"><div class="k">Audience</div><div class="v"><%= SSP.auth.audience %></div></div>
+          <div class="kv"><div class="k">Session ID</div><div class="v"><%= SSP.auth.sessionId %></div></div>
+          <div class="kv"><div class="k">Token valid</div><div class="v"><%= SSP.auth.issued %> &middot; <%= SSP.auth.expires %></div></div>
+          <div class="kv" style="grid-column:1 / -1;"><div class="k">Access token (JWT sample)</div><div class="v" style="word-break:break-all;font-weight:400;font-size:0.78rem;"><%= SSP.auth.token.slice(0, 88) %>&hellip;</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section signed-only" id="career">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Career opportunities</div>
+          <h2>Career</h2>
+          <p>Your current position and current vacancies posted across the division</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="title">Current Position
+          <span class="chip job">Active employee</span>
+        </div>
+        <div class="kv-grid">
+          <div class="kv"><div class="k">Position</div><div class="v"><%= SSP.employee.position %></div></div>
+          <div class="kv"><div class="k">Office / School</div><div class="v"><%= SSP.employee.office %></div></div>
+          <div class="kv"><div class="k">Appointment</div><div class="v"><%= SSP.employee.dateAppointed %></div></div>
+          <div class="kv"><div class="k">Status</div><div class="v"><%= SSP.employee.status %></div></div>
+        </div>
+      </div>
+
+      <div class="sec-head" style="margin-top:1.4rem;">
+        <div>
+          <h2>Recommended Vacancies</h2>
+          <p>Positions where you meet the minimum qualification requirements</p>
+        </div>
+      </div>
+      <% for (const v of SSP.vacancies.filter(v => v.recommended)) { %>
+      <div class="vac recommended">
+        <div class="vinfo">
+          <b><%= v.title %> <span class="chip issuance">Recommended</span></b>
+          <div class="office"><%= v.office %></div>
+          <div class="qual"><%= v.quals %></div>
+        </div>
+        <div class="vmeta">
+          Open until <b><%= v.deadline %></b><br />
+          <button class="btn btn-primary" onclick="applyVacancy(this)">Apply</button>
+        </div>
+      </div>
+      <% } %>
+
+      <div class="sec-head" style="margin-top:1.4rem;">
+        <div>
+          <h2>All Available Vacancies</h2>
+          <p>All current vacancies open for application</p>
+        </div>
+      </div>
+      <% for (const v of SSP.vacancies) { %>
+      <div class="vac">
+        <div class="vinfo">
+          <b><%= v.title %></b>
+          <div class="office"><%= v.office %></div>
+          <div class="qual"><%= v.quals %></div>
+        </div>
+        <div class="vmeta">
+          Open until <b><%= v.deadline %></b><br />
+          <button class="btn btn-primary" onclick="applyVacancy(this)">Apply</button>
+        </div>
+      </div>
+      <% } %>
+    </section>
+
+    <section class="section signed-only" id="announcements">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Stay informed</div>
+          <h2>Announcements</h2>
+          <p>Job postings, upcoming activities, and HR-related policies and issuances</p>
+        </div>
+      </div>
+      <% for (const a of SSP.announcements) { %>
+      <div class="ann">
+        <div class="head">
+          <span class="chip <%= a.type.toLowerCase().replace(' ', '-') %>"><%= a.type %></span>
+          <span class="date"><%= a.date %></span>
+        </div>
+        <h3><%= a.title %></h3>
+        <p><%= a.excerpt %></p>
+        <div class="foot"><a href="#">Read more</a></div>
+      </div>
+      <% } %>
+    </section>
+
+    <section class="section signed-only" id="tasks">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Get things done</div>
+          <h2>Tasks</h2>
+          <p>Your personal checklist and tasks assigned from other modules</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="title">Add a Task
+          <form id="taskForm" class="pills" style="gap:0.5rem;">
+            <input id="taskTitle" type="text" placeholder="Task title..." required style="padding:0.45rem 0.7rem;border:1px solid var(--line);border-radius:8px;width:min(320px,40vw);min-width:180px;" />
+            <input id="taskDue" type="date" style="padding:0.45rem 0.6rem;border:1px solid var(--line);border-radius:8px;" />
+            <button type="submit" class="btn btn-primary">Add</button>
+          </form>
+        </div>
+        <div>
+          <div class="pills" id="taskFilters" style="margin-bottom:0.8rem;">
+            <button class="pill active" data-filter="all">All</button>
+            <button class="pill" data-filter="pending">Pending</button>
+            <button class="pill" data-filter="done">Done</button>
+          </div>
+          <div class="task-list" id="taskList">
+            <% for (const t of SSP.tasks) { %>
+            <div class="trow <%= t.done ? 'done' : '' %>">
+              <input type="checkbox" <%= t.done ? 'checked' : '' %> />
+              <div class="tinfo"><b class="ttitle"><%= t.title %></b><span class="tdue">Due <%= t.due %></span></div>
+              <button class="tdel" title="Delete task" onclick="deleteTask(this)">&times;</button>
+            </div>
+            <% } %>
+            <% for (const t of SSP.assignedTasks) { %>
+            <div class="trow ro <%= t.done ? 'done' : '' %>">
+              <span class="lock"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></span>
+              <div class="tinfo"><b class="ttitle"><%= t.title %></b><span class="tdue">From <%= t.from %> &middot; Due <%= t.due %> &middot; <span class="chip ro">Read-only</span></span></div>
+            </div>
+            <% } %>
+          </div>
+          <div class="empty" id="taskEmpty" style="display:none;">No tasks match this filter.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section signed-only" id="services">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Self-service</div>
+          <h2>Services</h2>
+          <p>Documentary requests, other requests, and the feedback facility</p>
+        </div>
+      </div>
+
+      <div class="svc-grid">
+        <div class="svc">
+          <h4>Documentary Requests</h4>
+          <p class="desc">Request official documents from the Records Unit</p>
+          <ul>
+            <% for (const d of SSP.docRequests) { %>
+            <li><span><%= d.name %></span><button class="link-btn" onclick="showToast('Request for &lsquo;<%= d.name %>&rsquo; submitted to the Records Unit.')">Request</button></li>
+            <% } %>
+          </ul>
+        </div>
+
+        <div class="svc">
+          <h4>Other Requests</h4>
+          <p class="desc">Common HR transactions you can start here</p>
+          <ul>
+            <% for (const o of SSP.otherRequests) { %>
+            <li><span><%= o.name %></span><button class="link-btn" onclick="showToast('&lsquo;<%= o.name %>&rsquo; will open here.')">Start</button></li>
+            <% } %>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:1rem;">
+        <div class="title">Feedback Facility
+          <button class="btn btn-gold" data-modal="feedbackModal">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            New Feedback
+          </button>
+        </div>
+        <div id="fbList">
+          <% for (const f of SSP.feedbackHistory) { %>
+          <div class="fb-item">
+            <div class="head"><span class="chip <%= f.type.toLowerCase() %>"><%= f.type %></span><span class="chip <%= f.status.toLowerCase() %>"><%= f.status %></span><span class="date"><%= f.date %></span></div>
+            <b><%= f.subject %></b>
+            <p><%= f.office %></p>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <b>Schools Division of Sto. Tomas</b> &middot; Department of Education
+    <br />IHRMIS &mdash; Integrated Human Resource Management Information System
+    <a href="#">Data Privacy Act (RA 10173)</a> &middot; <a href="#">E-Governance Act (RA 12254)</a>
+  </footer>
+
+  <div class="modal-backdrop" id="feedbackModal">
+    <div class="modal">
+      <div class="mhead">
+        <h3>Send Feedback</h3>
+        <button class="mclose" data-modal-close="feedbackModal">&times;</button>
+      </div>
+      <form id="feedbackForm">
+        <div class="mbody">
+          <div class="field" style="margin-bottom:0.85rem;">
+            <label for="fbType">Type</label>
+            <select id="fbType" required>
+              <% for (const t of SSP.feedbackTypes) { %>
+              <option value="<%= t %>"><%= t %></option>
+              <% } %>
+            </select>
+          </div>
+          <div class="field" style="margin-bottom:0.85rem;">
+            <label for="fbOffice">Office unit</label>
+            <select id="fbOffice" required>
+              <option value="" disabled selected>Select an office...</option>
+              <% for (const o of SSP.offices) { %>
+              <option value="<%= o %>"><%= o %></option>
+              <% } %>
+            </select>
+          </div>
+          <div class="field" style="margin-bottom:0.85rem;">
+            <label for="fbSubject">Subject</label>
+            <input id="fbSubject" type="text" placeholder="Short summary" required />
+          </div>
+          <div class="field">
+            <label for="fbBody">Message</label>
+            <textarea id="fbBody" placeholder="Write your feedback here..." required></textarea>
+          </div>
+        </div>
+        <div class="mfoot">
+          <button type="button" class="btn btn-ghost" data-modal-close="feedbackModal">Cancel</button>
+          <button type="submit" class="btn btn-gold">Submit Feedback</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      bindNav(document.getElementById('navSigned'));
+      bindNav(document.getElementById('navGuest'));
+
+      var quickGotos = document.querySelectorAll('[data-goto]');
+      for (var i = 0; i < quickGotos.length; i++) {
+        quickGotos[i].addEventListener('click', function (e) {
+          e.preventDefault();
+          var id = this.getAttribute('data-goto');
+          var section = document.getElementById(id);
+          if (section) setSection(id); else setMode('signed', id);
+        });
+      }
+
+      var tabs = document.querySelectorAll('#profileTabs button[data-tab]');
+      for (var j = 0; j < tabs.length; j++) {
+        tabs[j].addEventListener('click', function () {
+          for (var k = 0; k < tabs.length; k++) tabs[k].classList.remove('active');
+          this.classList.add('active');
+          var panes = document.querySelectorAll('#profile .pane');
+          for (var m = 0; m < panes.length; m++) panes[m].classList.remove('active');
+          document.getElementById(this.getAttribute('data-tab')).classList.add('active');
+        });
+      }
+
+      var userPill = document.getElementById('userPill');
+      var dd = document.getElementById('userDropdown');
+      userPill.addEventListener('click', function (e) {
+        e.stopPropagation();
+        dd.classList.toggle('open');
+      });
+      document.addEventListener('click', function (e) {
+        if (!dd.contains(e.target)) dd.classList.remove('open');
+      });
+
+      var signouts = document.querySelectorAll('[data-signout]');
+      for (var n = 0; n < signouts.length; n++) {
+        signouts[n].addEventListener('click', function (e) {
+          e.preventDefault();
+          dd.classList.remove('open');
+          showToast('You have been signed out. Previewing the public view.');
+          setMode('guest');
+        });
+      }
+
+      var modalTriggers = document.querySelectorAll('[data-modal]');
+      for (var q = 0; q < modalTriggers.length; q++) {
+        modalTriggers[q].addEventListener('click', function () {
+          openModal(this.getAttribute('data-modal'));
+        });
+      }
+      var modalClosers = document.querySelectorAll('[data-modal-close]');
+      for (var w = 0; w < modalClosers.length; w++) {
+        modalClosers[w].addEventListener('click', function () {
+          closeModal(this.getAttribute('data-modal-close'));
+        });
+      }
+
+      document.getElementById('feedbackForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var type = document.getElementById('fbType').value;
+        var office = document.getElementById('fbOffice').value;
+        var subject = document.getElementById('fbSubject').value;
+        closeModal('feedbackModal');
+        this.reset();
+        prependFeedback(type, office, subject);
+        showToast('Feedback sent. Reference FBK-2026-' + (Math.floor(8000 + Math.random() * 199)));
+      });
+
+      var taskForm = document.getElementById('taskForm');
+      taskForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var title = document.getElementById('taskTitle').value.trim();
+        if (!title) return;
+        var dueInput = document.getElementById('taskDue').value;
+        var due = dueInput ? new Date(dueInput + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'No due date';
+        addTask(title, due);
+        taskForm.reset();
+      });
+
+      var taskListEl = document.getElementById('taskList');
+      taskListEl.addEventListener('change', function (e) {
+        if (e.target.type === 'checkbox') {
+          var rowEl = e.target.closest('.trow');
+          rowEl.classList.toggle('done', e.target.checked);
+          updateTaskSummary();
+        }
+      });
+
+      var taskFilters = document.querySelectorAll('#taskFilters .pill');
+      for (var tf = 0; tf < taskFilters.length; tf++) {
+        taskFilters[tf].addEventListener('click', function () {
+          for (var tf2 = 0; tf2 < taskFilters.length; tf2++) taskFilters[tf2].classList.remove('active');
+          this.classList.add('active');
+          filterTasks(this.getAttribute('data-filter'));
+        });
+      }
+
+      document.querySelectorAll('.demo button[data-mode-target]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          setMode(this.getAttribute('data-mode-target'));
+        });
+      });
+
+      updateTaskSummary();
+      initNavHints();
+    });
+
+    var currentTaskFilter = 'all';
+
+    function bindNav(nav) {
+      var btns = nav.querySelectorAll('button[data-section]');
+      for (var i = 0; i < btns.length; i++) {
+        btns[i].addEventListener('click', function () {
+          setSection(this.getAttribute('data-section'));
+        });
+      }
+    }
+
+    function currentMode() {
+      return document.body.getAttribute('data-mode');
+    }
+
+    function setSection(id) {
+      if (!id) return;
+      var nav = document.querySelector('.mainnav[data-mode-nav="' + currentMode() + '"]');
+      if (nav) {
+        var btns = nav.querySelectorAll('button[data-section]');
+        for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
+        var target = nav.querySelector('button[data-section="' + id + '"]');
+        if (target) target.classList.add('active');
+      }
+      var sections = document.querySelectorAll('.section');
+      for (var j = 0; j < sections.length; j++) sections[j].classList.remove('active');
+      var section = document.getElementById(id);
+      if (section) section.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setMode(mode, sectionId) {
+      document.body.setAttribute('data-mode', mode);
+      var demoBtns = document.querySelectorAll('.demo button[data-mode-target]');
+      for (var i = 0; i < demoBtns.length; i++) demoBtns[i].classList.toggle('active', demoBtns[i].getAttribute('data-mode-target') === mode);
+      var defaultId = sectionId || (mode === 'signed' ? 'home' : 'g-announcements');
+      setSection(defaultId);
+      updateNavHints();
+    }
+
+    function updateTaskSummary() {
+      var listEl = document.getElementById('taskList');
+      if (!listEl) return;
+      var rows = listEl.querySelectorAll('.trow');
+      var visible = 0;
+      for (var i = 0; i < rows.length; i++) if (rows[i].style.display !== 'none') visible++;
+      var empty = document.getElementById('taskEmpty');
+      if (empty) empty.style.display = visible ? 'none' : 'block';
+    }
+
+    function filterTasks(mode) {
+      currentTaskFilter = mode;
+      var rows = document.querySelectorAll('#taskList .trow');
+      for (var i = 0; i < rows.length; i++) {
+        var isDone = rows[i].classList.contains('done');
+        rows[i].style.display = (mode === 'all' || (mode === 'done' && isDone) || (mode === 'pending' && !isDone)) ? '' : 'none';
+      }
+      updateTaskSummary();
+    }
+
+    function addTask(title, due) {
+      var listEl = document.getElementById('taskList');
+      var div = document.createElement('div');
+      div.className = 'trow';
+      div.innerHTML = '<input type="checkbox" />' +
+        '<div class="tinfo"><b class="ttitle"></b><span class="tdue"></span></div>' +
+        '<button class="tdel" title="Delete task" onclick="deleteTask(this)">\u00d7</button>';
+      div.querySelector('.ttitle').textContent = title;
+      div.querySelector('.tdue').textContent = 'Due ' + due;
+      listEl.prepend(div);
+      showToast('Task added to your list.');
+      filterTasks(currentTaskFilter);
+    }
+
+    function deleteTask(btn) {
+      btn.closest('.trow').remove();
+      filterTasks(currentTaskFilter);
+    }
+
+    function applyVacancy(btn) {
+      var title = btn.closest('.vac').querySelector('.vinfo b').childNodes[0].nodeValue.trim();
+      btn.disabled = true;
+      btn.textContent = 'Applied';
+      showToast('Your application for &lsquo;' + title + '&rsquo; was submitted.');
+    }
+
+    function prependFeedback(type, office, subject) {
+      var today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      var list = document.getElementById('fbList');
+      var el = document.createElement('div');
+      el.className = 'fb-item';
+      el.innerHTML = '<div class="head"><span class="chip ' + type.toLowerCase() + '">' + type.replace(/</g, '&lt;') + '</span><span class="chip received">Received</span><span class="date">' + today + '</span></div>' +
+        '<b>' + subject.replace(/</g, '&lt;') + '</b><p>' + office.replace(/</g, '&lt;') + '</p>';
+      list.prepend(el);
+    }
+
+    function openModal(id) { document.getElementById(id).classList.add('open'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+    var toastTimer = null;
+    function showToast(msg) {
+      var toast = document.getElementById('toast');
+      toast.innerHTML = msg;
+      toast.classList.add('show');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 3200);
+    }
+
+    var navUpdates = [];
+    function initNavHints() {
+      var navs = document.querySelectorAll('.mainnav');
+      for (var i = 0; i < navs.length; i++) {
+        if (navs[i].__hint) continue;
+        (function (nav) {
+          nav.__hint = true;
+          var mk = function (cls, html, label) {
+            var b = document.createElement('button');
+            b.className = 'n-scroll ' + cls;
+            b.setAttribute('aria-label', label);
+            b.innerHTML = html;
+            return b;
+          };
+          var left = mk('n-left', '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>', 'Scroll to earlier items');
+          var right = mk('n-right', '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>', 'Scroll to more items');
+          nav.appendChild(left);
+          nav.appendChild(right);
+          var update = function () {
+            var max = nav.scrollWidth - nav.clientWidth;
+            var more = max > 16;
+            nav.classList.toggle('has-overflow', more);
+            nav.classList.toggle('scrolled', nav.scrollLeft > 8);
+            nav.classList.toggle('at-end', more && nav.scrollLeft >= max - 8);
+            left.classList.toggle('show', more && nav.scrollLeft > 8);
+            right.classList.toggle('show', more && nav.scrollLeft < max - 8);
+          };
+          left.addEventListener('click', function () { nav.scrollBy({ left: -Math.min(220, nav.clientWidth * 0.6), behavior: 'smooth' }); });
+          right.addEventListener('click', function () { nav.scrollBy({ left: Math.min(220, nav.clientWidth * 0.6), behavior: 'smooth' }); });
+          nav.addEventListener('scroll', update, { passive: true });
+          window.addEventListener('resize', update);
+          navUpdates.push(update);
+          update();
+        })(navs[i]);
+      }
+    }
+
+    function updateNavHints() {
+      for (var i = 0; i < navUpdates.length; i++) navUpdates[i]();
+    }
+  </script>
+</body>
+</html>

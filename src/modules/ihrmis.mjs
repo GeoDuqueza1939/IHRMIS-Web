@@ -1,3 +1,5 @@
+"use strict";
+
 import path from 'path';
 import express from 'express';
 import argus from './argus.mjs';
@@ -64,5 +66,13 @@ export default class ihrmis_app {
         this.#lifecycle.startRepl();
         this.#server.start();
         this.#logger.info('Server is running.');
+    }
+
+    getLogger(app) {
+        return (app.app_name === config.shortname ? this.#logger : null);
+    }
+    
+    getController(app) {
+        return (app.app_name === config.shortname ? this.#controller : null);
     }
 }

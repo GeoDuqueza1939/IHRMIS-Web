@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <base href="<%= baseDir %>">
   <title>Test Page</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .data-box {
+      display: block;
+      border: 2px inset black;
+      margin: 1em;
+      padding: 0.25em;
+    }
+  </style>
 </head>
 <body>
   <h2>Test Input</h2>
@@ -13,7 +25,10 @@
     <input id="testinput" name="testinput" type="text" placeholder="Test data" />
     <button type="submit">Submit</button>
   </form>
-  <%= testdata.body == null ? 'No test data provided' : testdata.body.testinput %>
+  <div class="data-box">
+    <%= testdata.body == null ? 'No test data provided' : testdata.body.testinput %><br>
+    <% // console.log(testdata.route.methods) %>
+  </div>
 
   <h2>Available Sample Layouts</h2>
   <ul><% for(url in JSON.parse(urls)) { %>

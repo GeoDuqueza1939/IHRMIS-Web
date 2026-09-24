@@ -114,6 +114,44 @@
     'School Governance & Operations Division',
     'Curriculum & Learning Management Division',
     'Schools Division Superintendent\'s Office'
+  ],
+  auth: { signedIn: true, provider: 'Janus', grant: 'OAuth 2.0 (Authorization Code + PKCE)', issuer: 'https://janus.deped.gov.ph/oidc', audience: 'ihrmis-ssp', issued: 'September 20, 2026', expires: 'December 20, 2026', sessionId: 'janus-sess-8f8321c4', token: 'eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJqZGVsc2F0b3RvLTIwMjktMDA0MjEiLCJuYW1lIjoiSnVhbiBBLiBEZWxhIENydXoiLCJ1bmlkIjoiSURSNSIgLCJyb2xlIjoiZW1wbG95ZWUiLCJpYXQiOjE3ODc1MjkxMDAsImV4cCI6MTc4NzcwMTkwMH0.SAMPLE_SIGNATURE_v42' },
+  announcements: [
+    { type: 'Advisory', date: 'Sep 18, 2026', title: 'Araw ng mga Bayani Holiday - No Classes', excerpt: 'The Division Office and all public schools will be closed. Updates on make-up classes will follow.', link: '/janus/login' },
+    { type: 'Memorandum', date: 'Sep 16, 2026', title: 'Online Submission of Division Achievement Tests', excerpt: 'Schools are reminded to submit encoded results through the division portal on or before the deadline.', link: '/janus/login' },
+    { type: 'Seminar', date: 'Sep 12, 2026', title: 'Regional Webinar on Data Privacy in Schools', excerpt: 'Open to school data officers and ICT coordinators. Registration is free and via the division portal.', link: '/janus/login' },
+    { type: 'PM', date: 'Sep 10, 2026', title: 'Mid-Year Performance Review Schedule', excerpt: 'Schedule for classroom and school-head level reviews has been posted per division memorandum.', link: '/janus/login' },
+    { type: 'Advisory', date: 'Sep 6, 2026', title: 'Typhoon Preparedness Reminders', excerpt: 'Schools must submit their contingency checklists and fast-connect home details for affected personnel.', link: '/janus/login' },
+    { type: 'Enrollment', date: 'Sep 2, 2026', title: 'Early Registration for SY 2027-2028', excerpt: 'Early registration opens this month. Designated focal persons may coordinate through the division office.', link: '/janus/login' }
+  ],
+  vacancies: [
+    { title: 'Master Teacher I', office: 'Sto. Tomas National High School', quals: 'MA/MS in relevant field or 2 years as Teacher III with exemplary performance rating', deadline: 'Oct 10, 2026', recommended: true },
+    { title: 'Teacher III', office: 'Sto. Tomas Central School', quals: 'At least 2 years of outstanding teaching experience with very satisfactory performance', deadline: 'Oct 18, 2026', recommended: true },
+    { title: 'Administrative Officer II', office: 'Schools Division Office', quals: 'Bachelor\'s degree relevant to the job, 1 year administrative experience, appropriate hours of training', deadline: 'Oct 22, 2026', recommended: false },
+    { title: 'Teacher II', office: 'San Vicente Elementary School', quals: 'Bachelor of Elementary/Secondary Education with or without LET eligibility subject to regulations', deadline: 'Nov 5, 2026', recommended: false },
+    { title: 'School Administrative Assistant', office: 'Sto. Tomas South Elementary School', quals: 'Graduation from a 2-year vocational/technical course or 4-year degree, 1 year relevant experience', deadline: 'Nov 12, 2026', recommended: false }
+  ],
+  assignedTasks: [
+    { title: 'Consolidate reading proficiency results (Grade 5) for division report', from: 'Curriculum & Learning Management Division', due: 'Sep 30, 2026', done: false },
+    { title: 'Accomplish HRMO end-of-quarter personnel status report', from: 'HRMO', due: 'Oct 6, 2026', done: false },
+    { title: 'Complete the School Disaster Risk Reduction Management plan', from: 'School Governance & Operations Division', due: 'Oct 14, 2026', done: false }
+  ],
+  docRequests: [
+    { title: 'Service Record - signed copy', date: 'Sep 8, 2026', status: 'Processing' },
+    { title: 'Certificate of No Pending Administrative Case', date: 'Aug 27, 2026', status: 'Approved' },
+    { title: 'Form 178 - Report on Promotion', date: 'Jul 30, 2026', status: 'Received' },
+    { title: 'Certificate of Employment - bank loan', date: 'Jul 12, 2026', status: 'Approved' }
+  ],
+  otherRequests: [
+    { title: 'Online System Access - Division Personnel Portal', date: 'Sep 20, 2026', status: 'Processing' },
+    { title: 'Official Business - Brigada Eskwela caravan', date: 'Sep 7, 2026', status: 'Approved' },
+    { title: 'Change in memo ordering of personnel', date: 'Aug 16, 2026', status: 'Replied' },
+    { title: 'GNI Power billing adjustment', date: 'Jul 28, 2026', status: 'Approved' }
+  ],
+  feedbackTypes: [ 'General feedback', 'Complaint', 'Suggestion', 'Commendation' ],
+  feedbackHistory: [
+    { type: 'Commendation', title: 'Appreciation for the HRMO response team', excerpt: 'Submitted a commendation for the efficient handling of my COE request this month.', date: 'Sep 5, 2026', status: 'Sent' },
+    { type: 'General feedback', title: 'Suggestion on the 201-file online viewing', excerpt: 'Suggested adding faster previews for large scanned files in the document browser.', date: 'Aug 14, 2026', status: 'Replied' }
   ]
 };
 const SSP = Object.assign({}, __def, locals); %>
@@ -409,20 +447,6 @@ const SSP = Object.assign({}, __def, locals); %>
     .foot a { margin: 0 0.4rem; }
 
     .s-nav { position: relative; }
-    .s-nav::before, .s-nav::after { content: ""; position: absolute; top: 0; bottom: 0; width: 36px; z-index: 2; opacity: 0; transition: opacity 0.2s ease; pointer-events: none; }
-    .s-nav::before { left: 0; background: linear-gradient(90deg, rgba(10,37,71,0.94), rgba(10,37,71,0)); }
-    .s-nav::after { right: 0; background: linear-gradient(270deg, rgba(10,37,71,0.94), rgba(10,37,71,0)); }
-    .s-nav.has-overflow:not(.at-end)::after, .s-nav.scrolled::before { opacity: 1; }
-    .n-scroll {
-      position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
-      width: 30px; height: 30px; display: none; align-items: center; justify-content: center;
-      border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); background: rgba(255,255,255,0.18);
-      color: #fff; box-shadow: 0 3px 10px rgba(10,37,71,0.35); transition: background 0.2s ease;
-    }
-    .n-scroll:hover { background: rgba(255,255,255,0.32); }
-    .n-scroll.show { display: flex; }
-    .n-left { left: 5px; }
-    .n-right { right: 5px; }
 
     @media (max-width: 840px) {
       .sidebar { position: relative; height: auto; flex-direction: row; align-items: center; padding: 0; }
@@ -452,9 +476,47 @@ const SSP = Object.assign({}, __def, locals); %>
       .modal .mhead, .modal .mfoot { padding: 0.8rem 1rem; }
       .toast { left: 1rem; right: 1rem; text-align: center; }
     }
+
+    .demo { display: inline-flex; align-items: center; gap: 2px; background: #eef2f8; border: 1px solid #d8e1ec; border-radius: 999px; padding: 2px; flex: none; }
+    .demo span { font-size: 0.6rem; font-weight: 800; letter-spacing: 0.08em; color: var(--navy); padding: 0 0.45rem; }
+    .demo button { border: none; background: transparent; padding: 0.3rem 0.6rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700; color: var(--navy); transition: all 0.15s ease; }
+    .demo button.active { background: var(--navy-dark); color: #fff; box-shadow: 0 1px 3px rgba(10,37,71,0.3); }
+
+    body[data-mode="signed"] .guest-only { display: none !important; }
+    body[data-mode="guest"] .signed-only { display: none !important; }
+
+    .s-nav a.item { display: flex; align-items: center; gap: 0.75rem; width: 100%; padding: 0.68rem 0.8rem; border-radius: 10px; color: #cfe0f2; font-size: 0.86rem; font-weight: 600; }
+    .s-nav a.item:hover { background: rgba(255,255,255,0.07); color: #fff; text-decoration: none; }
+    .s-nav a.item.signin { background: linear-gradient(180deg, var(--gold-light), var(--gold)); color: var(--navy-dark); box-shadow: 0 6px 16px rgba(241,169,37,0.28); }
+
+    .welcome .session .chip.ro { background: #eef1f6; color: var(--muted); border: 1px solid var(--line); }
+    .chip.job { background: #e3f3ea; color: var(--ok); }
+    .chip.advisory { background: #eef1f6; color: var(--muted); }
+    .chip.ro { background: #eef1f6; color: var(--muted); }
+
+    .ann { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 0.95rem 1.1rem; margin-bottom: 0.75rem; }
+    .ann .head { display: flex; align-items: center; gap: 0.55rem; flex-wrap: wrap; }
+    .ann .head .date { margin-left: auto; font-size: 0.74rem; color: var(--muted); }
+    .ann h3 { font-size: 0.98rem; color: var(--ink); margin-top: 0.35rem; }
+    .ann p { font-size: 0.83rem; color: var(--muted); margin-top: 0.3rem; line-height: 1.5; }
+    .ann .foot { margin-top: 0.55rem; }
+    .ann .foot a { font-size: 0.8rem; font-weight: 600; }
+
+    .vac { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 0.95rem 1.1rem; margin-bottom: 0.75rem; }
+    .vac.recommended { border-left: 3px solid var(--gold); }
+    .vac .vinfo { flex: 1; min-width: 0; }
+    .vac .vinfo b { font-size: 0.96rem; color: var(--ink); display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .vac .vinfo .office { font-size: 0.8rem; color: var(--blue); margin-top: 0.15rem; }
+    .vac .vinfo .qual { font-size: 0.8rem; color: var(--muted); margin-top: 0.3rem; }
+    .vac .vmeta { font-size: 0.72rem; color: var(--muted); text-align: right; flex: none; }
+    .vac .vmeta .btn { margin-top: 0.45rem; }
+    @media (max-width: 560px) { .vac { flex-direction: column; } .vac .vmeta { text-align: left; } }
+    .note { font-size: 0.78rem; color: var(--muted); margin-top: 0.9rem; }
+    .pills-label { font-size: 0.76rem; color: var(--muted); }
+    .trow.ro .lock { flex: none; width: 18px; text-align: center; color: var(--muted); display: inline-block; }
   </style>
 </head>
-<body>
+<body data-mode="<%= SSP.auth.signedIn ? 'signed' : 'guest' %>">
   <div class="shell">
     <aside class="sidebar">
       <div class="s-brand">
@@ -462,7 +524,7 @@ const SSP = Object.assign({}, __def, locals); %>
         <div><b>IHRMIS</b><span>Self-Service Portal</span></div>
       </div>
 
-      <nav class="s-nav">
+      <nav class="s-nav signed-only" id="navSigned" data-mode-nav="signed">
         <div class="s-label">Main Menu</div>
         <button class="active" data-section="home">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
@@ -471,6 +533,14 @@ const SSP = Object.assign({}, __def, locals); %>
         <button data-section="profile">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           Profile
+        </button>
+        <button data-section="career">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M14.31 8l5.74 9.94"></path><path d="M9.69 8h11.48"></path><path d="M7.38 12l5.74-9.94"></path><path d="M9.69 16L3.95 6.06"></path><path d="M14.31 16H2.83"></path><path d="M16.62 12l-5.74 9.94"></path></svg>
+          Career
+        </button>
+        <button data-section="announcements">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"></path><path d="M22 2l-7 20-4-9-9-4 20-7z"></path></svg>
+          Announcements
         </button>
         <button data-section="records">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
@@ -491,7 +561,23 @@ const SSP = Object.assign({}, __def, locals); %>
         </button>
       </nav>
 
-      <div class="s-foot">
+      <nav class="s-nav guest-only" id="navGuest" data-mode-nav="guest">
+        <div class="s-label">Public</div>
+        <button class="active" data-section="g-announcements">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"></path><path d="M22 2l-7 20-4-9-9-4 20-7z"></path></svg>
+          Announcements
+        </button>
+        <button data-section="g-career">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M14.31 8l5.74 9.94"></path><path d="M9.69 8h11.48"></path><path d="M7.38 12l5.74-9.94"></path><path d="M9.69 16L3.95 6.06"></path><path d="M14.31 16H2.83"></path><path d="M16.62 12l-5.74 9.94"></path></svg>
+          Career
+        </button>
+        <a class="item signin" href="/janus/login">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          Sign in / Sign up
+        </a>
+      </nav>
+
+      <div class="s-foot signed-only">
         <div class="mini">
           <span class="dot"></span>
           <div><b>Online</b><span>Signed in this session</span></div>
@@ -505,7 +591,7 @@ const SSP = Object.assign({}, __def, locals); %>
           <span class="portal">IHRMIS</span><span class="divider">|</span><b class="wordmark">Self-Service Portal</b>
         </div>
 
-        <div class="user-menu">
+        <div class="user-menu signed-only">
           <button class="user-btn" id="userBtn" aria-haspopup="true" aria-expanded="false">
             <span class="avatar"><%= SSP.employee.initial %></span>
             <span class="meta">
@@ -523,13 +609,87 @@ const SSP = Object.assign({}, __def, locals); %>
             <a href="#"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg> Settings</a>
             <a href="/"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg> Go to the IHRMIS Full Suite</a>
             <div class="sep"></div>
-            <a href="#" class="signout"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Sign Out</a>
+            <a href="#" class="signout" data-signout><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Sign Out</a>
           </div>
+        </div>
+
+        <div class="demo">
+          <span>DEMO</span>
+          <button data-mode-target="signed" class="active">Signed</button>
+          <button data-mode-target="guest">Guest</button>
         </div>
       </header>
 
       <main class="content">
-        <section class="section active" id="home">
+        <section class="section guest-only active" id="g-announcements">
+          <div class="page-title"><h2>Announcements</h2><p>Latest issuances and advisories from the Division Office</p></div>
+
+          <div class="welcome">
+            <div class="pic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"></path><path d="M22 2l-7 20-4-9-9-4 20-7z"></path></svg></div>
+            <div>
+              <b>Welcome to the SSP</b>
+              <div class="role">Public announcements and career opportunities</div>
+              <div class="office">Schools Division of Sto. Tomas &middot; Department of Education</div>
+            </div>
+            <div class="session" style="margin-left:auto;text-align:right;">
+              You are browsing as a visitor.<br />
+              <a href="/janus/login" style="color:var(--ok);font-weight:700;">Sign in to access your dashboard &rarr;</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Announcements</h3><span class="pills-label">Latest from the Division Office</span></div>
+            <div class="card-body">
+              <% SSP.announcements.forEach(function(a) { %>
+              <div class="ann">
+                <div class="head"><span class="chip <%= a.type.toLowerCase().replace(/[^a-z]/g, '') %>"><%= a.type %></span><span class="date"><%= a.date %></span></div>
+                <h3><%= a.title %></h3>
+                <p><%= a.excerpt %></p>
+                <div class="foot"><a href="/janus/login">Read more &rarr;</a></div>
+              </div>
+              <% }); %>
+            </div>
+          </div>
+        </section>
+
+        <section class="section guest-only" id="g-career">
+          <div class="page-title"><h2>Career &amp; Opportunities</h2><p>Browse open positions across the division</p></div>
+
+          <div class="welcome">
+            <div class="pic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M14.31 8l5.74 9.94"></path><path d="M9.69 8h11.48"></path><path d="M7.38 12l5.74-9.94"></path><path d="M9.69 16L3.95 6.06"></path><path d="M14.31 16H2.83"></path><path d="M16.62 12l-5.74 9.94"></path></svg></div>
+            <div>
+              <b>Join the Schools Division</b>
+              <div class="role">Open teaching and non-teaching positions</div>
+              <div class="office">Schools Division of Sto. Tomas &middot; Department of Education</div>
+            </div>
+            <div class="session" style="margin-left:auto;text-align:right;">
+              Applying is easier when you sign in.<br />
+              <a href="/janus/login" style="color:var(--ok);font-weight:700;">Sign in to apply &rarr;</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>Job Vacancies</h3><span class="pills-label">Open positions &middot; <%= SSP.vacancies.length %> total</span></div>
+            <div class="card-body">
+              <% SSP.vacancies.forEach(function(v) { %>
+              <div class="vac">
+                <div class="vinfo">
+                  <b><%= v.title %><% if (v.recommended) { %><span class="chip job">Recommended</span><% } %></b>
+                  <div class="office"><%= v.office %></div>
+                  <div class="qual"><%= v.quals %></div>
+                </div>
+                <div class="vmeta">
+                  <div>Deadline</div>
+                  <div><b><%= v.deadline %></b></div>
+                  <a class="btn btn-gold" href="/janus/login" style="margin-top:0.45rem;">Sign in to apply</a>
+                </div>
+              </div>
+              <% }); %>
+            </div>
+          </div>
+        </section>
+
+        <section class="section signed-only active" id="home">
           <div class="page-title"><h2>Dashboard</h2><p>Your self-service overview for today</p></div>
 
           <div class="welcome">
@@ -541,6 +701,7 @@ const SSP = Object.assign({}, __def, locals); %>
             </div>
             <div style="margin-left:auto;text-align:right;">
               <span class="chip" style="background:#e3f3ea;color:var(--ok)">Present today &middot; 6:58 AM</span>
+              <div class="session" style="margin-top:0.4rem;">Signed in as <b style="color:var(--ink)"><%= SSP.employee.name %></b><br /><span class="chip ro">Active session &middot; via Janus</span></div>
             </div>
           </div>
 
@@ -626,7 +787,7 @@ const SSP = Object.assign({}, __def, locals); %>
           </div>
         </section>
 
-        <section class="section" id="profile">
+        <section class="section signed-only" id="profile">
           <div class="page-title"><h2>My Profile</h2><p>Personal data and your profile sections</p></div>
           <div class="profile-layout">
             <div class="card summary-card">
@@ -723,9 +884,93 @@ const SSP = Object.assign({}, __def, locals); %>
               </div>
             </div>
           </div>
+
+          <div class="card" style="margin-top:1.1rem;">
+            <div class="card-head"><h3>Session &amp; Security</h3><span class="chip ro">Signed in via <%= SSP.auth.provider %></span></div>
+            <div class="card-body">
+              <div class="kv"><span class="k">Identity Provider</span><span class="v"><%= SSP.auth.provider %></span></div>
+              <div class="kv"><span class="k">Grant Type</span><span class="v"><%= SSP.auth.grant %></span></div>
+              <div class="kv"><span class="k">Issuer</span><span class="v"><%= SSP.auth.issuer %></span></div>
+              <div class="kv"><span class="k">Audience</span><span class="v"><%= SSP.auth.audience %></span></div>
+              <div class="kv"><span class="k">Session ID</span><span class="v" style="font-size:0.76rem;word-break:break-all;"><%= SSP.auth.sessionId %></span></div>
+              <div class="kv"><span class="k">Valid</span><span class="v"><%= SSP.auth.issued %> &rarr; <%= SSP.auth.expires %></span></div>
+              <div class="kv" style="flex-direction:column;align-items:stretch;"><span class="k">Access Token (JWKS-validated)</span><span class="v" style="text-align:left;word-break:break-all;font-family:monospace;font-size:0.72rem;"><%= SSP.auth.token.slice(0, 88) %>&hellip;</span></div>
+            </div>
+          </div>
         </section>
 
-        <section class="section" id="records">
+        <section class="section signed-only" id="career">
+          <div class="page-title"><h2>Career &amp; Opportunities</h2><p>Your current position and open vacancies</p></div>
+
+          <div class="card">
+            <div class="card-head"><h3>Current Position</h3><button class="btn btn-ghost" style="padding:0.35rem 0.8rem;">Update request</button></div>
+            <div class="card-body">
+              <div class="kv"><span class="k">Position Title</span><span class="v"><%= SSP.employee.position %></span></div>
+              <div class="kv"><span class="k">Office / School</span><span class="v"><%= SSP.employee.office %></span></div>
+              <div class="kv"><span class="k">First Appointment</span><span class="v"><%= SSP.employee.firstAppointment %></span></div>
+              <div class="kv"><span class="k">Employment Status</span><span class="v"><%= SSP.employee.status %></span></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:1.1rem;">
+            <div class="card-head"><h3>Recommended Vacancies</h3><span class="pills-label">Matched to your qualification profile</span></div>
+            <div class="card-body">
+              <% SSP.vacancies.filter(function(v){ return v.recommended; }).forEach(function(v) { %>
+              <div class="vac recommended">
+                <div class="vinfo">
+                  <b><%= v.title %><span class="chip job">Recommended</span></b>
+                  <div class="office"><%= v.office %></div>
+                  <div class="qual"><%= v.quals %></div>
+                </div>
+                <div class="vmeta">
+                  <div>Deadline</div>
+                  <div><b><%= v.deadline %></b></div>
+                  <button class="btn btn-gold" onclick="applyVacancy(this)" style="margin-top:0.45rem;">Apply</button>
+                </div>
+              </div>
+              <% }); %>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:1.1rem;">
+            <div class="card-head"><h3>All Vacancies</h3><span class="pills-label"><%= SSP.vacancies.length %> open positions</span></div>
+            <div class="card-body">
+              <% SSP.vacancies.forEach(function(v) { %>
+              <div class="vac">
+                <div class="vinfo">
+                  <b><%= v.title %><% if (v.recommended) { %><span class="chip job">Recommended</span><% } %></b>
+                  <div class="office"><%= v.office %></div>
+                  <div class="qual"><%= v.quals %></div>
+                </div>
+                <div class="vmeta">
+                  <div>Deadline</div>
+                  <div><b><%= v.deadline %></b></div>
+                  <button class="btn btn-nav" onclick="applyVacancy(this)" style="margin-top:0.45rem;">Apply</button>
+                </div>
+              </div>
+              <% }); %>
+              <div class="note">Applications are routed to the Office of the HRMO and the HRMPSB for screening. Keep your CST Form 212 (PDS) updated.</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section signed-only" id="announcements">
+          <div class="page-title"><h2>Announcements</h2><p>Latest issuances and advisories from the Division Office</p></div>
+          <div class="card">
+            <div class="card-body">
+              <% SSP.announcements.forEach(function(a) { %>
+              <div class="ann">
+                <div class="head"><span class="chip <%= a.type.toLowerCase().replace(/[^a-z]/g, '') %>"><%= a.type %></span><span class="date"><%= a.date %></span></div>
+                <h3><%= a.title %></h3>
+                <p><%= a.excerpt %></p>
+                <div class="foot"><a href="#" onclick="showToast('Opening the full announcement.');return false;">Read more &rarr;</a></div>
+              </div>
+              <% }); %>
+            </div>
+          </div>
+        </section>
+
+        <section class="section signed-only" id="records">
           <div class="page-title"><h2>Records</h2><p>201 files, service record, and requests for official documents</p></div>
 
           <div class="rec-subnav" id="recSubnav">
@@ -820,7 +1065,7 @@ const SSP = Object.assign({}, __def, locals); %>
           </div>
         </section>
 
-        <section class="section" id="tasks">
+        <section class="section signed-only" id="tasks">
           <div class="page-title">
             <h2>My Tasks</h2>
             <p>Your personal task list - add items and tick them off as you go</p>
@@ -865,13 +1110,19 @@ const SSP = Object.assign({}, __def, locals); %>
                   <button class="tdel" title="Delete task" onclick="deleteTask(this)">&times;</button>
                 </div>
                 <% } %>
+                <% for (const t of SSP.assignedTasks) { %>
+                <div class="trow ro <%= t.done ? 'done' : '' %>">
+                  <span class="lock"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></span>
+                  <div class="tinfo"><b class="ttitle"><%= t.title %></b><span class="tdue">From <%= t.from %> &middot; Due <%= t.due %> &middot; <span class="chip ro">Read-only</span></span></div>
+                </div>
+                <% } %>
               </div>
               <div class="empty" id="taskEmpty" style="display:none;">No tasks match this filter.</div>
             </div>
           </div>
         </section>
 
-        <section class="section" id="services">
+        <section class="section signed-only" id="services">
           <div class="page-title"><h2>Services</h2><p>Choose a service applicable to you</p></div>
           <div class="svc-grid">
             <% for (const s of SSP.services) { %>
@@ -885,7 +1136,7 @@ const SSP = Object.assign({}, __def, locals); %>
           </div>
         </section>
 
-        <section class="section" id="query">
+        <section class="section signed-only" id="query">
           <div class="page-title" style="display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.1rem;">
             <div><h2>Query / Feedback</h2><p>Track your communications and raise new ones</p></div>
             <button class="btn btn-gold" data-modal="queryModal">
@@ -956,9 +1207,18 @@ const SSP = Object.assign({}, __def, locals); %>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      var navBtns = document.querySelectorAll('.s-nav button[data-section]');
-      for (var i = 0; i < navBtns.length; i++) {
-        navBtns[i].addEventListener('click', function () { setSection(this.getAttribute('data-section')); });
+      bindNav(document.getElementById('navSigned'));
+      bindNav(document.getElementById('navGuest'));
+
+      var signouts = document.querySelectorAll('[data-signout]');
+      for (var s0 = 0; s0 < signouts.length; s0++) {
+        signouts[s0].addEventListener('click', function (e) {
+          e.preventDefault();
+          var ddS = document.getElementById('userDropdown');
+          if (ddS) ddS.classList.remove('open');
+          showToast('You have been signed out. Previewing the public view.');
+          setMode('guest');
+        });
       }
 
       var profileTabs = document.querySelectorAll('#profileTabs button[data-tab]');
@@ -1043,17 +1303,21 @@ const SSP = Object.assign({}, __def, locals); %>
           filterTasks(this.getAttribute('data-filter'));
         });
       }
+      document.querySelectorAll('.demo button[data-mode-target]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          setMode(this.getAttribute('data-mode-target'));
+        });
+      });
       updateTaskSummary();
-      initNavScrollHint();
     });
 
     var currentTaskFilter = 'all';
     function updateTaskSummary() {
       var listEl = document.getElementById('taskList');
       if (!listEl) return;
-      var rows = listEl.querySelectorAll('.trow');
+      var rows = listEl.querySelectorAll('.trow:not(.ro)');
       var total = rows.length;
-      var doneCount = listEl.querySelectorAll('.trow.done').length;
+      var doneCount = listEl.querySelectorAll('.trow.done:not(.ro)').length;
       var sum = document.getElementById('taskSummary');
       if (sum) sum.innerHTML = '<b>' + total + '</b> tasks &middot; <b>' + (total - doneCount) + '</b> pending &middot; <b>' + doneCount + '</b> completed';
       var bar = document.getElementById('taskProgress');
@@ -1094,46 +1358,49 @@ const SSP = Object.assign({}, __def, locals); %>
       filterTasks(currentTaskFilter);
     }
 
-    function initNavScrollHint() {
-      var nav = document.getElementById('mainNav') || document.querySelector('.band-nav, .s-nav');
-      if (!nav || window.__navHint) return;
-      window.__navHint = true;
-      var mk = function (cls, html, label) {
-        var b = document.createElement('button');
-        b.className = 'n-scroll ' + cls;
-        b.setAttribute('aria-label', label);
-        b.innerHTML = html;
-        return b;
-      };
-      var left = mk('n-left', '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>', 'Scroll to earlier items');
-      var right = mk('n-right', '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>', 'Scroll to more items');
-      nav.appendChild(left);
-      nav.appendChild(right);
-      var update = function () {
-        var scrollable = getComputedStyle(nav).overflowX === 'auto';
-        var max = scrollable ? nav.scrollWidth - nav.clientWidth : 0;
-        var more = max > 16;
-        nav.classList.toggle('has-overflow', more);
-        nav.classList.toggle('scrolled', nav.scrollLeft > 8);
-        nav.classList.toggle('at-end', more && nav.scrollLeft >= max - 8);
-        left.classList.toggle('show', more && nav.scrollLeft > 8);
-        right.classList.toggle('show', more && nav.scrollLeft < max - 8);
-      };
-      left.addEventListener('click', function () { nav.scrollBy({ left: -Math.min(240, nav.clientWidth * 0.6), behavior: 'smooth' }); });
-      right.addEventListener('click', function () { nav.scrollBy({ left: Math.min(240, nav.clientWidth * 0.6), behavior: 'smooth' }); });
-      nav.addEventListener('scroll', update, { passive: true });
-      window.addEventListener('resize', update);
-      update();
+    function currentMode() {
+      return document.body.getAttribute('data-mode');
+    }
+
+    function bindNav(nav) {
+      if (!nav) return;
+      var btns = nav.querySelectorAll('button[data-section]');
+      for (var i = 0; i < btns.length; i++) {
+        btns[i].addEventListener('click', function () {
+          setSection(this.getAttribute('data-section'));
+        });
+      }
     }
 
     function setSection(id) {
-      var navBtns = document.querySelectorAll('.s-nav button[data-section]');
-      for (var i = 0; i < navBtns.length; i++) navBtns[i].classList.remove('active');
-      document.querySelector('.s-nav button[data-section="' + id + '"]').classList.add('active');
+      if (!id) return;
+      var nav = document.querySelector('.s-nav[data-mode-nav="' + currentMode() + '"]');
+      if (nav) {
+        var navBtns = nav.querySelectorAll('button[data-section]');
+        for (var i = 0; i < navBtns.length; i++) navBtns[i].classList.remove('active');
+        var target = nav.querySelector('button[data-section="' + id + '"]');
+        if (target) target.classList.add('active');
+      }
       var sections = document.querySelectorAll('.section');
       for (var j = 0; j < sections.length; j++) sections[j].classList.remove('active');
-      document.getElementById(id).classList.add('active');
+      var section = document.getElementById(id);
+      if (section) section.classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setMode(mode, sectionId) {
+      document.body.setAttribute('data-mode', mode);
+      var demoBtns = document.querySelectorAll('.demo button[data-mode-target]');
+      for (var i = 0; i < demoBtns.length; i++) demoBtns[i].classList.toggle('active', demoBtns[i].getAttribute('data-mode-target') === mode);
+      var defaultId = sectionId || (mode === 'signed' ? 'home' : 'g-announcements');
+      setSection(defaultId);
+    }
+
+    function applyVacancy(btn) {
+      var title = btn.closest('.vac').querySelector('.vinfo b').childNodes[0].nodeValue.trim();
+      btn.disabled = true;
+      btn.textContent = 'Applied';
+      showToast('Your application for &lsquo;' + title + '&rsquo; was submitted.');
     }
 
     function selectDoc(btn) {
