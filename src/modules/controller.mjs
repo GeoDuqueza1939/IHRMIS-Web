@@ -25,9 +25,9 @@ export default class controller {
             res.render('index', { baseDir: config.baseDir, name: '' });
         });
 
-        this.#setupTestRoutes();
-
         this.#app.use(this.#router);
+        
+        this.#setupTestRoutes();
 
         // 404 handler
         this.#app.use((req, res) => {
@@ -47,6 +47,14 @@ export default class controller {
 
     // TEMPORARY TEST ROUTES : BEGIN
     #setupTestRoutes() {
+        const urlTest = `${config.baseDir}/test`;
+        const urlSample = {
+            login: `${config.baseDir}/test/login`,
+            ssp: `${config.baseDir}/test/ssp`,
+            main: `${config.baseDir}/test/main`,
+        };
+
+        // login sample layouts
         const loginDesigns = [1, 2, 3, 4];
 
         const renderLogin = (req, res) => {
@@ -59,10 +67,11 @@ export default class controller {
             }
         }
 
-        this.#router.get(`${config.baseDir}/test/login/:id`, renderLogin);
-        this.#router.post(`${config.baseDir}/test/login/:id`, renderLogin);
-        this.#router.get(`${config.baseDir}/test/login`, this.#sampleLayoutViewer("Login", loginDesigns, `${config.baseDir}/test/login`));
+        this.#router.get(`${urlSample.login}/:id`, renderLogin);
+        this.#router.post(`${urlSample.login}/:id`, renderLogin);
+        this.#router.get(urlSample.login, this.#sampleLayoutViewer("Login", loginDesigns, urlSample.login));
 
+        // SSP sample layouts
         const sspDesigns = [1, 2, 3];
 
         const renderSSP = (req, res) => {
@@ -75,10 +84,11 @@ export default class controller {
             }
         };
 
-        this.#router.get(`${config.baseDir}/test/ssp/:id`, renderSSP);
-        this.#router.post(`${config.baseDir}/test/ssp/:id`, renderSSP);
-        this.#router.get(`${config.baseDir}/test/ssp`, this.#sampleLayoutViewer("SSP", sspDesigns, `${config.baseDir}/test/ssp`));
+        this.#router.get(`${urlSample.ssp}/:id`, renderSSP);
+        this.#router.post(`${urlSample.ssp}/:id`, renderSSP);
+        this.#router.get(urlSample.ssp, this.#sampleLayoutViewer("SSP", sspDesigns, urlSample.ssp));
 
+        // main sample layouts
         const mainDesigns = [1, 2, 3];
 
         const renderMainById = (req, res) => {
@@ -91,19 +101,18 @@ export default class controller {
             }
         };
 
-        this.#router.get(`${config.baseDir}/test/main/:id`, renderMainById);
-        this.#router.post(`${config.baseDir}/test/main/:id`, renderMainById);
-        this.#router.get(`${config.baseDir}/test/main`, this.#sampleLayoutViewer("Main", mainDesigns, `${config.baseDir}/test/main`));
+        this.#router.get(`${urlSample.main}/:id`, renderMainById);
+        this.#router.post(`${urlSample.main}/:id`, renderMainById);
+        this.#router.get(urlSample.main, this.#sampleLayoutViewer("Main", mainDesigns, urlSample.main));
 
+        // test page
         const renderTest = (req, res) => {
-            res.render('test', { baseDir: config.baseDir, testdata: req });
+            res.render('test', { baseDir: config.baseDir, testdata: req, urls: JSON.stringify(urlSample), });
         }
-        this.#router.get(`${config.baseDir}/test`, renderTest);
-        this.#router.post(`${config.baseDir}/test`, renderTest);
+        this.#router.get(urlTest, renderTest);
+        this.#router.post(urlTest, renderTest);
     }
     // TEMPORARY TEST ROUTES : END
-
-
 
     #showErrorPage(err, friendlyErrorMessage, consoleErrorMessage, res, statusCode = 0) {
         statusCode = (statusCode === 0 ? ((err && err.statusCode) || 500) : statusCode);

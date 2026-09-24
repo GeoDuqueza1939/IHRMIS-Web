@@ -1,6 +1,23 @@
-<form method="POST" action="<%= baseDir %>/test">
-  <label for="testinput">Enter test data:</label>
-  <input id="testinput" name="testinput" type="text" placeholder="Test data" />
-  <button type="submit">Submit</button>
-</form>
-<%= testdata.body == null ? 'No test data provided' : testdata.body.testinput %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="<%= baseDir %>">
+  <title>Test Page</title>
+</head>
+<body>
+  <h2>Test Input</h2>
+  <form method="POST" action="<%= baseDir %>/test">
+    <label for="testinput">Enter test data:</label>
+    <input id="testinput" name="testinput" type="text" placeholder="Test data" />
+    <button type="submit">Submit</button>
+  </form>
+  <%= testdata.body == null ? 'No test data provided' : testdata.body.testinput %>
+
+  <h2>Available Sample Layouts</h2>
+  <ul><% for(url in JSON.parse(urls)) { %>
+    <li><a href="<%= JSON.parse(urls)[url] %>"><%= JSON.parse(urls)[url] %></a></li><% } %>
+  </ul>
+</body>
+</html>
