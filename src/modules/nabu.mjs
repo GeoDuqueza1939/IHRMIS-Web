@@ -3,7 +3,7 @@
 import mysql from 'mysql2/promise';
 import config from './config.mjs';
 
-export default class database { // MySQL data access layer
+export default class nabu { // Networked Archive and Back-end Utility; MySQL data access layer
     // Fields
     #logger = null;
     #pool = null;

@@ -105,6 +105,7 @@ The following list of proposed modules for the IHRMIS is a running list which ma
 * **IRIS** - Incentive and Recognition Information System; PRIME-HRM API for handling requests related to rewards and recognition; optional dependency for IHRMIS module; should have a separate UI
 * **MIDAS** - Management of Income, Deductions, Allowances, and Compensation Services; Optional payroll management system module; should have a separate UI
 * **ARGUS** - Audit, Recording, and Governance for Usage of the System; logging system; dependency for all modules
+* **NABU** - Networked Archive and Back-end Utility module; database and records management module; dependency for all modules
 * **IHRMIS_UI** - Main interface for use by the HRMO and other HR level and Management level personnel
 * **AURORA_UI** - Agency Unified Resources, Operations, and Related Applications; Interface for general use
 
