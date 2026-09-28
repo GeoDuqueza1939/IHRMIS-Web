@@ -1,0 +1,127 @@
+body {
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    color: #ffffff;
+    background:
+        radial-gradient(circle at 12% 15%, rgba(241, 169, 37, 0.22), transparent 40%),
+        linear-gradient(120deg, #0a2547 0%, #0e3a6d 48%, #1b548f 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+
+body::after {
+    content: "";
+    position: absolute;
+    width: 52vmin;
+    height: 52vmin;
+    right: -10vmin;
+    bottom: -10vmin;
+    background: url("/images/Department_of_Education.svg") center / contain no-repeat;
+    opacity: 0.10;
+    pointer-events: none;
+}
+
+.topbar {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding: 1.1rem clamp(1rem, 4vw, 2.5rem);
+}
+
+.topbar .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.topbar > .brand > img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    border-radius: 50%;
+    background: #ffffff;
+    padding: 2px;
+}
+
+.topbar > .brand > .name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.topbar > .brand > .name > .full-name {
+      font-weight: 400;
+      font-size: 0.8rem;
+      letter-spacing: 0.02em;
+      color: #c6d9ef;
+      display: none;
+      visibility: hidden;
+}
+
+.topbar > nav > ul {
+    display: flex;
+    align-items: space-around;
+    margin: 0;
+    padding: 0;
+}
+
+.topbar > nav > ul > li {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+.topbar > nav > ul > li > a {
+    margin-left: 1.4rem;
+    font-size: 0.86rem;
+    color: #dbe7f6;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.topbar > nav > ul > li > a:hover { color: #ffe9b3; }
+
+.bottom-bar {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 1rem clamp(1rem, 4vw, 2.5rem);
+    font-size: 0.8rem;
+    color: #bcd2ee;
+}
+
+.bottom-bar > ul {
+    display: inline-flex;
+    justify-content: space-around;
+    margin: 0;
+    padding: 0;
+}
+
+.bottom-bar > ul > li {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.bottom-bar > ul > li + li::before {
+    content: '\a0\b7\a0';
+    display: inline-block;
+}
+
+.bottom-bar a {
+    color: #dbe7f6;
+    text-decoration: none;
+}
+
+.bottom-bar a:hover { color: #ffe9b3; text-decoration: underline; }
+
+.bottom-bar .divider { margin: 0 0.5rem; opacity: 0.5; }
+

@@ -84,9 +84,11 @@ export default class controller {
         };
 
         // login sample layouts
-        const loginDesigns = [1, 2, 3, 4];
+        const loginDesigns = [1, 2, 3, 4, 31];
 
         const renderLogin = (req, res) => {
+            console.log(`login${req.params.id}`);
+            console.log(JSON.stringify(req.params));
             if (loginDesigns.includes(parseInt(req.params.id))) {
                 res.render(`login${req.params.id}`, { baseDir: config.baseDir, username: req.body?.username || '', password: req.body?.password || '' });
             }
