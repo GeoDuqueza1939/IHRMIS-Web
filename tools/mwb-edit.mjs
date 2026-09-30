@@ -520,6 +520,10 @@ function colByName(table, name) {
     return colsOf(table).find((c) => childText(c, 'name') === name);
 }
 
+function idxByName(table, name) {
+    return children(table, 'indices').find((i) => childText(i, 'name') === name);
+}
+
 function figuresOf(diagram) {
     return children(diagram, 'figures');
 }
@@ -792,7 +796,7 @@ function buildTable(mint, spec, schemaId) {
         val('string', [['key', 'rowFormat']]),
         val('string', [['key', 'statsAutoRecalc']]),
         val('string', [['key', 'statsPersistent']]),
-        val('string', [['key', 'statsSamplePages']]),
+        val('int', [['key', 'statsSamplePages']], '0'),
         val('int', [['key', 'subpartitionCount']], '0'),
         val('string', [['key', 'subpartitionExpression']]),
         val('int', [['key', 'subpartitionKeyAlgorithm']], '0'),
@@ -1057,7 +1061,14 @@ function addForeignKeyOp(ctx, ownerTable, spec, log) {
         onUpdate: spec.onUpdate || 'NO ACTION',
     });
     child(ownerTable, 'foreignKeys').kids.push(fk);
-    child(ownerTable, 'indices').kids.push(idxNode);
+    const existing = idxByName(ownerTable, `${spec.name}_idx`);
+    if (existing) {
+        const link = child(fk, 'index');
+        if (link) link.text = attr(existing, 'id');
+        log.push(`note: ${spec.name} reuses existing index ${childText(existing, 'name')} as backing`);
+    } else {
+        child(ownerTable, 'indices').kids.push(idxNode);
+    }
     touch(ownerTable);
     log.push(`added foreign key ${spec.name} on ${ownerName} -> ${spec.refTable}`);
     // connections are drawn in a deferred pass (drawPendingConnections) so
@@ -1397,6 +1408,46 @@ function wbStructuralCheck(ctx) {
         }
     };
     checkLink(ctx.root, 'model');
+    // GRT value-type consistency: for each struct-name, every occurrence of a
+    // key must share the same `type` attribute (GRT structs are fixed). A lone
+    // outlier means this tool emitted the wrong type — Workbench then refuses
+    // to unserialize the whole model ("expected type X, but got Y").
+    const typeByStructKey = new Map();
+    const walkObjs = (n) => {
+        const sn = attr(n, 'struct-name');
+        if (sn) {
+            for (const k of n.kids) {
+                if (k.tag === 'value' && attr(k, 'key') && attr(k, 'type')) {
+                    const mkey = `${sn}\u0000${attr(k, 'key')}`;
+                    const types = typeByStructKey.get(mkey) || (typeByStructKey.set(mkey, new Map()), typeByStructKey.get(mkey));
+                    types.set(attr(k, 'type'), (types.get(attr(k, 'type')) || 0) + 1);
+                }
+            }
+        }
+        for (const k of n.kids) walkObjs(k);
+    };
+    walkObjs(ctx.root);
+    const counts = (sn, key) => typeByStructKey.get(`${sn}\u0000${key}`) || new Map();
+    const checkTypes = (n) => {
+        const sn = attr(n, 'struct-name');
+        if (sn) {
+            const idsHere = attr(n, 'id');
+            for (const k of n.kids) {
+                if (k.tag === 'value' && attr(k, 'key') && attr(k, 'type')) {
+                    const c = counts(sn, attr(k, 'key'));
+                    const total = [...c.values()].reduce((a, b) => a + b, 0);
+                    if (total > 1) {
+                        const expected = [...c.entries()].sort((a, b) => b[1] - a[1])[0][0];
+                        if (attr(k, 'type') !== expected) {
+                            errors.push(`${sn}${idsHere ? ` ${idsHere}` : ''}: value "${attr(k, 'key')}" is type ${attr(k, 'type')}, expected ${expected}`);
+                        }
+                    }
+                }
+            }
+        }
+        for (const k of n.kids) checkTypes(k);
+    };
+    checkTypes(ctx.root);
     // FK integrity
     for (const t of tablesOf(ctx.schema)) {
         for (const fk of children(t, 'foreignKeys')) {
