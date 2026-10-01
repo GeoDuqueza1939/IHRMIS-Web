@@ -3,110 +3,54 @@
 import config from './config.mjs';
 
 /* ============================================================================
- * KAORI-DB-HANDOFF — instructions for OpenCode agent `Kaori` (DB model owner)
+ * KAORI-DB-NOTE — auth model as implemented in `.docsanddesign/DB-ERD.mwb`
+ * (schema IHRMIS, `User Data` diagram). Applied 2026-10-02 via
+ * `tools/mwb-edit.mjs apply --spec /tmp/opencode/auth-spec.json`
+ * (new `alterColumns` op); `wbcheck` structural + type checks passed and
+ * MySQL Workbench 8.0.47 opens the model cleanly (126 tables, 13 diagrams).
  * ----------------------------------------------------------------------------
- * CONTEXT
- * JANUS (Joint Authentication and Navigation for Unified Services) manages
- * user accounts + authentication. The `User` table already exists in
- * `.docsanddesign/DB-ERD.mwb` (schema IHRMIS, `User Data` diagram) and may be
- * ALTERed when necessary. Current shape (see `tools/mwb-edit.mjs digest`):
- *   User(userId BIGINT UNSIGNED PK AI, username VARCHAR(100) UNIQUE NN,
- *        password_hash VARCHAR(100) NN, initial_login BOOL DEFAULT 1,
- *        personId FK->Person CASCADE)
- * There are NO Role / Right / login / OAuth / token tables yet. PM_Role and
- * ENUM_PM_Role are performance-cycle roles — DO NOT reuse for system RBAC.
- *
- * WHAT KAORI SHOULD DO
- * 1. `node tools/mwb-edit.mjs digest --mwb .docsanddesign/DB-ERD.mwb`
- *    to confirm the `User` table and `User Data` diagram (2 figs, 1 conn).
- * 2. Apply changes ONLY via `tools/mwb-edit.mjs apply --mwb <in> --spec <json>
- *    --out <out>` (never hand-edit document.mwb.xml). Place new tables on the
- *    `User Data` diagram. Keep conventions: InnoDB, `BIGINT UNSIGNED AI` PKs,
- *    `fk_<Child>_<Parent><n>` FK names, `NO ACTION/RESTRICT` on ref tables,
- *    `CASCADE` from User -> child rows.
- * 3. Run `wbcheck` / roundtrip and ensure Workbench opens the model cleanly.
- * 4. Report back table/column deltas + the edits.json spec used.
- *
- * REQUIRED MODEL (illustrative DDL — translate to addTables/addColumns/
- * addForeignKeys spec; keep names exactly as below so janus.mjs queries match)
- *
- * -- 1) ALTER User: wider hash for argon2 + lifecycle + audit timestamps.
- * ALTER TABLE `User`
- *   MODIFY `password_hash` VARCHAR(255) NOT NULL,
- *   ADD COLUMN `status` ENUM('active','inactive','separated') NOT NULL DEFAULT 'active',
- *   ADD COLUMN `user_type` ENUM('external','employee') NOT NULL DEFAULT 'external',
- *   ADD COLUMN `failed_attempts` INT UNSIGNED NOT NULL DEFAULT 0,
- *   ADD COLUMN `locked_until` DATETIME NULL,
- *   ADD COLUMN `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
- *   ADD COLUMN `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
- *     ON UPDATE CURRENT_TIMESTAMP;
- *
- * -- 2) Role = named collection of rights. Seed: JOB_APPLICANT,
- * --    EXTERNAL_USER, REGULAR_EMPLOYEE, HRMO, SYSTEM_ADMIN.
- * CREATE TABLE `Role` (`roleId` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
- *   `code` VARCHAR(50) NOT NULL UNIQUE, `name` VARCHAR(100) NOT NULL,
- *   `description` LONGTEXT) ENGINE=InnoDB;
- * CREATE TABLE `Right` (`rightId` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
- *   `code` VARCHAR(80) NOT NULL UNIQUE, `name` VARCHAR(120) NOT NULL,
- *   `description` LONGTEXT) ENGINE=InnoDB;
- * --    Seed rights (minimum): `rights.assign` (edit others' rights, limited),
- * --    `roles.assign` (assign/remove roles AND rights), `users.manage`,
- * --    `users.link.approve` (approve unlink requests).
- * CREATE TABLE `Role_Right` (`roleId` BIGINT UNSIGNED NOT NULL,
- *   `rightId` BIGINT UNSIGNED NOT NULL, PRIMARY KEY(`roleId`,`rightId`),
- *   FOREIGN KEY (`roleId`) REFERENCES `Role`(`roleId`) ON DELETE CASCADE,
- *   FOREIGN KEY (`rightId`) REFERENCES `Right`(`rightId`) ON DELETE CASCADE
- * ) ENGINE=InnoDB;
- * CREATE TABLE `User_Role` (`userId` BIGINT UNSIGNED NOT NULL,
- *   `roleId` BIGINT UNSIGNED NOT NULL, `granted_by` BIGINT UNSIGNED NULL,
- *   `granted_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
- *   PRIMARY KEY(`userId`,`roleId`),
- *   FOREIGN KEY (`userId`) REFERENCES `User`(`userId`) ON DELETE CASCADE,
- *   FOREIGN KEY (`roleId`) REFERENCES `Role`(`roleId`) ON DELETE RESTRICT
- * ) ENGINE=InnoDB;
- * CREATE TABLE `User_Right` (`userId` BIGINT UNSIGNED NOT NULL,
- *   `rightId` BIGINT UNSIGNED NOT NULL, `granted` BOOLEAN NOT NULL DEFAULT 1,
- *   PRIMARY KEY(`userId`,`rightId`),
- *   FOREIGN KEY (`userId`) REFERENCES `User`(`userId`) ON DELETE CASCADE,
- *   FOREIGN KEY (`rightId`) REFERENCES `Right`(`rightId`) ON DELETE CASCADE
- * ) ENGINE=InnoDB;
- *
- * -- 3) Local logins: 1 primary + up to 3 alt NON-DepEd emails per user.
- * --    App-enforced (janus.mjs): reject `%@deped.gov.ph` for provider='local'.
- * CREATE TABLE `User_Login` (`loginId` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
- *   `userId` BIGINT UNSIGNED NOT NULL, `email` VARCHAR(250) NOT NULL UNIQUE,
- *   `is_primary` BOOLEAN NOT NULL DEFAULT 0, `is_verified` BOOLEAN NOT NULL DEFAULT 0,
- *   `provider` ENUM('local','google','ms365') NOT NULL DEFAULT 'local',
- *   FOREIGN KEY (`userId`) REFERENCES `User`(`userId`) ON DELETE CASCADE
- * ) ENGINE=InnoDB;
- *
- * -- 4) DepEd SSO links: one row per (provider, subject); both Google and
- * --    MS365 DepEd accounts may link to the SAME User. Unlink = user requests,
- * --    sysadmin approves (see `Unlink_Request`).
- * CREATE TABLE `OAuth_Account` (`oauthId` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
- *   `userId` BIGINT UNSIGNED NOT NULL, `provider` ENUM('google','ms365') NOT NULL,
- *   `subject` VARCHAR(255) NOT NULL, `deped_email` VARCHAR(250) NOT NULL,
- *   UNIQUE(`provider`,`subject`), UNIQUE(`provider`,`deped_email`),
- *   FOREIGN KEY (`userId`) REFERENCES `User`(`userId`) ON DELETE CASCADE
- * ) ENGINE=InnoDB;
- * CREATE TABLE `Unlink_Request` (`requestId` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
- *   `userId` BIGINT UNSIGNED NOT NULL, `oauthId` BIGINT UNSIGNED NOT NULL,
- *   `status` ENUM('pending','approved','rejected') NOT NULL DEFAULT 'pending',
- *   `requested_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
- *   `decided_by` BIGINT UNSIGNED NULL, `decided_at` DATETIME NULL,
- *   FOREIGN KEY (`userId`) REFERENCES `User`(`userId`) ON DELETE CASCADE,
- *   FOREIGN KEY (`oauthId`) REFERENCES `OAuth_Account`(`oauthId`) ON DELETE CASCADE
- * ) ENGINE=InnoDB;
- * CREATE TABLE `Verification_Token` (`tokenId` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
- *   `userId` BIGINT UNSIGNED NOT NULL, `loginId` BIGINT UNSIGNED NULL,
- *   `token_hash` CHAR(64) NOT NULL, `purpose` ENUM('signup','verify_alt','reset','link') NOT NULL,
- *   `expires_at` DATETIME NOT NULL, `used_at` DATETIME NULL,
- *   FOREIGN KEY (`userId`) REFERENCES `User`(`userId`) ON DELETE CASCADE
- * ) ENGINE=InnoDB;
- *
+ * DELTAS vs the original handoff (per owner decisions):
+ * - `User.username` widened VARCHAR(100) -> VARCHAR(250): signup/login take
+ *   emails (`User_Login.email` is 250), so 100 would truncate long addresses.
+ * - `User.status` / `User_Login.provider` / `OAuth_Account.provider` are
+ *   TINYINT UNSIGNED FKs to retained ENUM tables (NOT native MySQL ENUMs),
+ *   so future statuses/providers need data rows, not DDL:
+ *     ENUM_User_Status(status): 0: Not specified, 1: Active, 2: Inactive,
+ *       3: Separated. `User.status` DEFAULT 1, RESTRICT on delete.
+ *     ENUM_OAuth_Provider(provider): 0: Not specified, 1: Local, 2: Google,
+ *       3: Microsoft 365. `User_Login.provider` DEFAULT 1, RESTRICT.
+ *     ENUM_User_Type(user_type): 0: Not specified, 1: External, 2: Employee.
+ *       `User.user_type` DEFAULT 1, RESTRICT. (Tabled for future user types.)
+ *   `User.user_type` native ENUM dropped; `Verification_Token.purpose` stays
+ *   native ENUM('signup','verify_alt','reset','link') (a purpose, not a ref).
+ * - `User.password_hash` VARCHAR(255) NN (argon2); + `failed_attempts`,
+ *   `locked_until`, `created_at` (DEFAULT CURRENT_TIMESTAMP), `updated_at`
+ *   (DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP — folded into the
+ *   default expression: GRT has no column-level ON UPDATE key, Workbench
+ *   forward-engineers `DEFAULT <value>` verbatim so the SQL stays valid).
+ * - `Verification_Token` gains lookup index `idx_Verification_Token_hash`
+ *   (verifyUser looks tokens up by hash); `loginId`/`granted_by`/`decided_by`
+ *   intentionally carry NO FK (insert-ordering); table/column names match this
+ *   file's queries exactly. All user-owned rows CASCADE from User; shared
+ *   refs (Role, Right, ENUMs) are RESTRICT. Junctions use composite PKs.
+ * ----------------------------------------------------------------------------
+ * ACTION ITEMS (Duke / app side — deploy-blocking):
+ * 1. Id-map the string guards: `setUserStatus` ('active'->1, 'inactive'->2,
+ *    'separated'->3) and provider checks ('local'->1, 'google'->2,
+ *    'ms365'->3), or look them up from the ENUM tables. Current string
+ *    comparisons WILL FAIL against the TINYINT columns.
+ * 2. NABU seeder (or manual inserts) for all three ENUM tables — rows must
+ *    exist or every FK insert fails. Source of truth = table COMMENTs.
+ * 3. Seeds for `Role` (JOB_APPLICANT default, EXTERNAL_USER, REGULAR_EMPLOYEE,
+ *    HRMO, SYSTEM_ADMIN) and `Right` (rights.assign, roles.assign,
+ *    users.manage, users.link.approve) still live in COMMENTs only.
+ * BACKLOG (not this pass): one-go conversion of ENUM tables — at minimum the
+ * three new ones, possibly all `ENUM_*` — to native MySQL ENUM types.
+ * ----------------------------------------------------------------------------
  * NOTES: keep `Email_Address` (Person contact) separate from `User_Login`
  * (auth identity). DepEd users MAY keep non-DepEd alt local emails; they just
- * may never use a @deped.gov.ph address in the email-login path.
+ * may never use a @deped.gov.ph address in the email-login path. PM_Role and
+ * ENUM_PM_Role are performance-cycle roles — DO NOT reuse for system RBAC.
  * ============================================================================
  */
 

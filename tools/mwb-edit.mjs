@@ -43,6 +43,12 @@
 //     }]
 //   }],
 //   "addColumns": [{"table": "T", "columns": [ ... ]}],
+//   "alterColumns": [{"table": "T", "columns": [
+//     {"name": "c", "type": "VARCHAR(250)", "notNull": false, "default": "x",
+//      "comment": "", "onUpdate": "CURRENT_TIMESTAMP"}]}],
+//     (existing columns are modified in place, keeping id/oldName so FKs and
+//      indexes stay linked; missing columns are added; onUpdate folds into the
+//      default expression since GRT has no column-level ON UPDATE key),
 //   "placeTables": [{"table": "Existing", "diagram": "D", "x": 20, "y": 20}],
 //   "addForeignKeys": [{"table": "T", "name": "...", "columns": [...],
 //                       "refTable": "...", "refColumns": [...],
@@ -524,6 +530,12 @@ function idxByName(table, name) {
     return children(table, 'indices').find((i) => childText(i, 'name') === name);
 }
 
+function isColumnInPrimary(table, colId) {
+    const pk = children(table, 'indices').find((i) => childText(i, 'name') === 'PRIMARY');
+    if (!pk) return false;
+    return children(pk, 'columns').some((ic) => childText(ic, 'referencedColumn') === colId);
+}
+
 function figuresOf(diagram) {
     return children(diagram, 'figures');
 }
@@ -647,6 +659,14 @@ function buildColumn(mint, spec, tableId) {
     const autoInc = !!spec.autoIncrement;
     const flags = t.unsigned ? [{ tag: 'value', attrs: [['type', 'string']], kids: [], text: 'UNSIGNED' }] : [];
     const hasDefault = spec.default !== undefined && spec.default !== null;
+    // GRT db.mysql.Column has no column-level ON UPDATE key. Fold it into the
+    // default expression: Workbench forward-engineers `DEFAULT <defaultValue>`
+    // verbatim, so `DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`
+    // stays valid SQL and round-trips as a plain string.
+    if (spec.onUpdate && !hasDefault) fail(`column ${spec.name}: onUpdate requires a default`);
+    const defaultText = hasDefault
+        ? String(spec.default) + (spec.onUpdate ? ` ON UPDATE ${spec.onUpdate}` : '')
+        : '';
     const colId = newId();
     const col = {
         tag: 'value',
@@ -660,8 +680,8 @@ function buildColumn(mint, spec, tableId) {
             { tag: 'value', attrs: [['_ptr_', mint.mint()], ['type', 'list'], ['content-type', 'object'], ['content-struct-name', 'db.CheckConstraint'], ['key', 'checks']], kids: [], text: '' },
             val('string', [['key', 'collationName']]),
             val('string', [['key', 'datatypeExplicitParams']], t.values ? `(${t.values.map((v) => `'${v.replace(/'/g, "''")}'`).join(',')})` : ''),
-            val('string', [['key', 'defaultValue']], hasDefault ? String(spec.default) : ''),
-            val('int', [['key', 'defaultValueIsNull']], hasDefault ? '0' : (spec.default === null && !notNull ? '1' : '0')),
+            val('string', [['key', 'defaultValue']], defaultText),
+            val('int', [['key', 'defaultValueIsNull']], defaultText !== '' ? '0' : (spec.default === null && !notNull ? '1' : '0')),
             { tag: 'value', attrs: [['_ptr_', mint.mint()], ['type', 'list'], ['content-type', 'string'], ['key', 'flags']], kids: flags, text: '' },
             val('int', [['key', 'isNotNull']], notNull ? '1' : '0'),
             val('int', [['key', 'length']], String(t.length)),
@@ -1318,6 +1338,45 @@ function applySpec(ctx, spec, log) {
             if (colByName(t, c.name)) fail(`addColumns: ${a.table}.${c.name} already exists`);
             colsEl.kids.push(buildColumn(ctx.mint, c, attr(t, 'id')));
             log.push(`added column ${a.table}.${c.name}`);
+        }
+        touch(t);
+    }
+    for (const a of spec.alterColumns || []) {
+        const t = tableByName(ctx.schema, a.table);
+        if (!t) fail(`alterColumns: table ${a.table} not found`);
+        const colsEl = child(t, 'columns');
+        for (const c of a.columns || []) {
+            const cur = colByName(t, c.name);
+            if (!cur) {
+                colsEl.kids.push(buildColumn(ctx.mint, c, attr(t, 'id')));
+                log.push(`added column ${a.table}.${c.name}`);
+                continue;
+            }
+            // merge the spec over current state; rebuild the node but keep its
+            // identity (id/oldName) so FKs, indexes and figures stay linked.
+            const dv = childText(cur, 'defaultValue');
+            const dvMatch = /^(.*)\s+ON UPDATE\s+(.+)$/i.exec(dv);
+            const curSpec = {
+                type: displayType(cur),
+                notNull: childText(cur, 'isNotNull') === '1',
+                autoIncrement: childText(cur, 'autoIncrement') === '1',
+                pk: isColumnInPrimary(t, attr(cur, 'id')),
+                default: childText(cur, 'defaultValueIsNull') === '1' ? null
+                    : (dvMatch ? dvMatch[1] : (dv !== '' ? dv : undefined)),
+                onUpdate: dvMatch ? dvMatch[2] : undefined,
+                comment: childText(cur, 'comment'),
+                ...c,
+                name: c.name,
+            };
+            if (curSpec.onUpdate && (curSpec.default === undefined || curSpec.default === null)) {
+                fail(`alterColumns: ${a.table}.${c.name}: onUpdate requires a default`);
+            }
+            const rebuilt = buildColumn(ctx.mint, curSpec, attr(t, 'id'));
+            setAttr(rebuilt, 'id', attr(cur, 'id'));
+            child(rebuilt, 'oldName').text = childText(cur, 'oldName') || c.name;
+            cur.kids = rebuilt.kids;
+            touch(cur);
+            log.push(`altered column ${a.table}.${c.name}`);
         }
         touch(t);
     }
