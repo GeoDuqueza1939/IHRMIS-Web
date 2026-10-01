@@ -158,8 +158,9 @@ export default class controller {
     }
 
     addCustomRoute(method, url, renderFunc) {
-        if (method !== '' && method != null && ['get', 'post', 'push', 'patch', 'delete'].contains(method)) {
-            this.#router[method](url, renderFunc);
+        if (typeof method === 'string' && typeof url === 'string' && typeof renderFunc === 'function'
+            && ['get', 'post', 'put', 'patch', 'delete'].includes(method.toLowerCase())) {
+            this.#router[method.toLowerCase()](url, renderFunc);
         }
     }
 }

@@ -8,6 +8,7 @@ import server from './server.mjs';
 import lifecycle from './lifecycle.mjs';
 import controller from './controller.mjs';
 import nabu from './nabu.mjs';
+import janus from './janus.mjs';
 
 const __dirname = config.rootDir;
 
@@ -23,6 +24,7 @@ export default class ihrmis_app {
     #lifecycle = null;
     #controller = null;
     #nabu = null;
+    #janus = null;
     #ready = false;
 
     // Constructor
@@ -55,6 +57,9 @@ export default class ihrmis_app {
         }
 
         this.#controller = new controller({ app: this.#app, logger: this.#logger });
+
+        // JANUS owns /janus/* auth + account routes (login3.ejs is canonical UI).
+        this.#janus = new janus(this);
 
         this.#ready = true;
 

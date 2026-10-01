@@ -43,6 +43,35 @@ const config = {
         connectionLimit: Number(process.env.IHRMIS_MYSQL_CONNECTION_LIMIT) || 10,
         queueLimit: 0,
     },
+
+    janus: {
+        depedDomain: process.env.IHRMIS_DEPED_DOMAIN || 'deped.gov.ph',
+        maxAltLogins: Number(process.env.IHRMIS_MAX_ALT_LOGINS) || 3, // primary + up to 3 alt local emails
+        sessionMaxAgeMs: Number(process.env.IHRMIS_SESSION_MAX_AGE_MS) || 12 * 60 * 60 * 1000,
+        lockoutThreshold: Number(process.env.IHRMIS_LOCKOUT_THRESHOLD) || 5,
+        lockoutMinutes: Number(process.env.IHRMIS_LOCKOUT_MINUTES) || 15,
+    },
+
+    oidc: {
+        google: {
+            clientId: process.env.IHRMIS_GOOGLE_CLIENT_ID || '',
+            clientSecret: process.env.IHRMIS_GOOGLE_CLIENT_SECRET || '',
+            hd: process.env.IHRMIS_GOOGLE_HD || 'deped.gov.ph',
+        },
+        ms365: {
+            clientId: process.env.IHRMIS_MS_CLIENT_ID || '',
+            clientSecret: process.env.IHRMIS_MS_CLIENT_SECRET || '',
+            tenant: process.env.IHRMIS_MS_TENANT || 'common',
+        },
+    },
+
+    smtp: {
+        host: process.env.IHRMIS_SMTP_HOST || '',
+        port: Number(process.env.IHRMIS_SMTP_PORT) || 587,
+        user: process.env.IHRMIS_SMTP_USER || '',
+        password: process.env.IHRMIS_SMTP_PASSWORD || '',
+        from: process.env.IHRMIS_SMTP_FROM || 'IHRMIS <no-reply@deped.gov.ph>',
+    },
 };
 
 export default config;
