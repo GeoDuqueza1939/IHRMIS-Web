@@ -1,0 +1,3 @@
+# Rendered previews are generated locally via `dia -e`; only the .dia sources
+# are versioned.
+*.png
