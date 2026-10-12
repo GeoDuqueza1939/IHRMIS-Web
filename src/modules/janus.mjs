@@ -34,16 +34,22 @@ import config from './config.mjs';
  *   file's queries exactly. All user-owned rows CASCADE from User; shared
  *   refs (Role, Right, ENUMs) are RESTRICT. Junctions use composite PKs.
  * ----------------------------------------------------------------------------
- * ACTION ITEMS (Duke / app side — deploy-blocking):
- * 1. Id-map the string guards: `setUserStatus` ('active'->1, 'inactive'->2,
- *    'separated'->3) and provider checks ('local'->1, 'google'->2,
- *    'ms365'->3), or look them up from the ENUM tables. Current string
- *    comparisons WILL FAIL against the TINYINT columns.
- * 2. NABU seeder (or manual inserts) for all three ENUM tables — rows must
- *    exist or every FK insert fails. Source of truth = table COMMENTs.
- * 3. Seeds for `Role` (JOB_APPLICANT default, EXTERNAL_USER, REGULAR_EMPLOYEE,
- *    HRMO, SYSTEM_ADMIN) and `Right` (rights.assign, roles.assign,
- *    users.manage, users.link.approve) still live in COMMENTs only.
+ * ACTION ITEMS — status 2026-10-12 (Kaori):
+ * 1. DONE (Duke 67b45ab): id-maps + runtime loadEnumMaps; string guards now
+ *    resolve to ids. Public signatures unchanged.
+ * 2. DONE (Duke 67b45ab): `src/tools/seed-janus.mjs` + `seed:janus` script
+ *    (ENUMs + Role/Right + Role_Right grants to HRMO/SYSTEM_ADMIN).
+ *    Seed direction since agreed: MODEL ROWS canonical (Inserts tab);
+ *    seeder is the deploy runner. Both must stay identical — diff
+ *    `seed:janus --dry-run` against `tools/mwb-inserts.py` output on drift.
+ *    `Role_Right` grants stay seeder-only (runtime ids).
+ * 3. OPEN (owner, Workbench Inserts tab): 11 ENUM descriptions are still NULL
+ *    in the model (seeder has text) + 9 Role/Right rows missing entirely.
+ *    Copy the seeder text in; then schema.sql carries them automatically.
+ * 4. OPEN (Duke): approveUnlink guard is vacuous (always true); verifyOAuthUser
+ *    double-gate rejects the microsoft365 aliases the mapper accepts;
+ *    loadEnumMaps derives a junk 'not'->0 key. Non-blocking nits.
+ * 5. OPEN (DBA): live schema + app user still not created (see db/README.md).
  * BACKLOG (not this pass): one-go conversion of ENUM tables — at minimum the
  * three new ones, possibly all `ENUM_*` — to native MySQL ENUM types.
  * ----------------------------------------------------------------------------
@@ -162,7 +168,7 @@ export default class janus {
         const b = this.#janus_url;
         const renderLogin = (req, res) => {
             this.#logger?.info(`JANUS login page: ${req.method} ${req.url}`);
-            res.render('login3', {
+            res.render('login31', {
                 baseDir: config.baseDir,
                 username: req.body?.username || '',
                 password: '',
@@ -183,13 +189,13 @@ export default class janus {
             this.#controller.addCustomRoute('get', `${b}/login`, renderLogin);
             this.#controller.addCustomRoute('post', `${b}/login`, this.#handleEmailLogin.bind(this));
             this.#controller.addCustomRoute('get', `${b}/logout`, (req, res) => res.redirect(`${b}/login`));
-            this.#controller.addCustomRoute('get', `${b}/signup`, (req, res) => res.render('login3', {
+            this.#controller.addCustomRoute('get', `${b}/signup`, (req, res) => res.render('login31', {
                 baseDir: config.baseDir, username: '', password: '', error: '', warning: 'Signup uses email verification (pending SMTP config).',
             }));
             this.#controller.addCustomRoute('post', `${b}/signup`, this.#handleSignup.bind(this));
             this.#controller.addCustomRoute('get', `${b}/auth/google`, passport('google'));
             this.#controller.addCustomRoute('get', `${b}/auth/ms365`, passport('ms365'));
-            this.#controller.addCustomRoute('get', `${b}/forgot`, (req, res) => res.render('login3', {
+            this.#controller.addCustomRoute('get', `${b}/forgot`, (req, res) => res.render('login31', {
                 baseDir: config.baseDir, username: '', password: '', error: '', warning: 'Password reset via email link (pending SMTP config).',
             }));
         } catch (err) {
@@ -202,14 +208,14 @@ export default class janus {
         const warning = emailLoginWarning(username);
         if (warning) {
             this.#logger?.warn(`JANUS email-login blocked for DepEd address: ${username}`);
-            return res.status(400).render('login3', {
+            return res.status(400).render('login31', {
                 baseDir: config.baseDir, username, password: '', error: '', warning,
             });
         }
         // TODO(Kaori tables landed): lookup User_Login+User, check status/lockout,
         // argon2-verify password_hash, rotate session, update failed_attempts.
         this.#logger?.info(`JANUS email-login attempt: ${username}`);
-        return res.status(501).render('login3', {
+        return res.status(501).render('login31', {
             baseDir: config.baseDir, username, password: '',
             error: 'Email sign-in is not fully wired yet (pending User_Login tables + argon2).',
             warning: '',
@@ -220,13 +226,13 @@ export default class janus {
         const username = normalizeEmail(req.body?.username);
         const warning = emailLoginWarning(username);
         if (warning) {
-            return res.status(400).render('login3', {
+            return res.status(400).render('login31', {
                 baseDir: config.baseDir, username, password: '', error: '', warning,
             });
         }
         // TODO: create User + User_Login(is_verified=0) + Verification_Token, send SMTP link.
         this.#logger?.info(`JANUS signup attempt: ${username}`);
-        return res.status(501).render('login3', {
+        return res.status(501).render('login31', {
             baseDir: config.baseDir, username, password: '',
             error: 'Signup email verification is pending (SMTP + Verification_Token).',
             warning: '',

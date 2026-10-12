@@ -58,7 +58,7 @@ export default class ihrmis_app {
 
         this.#controller = new controller({ app: this.#app, logger: this.#logger });
 
-        // JANUS owns /janus/* auth + account routes (login3.ejs is canonical UI).
+        // JANUS owns /janus/* auth + account routes (login31.ejs is canonical UI; login3.ejs kept as fallback).
         this.#janus = new janus(this);
 
         this.#ready = true;

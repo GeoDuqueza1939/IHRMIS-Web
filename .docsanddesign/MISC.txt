@@ -1,0 +1,75 @@
+Document Types:
+  Job Application Letter
+  Personal Data Sheet (CS Form No. 212)
+  Curriculum Vitae
+  Resume
+  Bio-Data
+  Birth Certificate
+  Baptismal Certificate
+  Marriage Certificate
+  Barangay Residence Certificate
+  Voter's Certificate
+  Identification
+  NBI Clearance
+  Police Clearance
+  Barangay Clearance
+  Certificate of Eligibility (CSC)
+  Report of Rating (CSC)
+  SF10
+  Transcript of Records
+  Diploma
+  Certificate of Completion (graduate/post-graduate units/degrees)
+  Certificate of Authenticity and Veracity (CAV)
+  Certificate of Training
+  Certificate of Employment
+  Contract of Service
+  Service Record
+  CSC Appointment
+  Barangay Business Clearance
+  DTI Registration
+  Business Permit
+  Performance Rating
+  Research
+  Research Brief
+  Research Proposal
+  Project Proposal
+  Learning Proposal
+  Accomplishment Report
+  Certification of Adoption of Project/Innovation
+  Legal Affidavit
+  Narrative Report
+  UN Declaration/Regulations
+  Republic Act
+  Executive Order
+  Presidential Decree
+  Administrative Order
+  Memorandum Circular
+  DepEd Order
+  DepEd Memorandum
+  Division Memorandum
+  Office Memorandum
+  Localized Policy
+  City/Municipal Ordinance
+  Barangay Ordinance
+
+Resource Hosting Type:
+  Web
+  File Server
+  Database
+
+File Types:
+  MS Word Document (.doc/.docx)
+  MS Excel Workbook (.xls/.xlsx)
+  MS PowerPoint Presentation (.ppt/.pptx)
+  OpenDocument Text Document (.odt)
+  OpenDocument Spreadsheet (.ods)
+  OpenDocument Presentation (.odp)
+  OpenDocument Graphics (.odg)
+  OpenDocument Formula (.odf)
+  PDF
+  PNG
+  JPEG
+  GIF
+  BMP
+  WEBP
+  Text File (.txt)
