@@ -58,6 +58,64 @@ const DEPED_SUFFIX = `@${(config.janus?.depedDomain || 'deped.gov.ph').toLowerCa
 const MAX_ALT_LOGINS = config.janus?.maxAltLogins ?? 3;
 const SEED_ROLES = ['JOB_APPLICANT', 'EXTERNAL_USER', 'REGULAR_EMPLOYEE', 'HRMO', 'SYSTEM_ADMIN'];
 
+/* ----------------------------------------------------------------------------
+ * ENUM id-maps (Duke follow-up to KAORI-DB-NOTE action item #1).
+ * `User.status`, `User.user_type`, `User_Login.provider`, and
+ * `OAuth_Account.provider` are TINYINT FKs, NOT native ENUMs. Source of truth
+ * is the table COMMENTs in DB-ERD.mwb (seeded by tools/seed-janus.mjs).
+ * App code must use these ids in SQL; the string helpers below keep the
+ * public method signatures stable (accept 'active' etc., resolve to id).
+ * Prefer `loadEnumMaps(db)` at runtime over these static defaults when the
+ * DB is reachable, so future rows need no code change.
+ * ----------------------------------------------------------------------------
+ */
+export const USER_STATUS = Object.freeze({ unspecified: 0, active: 1, inactive: 2, separated: 3 });
+export const USER_TYPE = Object.freeze({ unspecified: 0, external: 1, employee: 2 });
+export const OAUTH_PROVIDER = Object.freeze({ unspecified: 0, local: 1, google: 2, ms365: 3 });
+export const UNLINK_STATUS = Object.freeze(['pending', 'approved', 'rejected']);
+
+export function userStatusId(status) {
+    const id = USER_STATUS[String(status || '').toLowerCase()];
+    if (id === undefined) throw new Error(`Unknown status: ${status}`);
+    return id;
+}
+
+export function userTypeId(type) {
+    const id = USER_TYPE[String(type || '').toLowerCase()];
+    if (id === undefined) throw new Error(`Unknown user_type: ${type}`);
+    return id;
+}
+
+export function oAuthProviderId(provider) {
+    const key = String(provider || '').toLowerCase();
+    const alias = key === 'microsoft365' || key === 'microsoft_365' ? 'ms365' : key;
+    const id = OAUTH_PROVIDER[alias];
+    if (id === undefined) throw new Error(`Unknown provider: ${provider}`);
+    return id;
+}
+
+/** Refresh id-maps from the ENUM tables so new rows need no code change. */
+export async function loadEnumMaps(db) {
+    if (!db) return { USER_STATUS, USER_TYPE, OAUTH_PROVIDER };
+    const maps = { USER_STATUS: { ...USER_STATUS }, USER_TYPE: { ...USER_TYPE }, OAUTH_PROVIDER: { ...OAUTH_PROVIDER } };
+    try {
+        const [statusRows] = await db.query('SELECT `status`, `name` FROM `ENUM_User_Status`');
+        for (const r of statusRows || []) maps.USER_STATUS[String(r.name || '').toLowerCase().split(' ')[0]] = r.status;
+    } catch { /* keep static defaults when tables are not seeded yet */ }
+    try {
+        const [typeRows] = await db.query('SELECT `user_type`, `name` FROM `ENUM_User_Type`');
+        for (const r of typeRows || []) maps.USER_TYPE[String(r.name || '').toLowerCase()] = r.user_type;
+    } catch { /* keep static defaults */ }
+    try {
+        const [provRows] = await db.query('SELECT `provider`, `name` FROM `ENUM_OAuth_Provider`');
+        for (const r of provRows || []) {
+            const n = String(r.name || '').toLowerCase();
+            maps.OAUTH_PROVIDER[n.includes('microsoft') ? 'ms365' : n] = r.provider;
+        }
+    } catch { /* keep static defaults */ }
+    return maps;
+}
+
 export function normalizeEmail(email) {
     return String(email || '').trim().toLowerCase();
 }
@@ -215,7 +273,7 @@ export default class janus {
         const email = normalizeEmail(username);
         const warning = emailLoginWarning(email);
         if (warning) throw new Error(warning);
-        // TODO: insert User(user_type=external) + User_Login + Verification_Token(purpose=signup); nodemailer send.
+        // TODO: INSERT User(user_type=<USER_TYPE.external=1>, status=<USER_STATUS.active=1>) + User_Login(provider=1) + Verification_Token(purpose='signup'); nodemailer send.
         this.#logger?.info(`JANUS signup (stub): ${email}`);
     }
 
@@ -234,21 +292,24 @@ export default class janus {
 
     verifyOAuthUser(username, token, provider) { // token from identity provider
         const email = normalizeEmail(username);
-        if (!['google', 'ms365'].includes(provider)) throw new Error(`Unknown provider: ${provider}`);
+        const providerId = oAuthProviderId(provider); // throws on unknown; 'google'->2, 'ms365'->3
+        if (!['google', 'ms365'].includes(String(provider).toLowerCase())) throw new Error(`Unknown provider: ${provider}`);
         if (!isDepEdEmail(email)) throw new Error(`Only ${DEPED_SUFFIX} accounts may use ${provider} sign-in.`);
         if (!token) throw new Error('IdP token is required.');
-        // TODO: JWKS-validate id_token (iss/aud/exp, hd=deped.gov.ph), upsert OAuth_Account,
-        // link to existing User on verified alt-email match, else create User(user_type=employee).
-        this.#logger?.info(`JANUS verifyOAuthUser (stub): ${email} via ${provider}`);
+        // TODO: JWKS-validate id_token (iss/aud/exp, hd=deped.gov.ph), then:
+        // SELECT/INSERT OAuth_Account SET provider=<providerId>, deped_email=<email>;
+        // link to existing User on verified alt-email match, else INSERT User(user_type=<USER_TYPE.employee>).
+        this.#logger?.info(`JANUS verifyOAuthUser (stub): ${email} via ${provider} (provider_id=${providerId})`);
         return false;
     }
 
     linkOAuthAccount(userId, provider, subject, depedEmail) {
         // Both Google and MS365 DepEd accounts may link to the SAME user.
-        if (!['google', 'ms365'].includes(provider)) throw new Error(`Unknown provider: ${provider}`);
+        const providerId = oAuthProviderId(provider);
+        if (![OAUTH_PROVIDER.google, OAUTH_PROVIDER.ms365].includes(providerId)) throw new Error(`Unknown provider: ${provider}`);
         if (!isDepEdEmail(depedEmail)) throw new Error(`Only ${DEPED_SUFFIX} addresses can be linked via ${provider}.`);
-        this.#logger?.info(`JANUS linkOAuthAccount (stub): user=${userId} ${provider}:${normalizeEmail(depedEmail)}`);
-        // TODO: INSERT INTO OAuth_Account(userId, provider, subject, deped_email).
+        this.#logger?.info(`JANUS linkOAuthAccount (stub): user=${userId} ${provider}:${normalizeEmail(depedEmail)} (provider_id=${providerId})`);
+        // TODO: INSERT INTO OAuth_Account(userId, provider=<providerId>, subject, deped_email).
     }
 
     requestUnlink(userId, oauthId) {
@@ -258,8 +319,10 @@ export default class janus {
     }
 
     approveUnlink(requestId, approverId, approve = true) {
+        // Unlink_Request.status is a native ENUM('pending','approved','rejected') — no id-map needed.
+        if (!UNLINK_STATUS.includes(approve ? 'approved' : 'rejected')) throw new Error('Invalid unlink decision.');
         this.#logger?.info(`JANUS unlink ${approve ? 'approved' : 'rejected'} (stub): req=${requestId} by=${approverId}`);
-        // TODO: check approver has users.link.approve / roles.assign; UPDATE Unlink_Request;
+        // TODO: check approver has users.link.approve / roles.assign; UPDATE Unlink_Request SET status, decided_by, decided_at;
         // on approve DELETE OAuth_Account row (never auto-unlink active employee without audit).
     }
 
@@ -275,9 +338,9 @@ export default class janus {
         const alt = normalizeEmail(email);
         const warning = emailLoginWarning(alt);
         if (warning) throw new Error(warning);
-        // TODO: SELECT COUNT(*) FROM User_Login WHERE userId AND provider='local' AND is_primary=0;
-        // throw if >= MAX_ALT_LOGINS; INSERT + Verification_Token(purpose=verify_alt).
-        this.#logger?.info(`JANUS addLogin (stub): user=${userId} alt=${alt} (limit ${MAX_ALT_LOGINS})`);
+        // TODO: SELECT COUNT(*) FROM User_Login WHERE userId=? AND provider=<OAUTH_PROVIDER.local=1> AND is_primary=0;
+        // throw if >= MAX_ALT_LOGINS; INSERT (provider=1) + Verification_Token(purpose='verify_alt').
+        this.#logger?.info(`JANUS addLogin (stub): user=${userId} alt=${alt} (limit ${MAX_ALT_LOGINS}, provider_id=${OAUTH_PROVIDER.local})`);
     }
 
     removeLogin(userId, email) {
@@ -310,14 +373,15 @@ export default class janus {
         // TODO: sysadmin-only; re-point User_Login/OAuth_Account/User_Role/User_Right, keep audit trail.
     }
 
-    setUserStatus(username, status) { // set to active, inactive, or separated.
-        if (!['active', 'inactive', 'separated'].includes(status)) throw new Error(`Unknown status: ${status}`);
-        this.#logger?.info(`JANUS setUserStatus (stub): ${normalizeEmail(username)} -> ${status}`);
-        // TODO: UPDATE User SET status; separated employees keep record, lose access.
+    setUserStatus(username, status) { // 'active'->1, 'inactive'->2, 'separated'->3 (ENUM_User_Status).
+        const statusId = userStatusId(status); // throws on unknown
+        this.#logger?.info(`JANUS setUserStatus (stub): ${normalizeEmail(username)} -> ${status} (status_id=${statusId})`);
+        // TODO: UPDATE User SET status=<statusId> WHERE username=?; separated employees keep record, lose access.
     }
 
     deleteUser(username) { // USE WITH CAUTION — external accounts only per Workflows.md:325
         this.#logger?.warn(`JANUS deleteUser (stub): ${normalizeEmail(username)}`);
-        // TODO: allow only user_type=external (or separated+unlinked); else throw; cascade via FKs + audit.
+        // TODO: SELECT user_type FROM User; allow only user_type=<USER_TYPE.external=1>
+        // (or separated+unlinked); else throw; cascade via FKs + audit.
     }
 }

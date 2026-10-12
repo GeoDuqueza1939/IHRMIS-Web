@@ -22,6 +22,7 @@
   "main": "ihrmis-server.mjs",
   "scripts": {
     "start": "node ihrmis-server.mjs",
+    "seed:janus": "node tools/seed-janus.mjs",
     "test": "echo \"Running tests\" && node ihrmis-server.mjs && exit 0"
   },
   "dependencies": {
