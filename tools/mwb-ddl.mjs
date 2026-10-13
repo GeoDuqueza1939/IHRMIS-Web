@@ -163,10 +163,9 @@ function main() {
     const withRows = ordered.filter((t) => inserts[t.name] && inserts[t.name].rows.length);
     if (withRows.length) {
         L.push('-- ---- seed rows (Workbench Inserts tab; model-canonical) ----');
-        L.push('-- Idempotent (ON DUPLICATE KEY UPDATE) so schema.sql and the');
-        L.push('-- deploy seeder converge regardless of run order. Role_Right');
-        L.push('-- grants are intentionally NOT here: their ids only exist at');
-        L.push('-- deploy time and are resolved by the seeder.');
+        L.push('-- Idempotent (ON DUPLICATE KEY UPDATE). Give seed rows explicit');
+        L.push('-- stable ids (esp. Role/Right) so reloads converge; blank AI-PK');
+        L.push('-- cells are omitted (auto-assign).');
         for (const t of withRows) {
             const cols = inserts[t.name].columns;
             const tm = colTypes.get(t.name);

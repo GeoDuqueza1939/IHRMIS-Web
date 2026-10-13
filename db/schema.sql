@@ -1,5 +1,5 @@
 -- Schema generated from .docsanddesign/DB-ERD.mwb
--- by tools/mwb-ddl.mjs on 2026-10-12T01:34:00.645Z
+-- by tools/mwb-ddl.mjs on 2026-10-12T23:55:03.650Z
 -- DO NOT hand-edit: the .mwb model is the source of truth; regenerate.
 
 CREATE DATABASE IF NOT EXISTS `ihrmis` CHARACTER SET utf8 COLLATE utf8_general_ci;
@@ -516,6 +516,13 @@ CREATE TABLE `Employee` (
   PRIMARY KEY (`empno`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+CREATE TABLE `Information_System` (
+  `info_sysId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `sys_name` VARCHAR(255) NOT NULL,
+  `sys_abbrev` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`info_sysId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 CREATE TABLE `MFO` (
   `mfoId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `mfo` VARCHAR(255) NOT NULL,
@@ -526,28 +533,6 @@ CREATE TABLE `MFO` (
 1: Basic Education Services
 2: Regulatory and Developmental Services
 3: Administrative and Support Services';
-
-CREATE TABLE `Nominee_Evaluation` (
-  `nominee_evaluationId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `nomineeId` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`nominee_evaluationId`),
-  KEY `fk_Nominee_Evaluation_Nominee1_idx` (`nomineeId`),
-  CONSTRAINT `fk_Nominee_Evaluation_Nominee1` FOREIGN KEY (`nomineeId`) REFERENCES `?` (`nomineeId`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-CREATE TABLE `Nominee_Evaluation_History` (
-  `nom_eval_histId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `nominee_evaluationId` INT UNSIGNED NOT NULL,
-  `memberId` BIGINT UNSIGNED NOT NULL COMMENT 'R&R member who viewed or modified the record',
-  `update` TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FALSE: Viewed evaluation record
-TRUE: Edited/saved evaluation record',
-  `timestamp` TIMESTAMP_F NOT NULL,
-  PRIMARY KEY (`nom_eval_histId`),
-  KEY `fk_Nominee_Evaluation_History_Nominee_Evaluation1_idx` (`nominee_evaluationId`),
-  KEY `fk_Nominee_Evaluation_History_Team_Member1_idx` (`memberId`),
-  CONSTRAINT `fk_Nominee_Evaluation_History_Nominee_Evaluation1` FOREIGN KEY (`nominee_evaluationId`) REFERENCES `?` (`nominee_evaluationId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Nominee_Evaluation_History_Team_Member1` FOREIGN KEY (`memberId`) REFERENCES `?` (`memberId`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE `Right` (
   `rightId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -565,7 +550,7 @@ CREATE TABLE `Role` (
   `description` LONGTEXT NULL,
   PRIMARY KEY (`roleId`),
   UNIQUE KEY `uq_Role_code` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Seed: JOB_APPLICANT (default for new users), EXTERNAL_USER, REGULAR_EMPLOYEE, HRMO, SYSTEM_ADMIN';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Seed: JOB_APPLICANT (default for new users), EXT_USER, REG_EMP, HRMO, SYS_ADMIN, TOP_MGMT';
 
 CREATE TABLE `Team` (
   `teamId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -630,6 +615,18 @@ CREATE TABLE `ENUM_PPST_Strand` (
   PRIMARY KEY (`ppst_strand`),
   KEY `fk_ENUM_PPST_Strand_ENUM_PPST_Domain1_idx` (`ppst_domain`),
   CONSTRAINT `fk_ENUM_PPST_Strand_ENUM_PPST_Domain1` FOREIGN KEY (`ppst_domain`) REFERENCES `ENUM_PPST_Domain` (`ppst_domain`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE `ENUM_Setting` (
+  `setting` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `description` LONGTEXT NULL COMMENT 'If description is not blank, name shall be treated as a title.',
+  `info_sysId` INT UNSIGNED NOT NULL,
+  `default_value_text` LONGTEXT NULL,
+  `default_value_num` FLOAT UNSIGNED NULL,
+  PRIMARY KEY (`setting`),
+  KEY `fk_ENUM_Setting_Information_System1_idx` (`info_sysId`),
+  CONSTRAINT `fk_ENUM_Setting_Information_System1` FOREIGN KEY (`info_sysId`) REFERENCES `Information_System` (`info_sysId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE `HR_Action_Request` (
@@ -752,8 +749,8 @@ CREATE TABLE `Team_Member` (
   KEY `fk_Team_Member_ENUM_Team_Role1_idx` (`team_role`),
   KEY `fk_Team_Member_Team1_idx` (`teamId`),
   CONSTRAINT `fk_Team_Member_Employee1` FOREIGN KEY (`empno`) REFERENCES `Employee` (`empno`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Team_Member_ENUM_Team_Role1` FOREIGN KEY (`team_role`) REFERENCES `?` (`team_role`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Team_Member_Team1` FOREIGN KEY (`teamId`) REFERENCES `?` (`teamId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_Team_Member_ENUM_Team_Role1` FOREIGN KEY (`team_role`) REFERENCES `ENUM_Team_Role` (`team_role`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Team_Member_Team1` FOREIGN KEY (`teamId`) REFERENCES `Team` (`teamId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE `Address` (
@@ -798,20 +795,6 @@ CREATE TABLE `ENUM_PPST_Indicator` (
   KEY `fk_ENUM_PPST_Indicator_ENUM_Teacher_Career_Stage1_idx` (`career_stage`),
   CONSTRAINT `fk_ENUM_PPST_Indicator_ENUM_PPST_Strand1` FOREIGN KEY (`ppst_strand`) REFERENCES `ENUM_PPST_Strand` (`ppst_strand`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_ENUM_PPST_Indicator_ENUM_Teacher_Career_Stage1` FOREIGN KEY (`career_stage`) REFERENCES `ENUM_Teacher_Career_Stage` (`career_stage`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-CREATE TABLE `Nominee_Score` (
-  `scoreId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `nominee_evaluationId` INT UNSIGNED NOT NULL,
-  `criterionId` BIGINT UNSIGNED NOT NULL,
-  `raw_score` FLOAT NULL,
-  `max` FLOAT NULL COMMENT 'Ignores max in criterion of this is defined',
-  `final_score` FLOAT NULL COMMENT 'Required for finalized CAR',
-  PRIMARY KEY (`scoreId`),
-  KEY `fk_Nominee_Score_Criterion1_idx` (`criterionId`),
-  KEY `fk_Nominee_Score_Nominee_Evaluation1_idx` (`nominee_evaluationId`),
-  CONSTRAINT `fk_Nominee_Score_Criterion1` FOREIGN KEY (`criterionId`) REFERENCES `Criterion` (`criterionId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Nominee_Score_Nominee_Evaluation1` FOREIGN KEY (`nominee_evaluationId`) REFERENCES `?` (`nominee_evaluationId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE `PM_Coaching_Session` (
@@ -877,8 +860,18 @@ CREATE TABLE `RSP_Team` (
   KEY `fk_RSP_Team_RSP_Cycle1_idx` (`rsp_cycleId`),
   KEY `fk_RSP_Team_Team1_idx` (`teamId`),
   CONSTRAINT `fk_RSP_Team_RSP_Cycle1` FOREIGN KEY (`rsp_cycleId`) REFERENCES `RSP_Cycle` (`rsp_cycleId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_RSP_Team_Team1` FOREIGN KEY (`teamId`) REFERENCES `?` (`teamId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_RSP_Team_Team1` FOREIGN KEY (`teamId`) REFERENCES `Team` (`teamId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE `Setting` (
+  `settingId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `setting` INT UNSIGNED NOT NULL,
+  `setting_value_text` LONGTEXT NULL,
+  `setting_value_num` FLOAT NULL,
+  PRIMARY KEY (`settingId`),
+  KEY `fk_Setting_ENUM_Setting1_idx` (`setting`),
+  CONSTRAINT `fk_Setting_ENUM_Setting1` FOREIGN KEY (`setting`) REFERENCES `ENUM_Setting` (`setting`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Will contain the global settings ';
 
 CREATE TABLE `Sponsored_Award` (
   `sponsored_awardId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -903,7 +896,7 @@ CREATE TABLE `COT_Indicator` (
   PRIMARY KEY (`coiId`),
   KEY `fk_CO_Indicator_Classroom_Observation1_idx` (`classroom_observationId`),
   KEY `fk_CO_Indicator_ENUM_PPST_Indicator1_idx` (`coi`),
-  CONSTRAINT `fk_CO_Indicator_Classroom_Observation1` FOREIGN KEY (`classroom_observationId`) REFERENCES `?` (`classroom_observationId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_CO_Indicator_Classroom_Observation1` FOREIGN KEY (`classroom_observationId`) REFERENCES `Classroom_Observation` (`classroom_observationId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_CO_Indicator_ENUM_PPST_Indicator1` FOREIGN KEY (`coi`) REFERENCES `ENUM_PPST_Indicator` (`ppst_indicator`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -1037,7 +1030,7 @@ CREATE TABLE `RR_Team` (
   KEY `fk_RR_Team_Sponsored_Award1_idx` (`sponsored_awardId`),
   KEY `fk_RR_Team_Team1_idx` (`teamId`),
   CONSTRAINT `fk_RR_Team_Sponsored_Award1` FOREIGN KEY (`sponsored_awardId`) REFERENCES `Sponsored_Award` (`sponsored_awardId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_RR_Team_Team1` FOREIGN KEY (`teamId`) REFERENCES `?` (`teamId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_RR_Team_Team1` FOREIGN KEY (`teamId`) REFERENCES `Team` (`teamId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE `Award` (
@@ -1185,7 +1178,7 @@ CREATE TABLE `LD_Recipient` (
   PRIMARY KEY (`ld_recipientId`),
   KEY `fk_LD_Recipient_LD_Program1_idx` (`ld_programId`),
   KEY `fk_LD_Recipient_Person1_idx` (`personId`),
-  CONSTRAINT `fk_LD_Recipient_LD_Program1` FOREIGN KEY (`ld_programId`) REFERENCES `?` (`ld_programId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_LD_Recipient_LD_Program1` FOREIGN KEY (`ld_programId`) REFERENCES `LD_Program` (`ld_programId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_LD_Recipient_Person1` FOREIGN KEY (`personId`) REFERENCES `Person` (`personId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -1222,7 +1215,7 @@ CREATE TABLE `PM_Classroom_Observation` (
   KEY `fk_PM_Classroom_Observation_Performance1_idx` (`performanceId`),
   KEY `fk_PM_Classroom_Observation_Classroom_Observation1_idx` (`classroom_observationId`),
   CONSTRAINT `fk_PM_Classroom_Observation_Performance1` FOREIGN KEY (`performanceId`) REFERENCES `Performance` (`performanceId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_PM_Classroom_Observation_Classroom_Observation1` FOREIGN KEY (`classroom_observationId`) REFERENCES `?` (`classroom_observationId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_PM_Classroom_Observation_Classroom_Observation1` FOREIGN KEY (`classroom_observationId`) REFERENCES `Classroom_Observation` (`classroom_observationId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE `PM_Competency_Indicator` (
@@ -1340,7 +1333,7 @@ CREATE TABLE `Training` (
   CONSTRAINT `fk_Training_ENUM_Time_Unit1` FOREIGN KEY (`time_unit`) REFERENCES `ENUM_Time_Unit` (`time_unit`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_Training_Person1` FOREIGN KEY (`personId`) REFERENCES `Person` (`personId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_Training_ENUM_Training_Type1` FOREIGN KEY (`training_type`) REFERENCES `ENUM_Training_Type` (`training_type`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `fk_Training_LD_Program1` FOREIGN KEY (`ld_programId`) REFERENCES `?` (`ld_programId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_Training_LD_Program1` FOREIGN KEY (`ld_programId`) REFERENCES `LD_Program` (`ld_programId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE `User` (
@@ -1421,6 +1414,14 @@ CREATE TABLE `Job_Description` (
   KEY `fk_Job_Description_Duty1_idx` (`dutyId`),
   CONSTRAINT `fk_Job_Description_Position1` FOREIGN KEY (`positionId`) REFERENCES `Position` (`positionId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Job_Description_Duty1` FOREIGN KEY (`dutyId`) REFERENCES `Duty` (`dutyId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE `Nominee_Evaluation` (
+  `nominee_evaluationId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nomineeId` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`nominee_evaluationId`),
+  KEY `fk_Nominee_Evaluation_Nominee1_idx` (`nomineeId`),
+  CONSTRAINT `fk_Nominee_Evaluation_Nominee1` FOREIGN KEY (`nomineeId`) REFERENCES `Nominee` (`nomineeId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE `OAuth_Account` (
@@ -1547,6 +1548,19 @@ CREATE TABLE `User_Role` (
   CONSTRAINT `fk_User_Role_User2` FOREIGN KEY (`granted_by`) REFERENCES `User` (`userId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+CREATE TABLE `User_Setting` (
+  `settingId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `setting` INT UNSIGNED NOT NULL,
+  `setting_value_text` LONGTEXT NULL,
+  `setting_value_num` FLOAT NULL,
+  `userId` BIGINT UNSIGNED NOT NULL,
+  PRIMARY KEY (`settingId`),
+  KEY `fk_User_Setting_User1_idx` (`userId`),
+  KEY `fk_User_Setting_ENUM_Setting1_idx` (`setting`),
+  CONSTRAINT `fk_User_Setting_User1` FOREIGN KEY (`userId`) REFERENCES `User` (`userId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_User_Setting_ENUM_Setting1` FOREIGN KEY (`setting`) REFERENCES `ENUM_Setting` (`setting`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Will contain user settings ';
+
 CREATE TABLE `Verification_Token` (
   `tokenId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `userId` BIGINT UNSIGNED NOT NULL,
@@ -1592,6 +1606,34 @@ CREATE TABLE `Incumbency` (
   CONSTRAINT `fk_Incumbency_ENUM_HR_Action1` FOREIGN KEY (`hr_action`) REFERENCES `ENUM_HR_Action` (`hr_action`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Incumbency_ENUM_HR_Action2` FOREIGN KEY (`mode_of_separation`) REFERENCES `ENUM_HR_Action` (`hr_action`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='This should cover all HR actions related to incumbency.';
+
+CREATE TABLE `Nominee_Evaluation_History` (
+  `nom_eval_histId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nominee_evaluationId` INT UNSIGNED NOT NULL,
+  `memberId` BIGINT UNSIGNED NOT NULL COMMENT 'R&R member who viewed or modified the record',
+  `update` TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FALSE: Viewed evaluation record
+TRUE: Edited/saved evaluation record',
+  `timestamp` TIMESTAMP_F NOT NULL,
+  PRIMARY KEY (`nom_eval_histId`),
+  KEY `fk_Nominee_Evaluation_History_Nominee_Evaluation1_idx` (`nominee_evaluationId`),
+  KEY `fk_Nominee_Evaluation_History_Team_Member1_idx` (`memberId`),
+  CONSTRAINT `fk_Nominee_Evaluation_History_Nominee_Evaluation1` FOREIGN KEY (`nominee_evaluationId`) REFERENCES `Nominee_Evaluation` (`nominee_evaluationId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Nominee_Evaluation_History_Team_Member1` FOREIGN KEY (`memberId`) REFERENCES `Team_Member` (`memberId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE `Nominee_Score` (
+  `scoreId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nominee_evaluationId` INT UNSIGNED NOT NULL,
+  `criterionId` BIGINT UNSIGNED NOT NULL,
+  `raw_score` FLOAT NULL,
+  `max` FLOAT NULL COMMENT 'Ignores max in criterion of this is defined',
+  `final_score` FLOAT NULL COMMENT 'Required for finalized CAR',
+  PRIMARY KEY (`scoreId`),
+  KEY `fk_Nominee_Score_Criterion1_idx` (`criterionId`),
+  KEY `fk_Nominee_Score_Nominee_Evaluation1_idx` (`nominee_evaluationId`),
+  CONSTRAINT `fk_Nominee_Score_Criterion1` FOREIGN KEY (`criterionId`) REFERENCES `Criterion` (`criterionId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Nominee_Score_Nominee_Evaluation1` FOREIGN KEY (`nominee_evaluationId`) REFERENCES `Nominee_Evaluation` (`nominee_evaluationId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE `PM_Action_Plan` (
   `action_planId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -1724,7 +1766,7 @@ TRUE: Edited/saved evaluation record',
   KEY `fk_Application_Evaluation_History_Application_Evaluation1_idx` (`evaluationId`),
   KEY `fk_Applicant_Evaluation_History_Team_Member1_idx` (`memberId`),
   CONSTRAINT `fk_Application_Evaluation_History_Application_Evaluation1` FOREIGN KEY (`evaluationId`) REFERENCES `Applicant_Evaluation` (`evaluationId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Applicant_Evaluation_History_Team_Member1` FOREIGN KEY (`memberId`) REFERENCES `?` (`memberId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_Applicant_Evaluation_History_Team_Member1` FOREIGN KEY (`memberId`) REFERENCES `Team_Member` (`memberId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 CREATE TABLE `Applicant_Score` (
@@ -1748,7 +1790,7 @@ CREATE TABLE `RSP_Classroom_Observation` (
   PRIMARY KEY (`rsp_coId`),
   KEY `fk_PM_Classroom_Observation_Classroom_Observation1_idx` (`classroom_observationId`),
   KEY `fk_RSP_Classroom_Observation_Applicant_Evaluation1_idx` (`evaluationId`),
-  CONSTRAINT `fk_PM_Classroom_Observation_Classroom_Observation10` FOREIGN KEY (`classroom_observationId`) REFERENCES `?` (`classroom_observationId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_PM_Classroom_Observation_Classroom_Observation10` FOREIGN KEY (`classroom_observationId`) REFERENCES `Classroom_Observation` (`classroom_observationId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_RSP_Classroom_Observation_Applicant_Evaluation1` FOREIGN KEY (`evaluationId`) REFERENCES `Applicant_Evaluation` (`evaluationId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -1836,10 +1878,9 @@ CREATE TABLE `Relevant_Work` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- ---- seed rows (Workbench Inserts tab; model-canonical) ----
--- Idempotent (ON DUPLICATE KEY UPDATE) so schema.sql and the
--- deploy seeder converge regardless of run order. Role_Right
--- grants are intentionally NOT here: their ids only exist at
--- deploy time and are resolved by the seeder.
+-- Idempotent (ON DUPLICATE KEY UPDATE). Give seed rows explicit
+-- stable ids (esp. Role/Right) so reloads converge; blank AI-PK
+-- cells are omitted (auto-assign).
 INSERT INTO `ENUM_OAuth_Provider` (`description`, `provider`, `name`) VALUES (NULL, 0, 'Not specified') ON DUPLICATE KEY UPDATE `description`=VALUES(`description`), `name`=VALUES(`name`);
 INSERT INTO `ENUM_OAuth_Provider` (`description`, `provider`, `name`) VALUES (NULL, 1, 'Local') ON DUPLICATE KEY UPDATE `description`=VALUES(`description`), `name`=VALUES(`name`);
 INSERT INTO `ENUM_OAuth_Provider` (`description`, `provider`, `name`) VALUES (NULL, 2, 'Google') ON DUPLICATE KEY UPDATE `description`=VALUES(`description`), `name`=VALUES(`name`);
@@ -1851,5 +1892,11 @@ INSERT INTO `ENUM_User_Status` (`description`, `status`, `name`) VALUES (NULL, 3
 INSERT INTO `ENUM_User_Type` (`name`, `description`, `user_type`) VALUES ('Not specified', NULL, 0) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
 INSERT INTO `ENUM_User_Type` (`name`, `description`, `user_type`) VALUES ('External', NULL, 1) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
 INSERT INTO `ENUM_User_Type` (`name`, `description`, `user_type`) VALUES ('Employee', NULL, 2) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `Role` (`code`, `roleId`, `name`, `description`) VALUES ('JOB_APPLICANT', 0, 'Job Applicant', 'Default role for new external signups; least rights') ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `Role` (`code`, `roleId`, `name`, `description`) VALUES ('EXT_USER', 1, 'External User', 'Auxiliary personnel and verified externals') ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `Role` (`code`, `roleId`, `name`, `description`) VALUES ('REG_EMP', 2, 'Regular Employee', 'Employee with linked DepEd account') ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `Role` (`code`, `roleId`, `name`, `description`) VALUES ('HRMO', 3, 'Human Resource Management Officer', 'Human Resource Management Officer; full HRM + role assignment') ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `Role` (`code`, `roleId`, `name`, `description`) VALUES ('SYS_ADMIN', 4, 'System Administrator', 'ITO sysadmin; full rights including user linking') ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `Role` (`code`, `roleId`, `name`, `description`) VALUES ('TOP_MGMT', 5, 'Top Management', 'Primary access to Dashboard and Analytics tools; Approver of requests, documents, reports, and actions') ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `description`=VALUES(`description`);
 
 SET FOREIGN_KEY_CHECKS=1;

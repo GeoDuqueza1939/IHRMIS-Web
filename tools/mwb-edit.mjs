@@ -449,12 +449,15 @@ function childText(node, key) {
     return c ? c.text : undefined;
 }
 
-function isExternalRef(text) {
-    return !/^\{[^}]*\}$/.test(text || '');
-}
-
 function newId() {
     return `{${randomUUID().toUpperCase()}}`;
+}
+
+/** Object ids come braced ({...}) or bare, v4 or v1 — all internal.
+ *  Anything else (dotted GRT paths like com.mysql.rdbms.mysql.datatype.*,
+ *  paper types, …) is external by nature and not validated. */
+function isUuid(text) {
+    return /^\{?[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}\}?$/.test(text || '');
 }
 
 class PtrMint {
@@ -1249,7 +1252,9 @@ function digestModel(ctx) {
             })),
             foreignKeys: children(t, 'foreignKeys').map((fk) => {
                 const rt = child(fk, 'referencedTable');
-                const refTable = rt && !isExternalRef(rt.text) ? ctx.ids.get(rt.text) : null;
+                // NOTE: link targets may be braced ({...}) or bare UUIDs —
+                // both are internal. Resolve by map membership, never by format.
+                const refTable = rt ? ctx.ids.get(rt.text) : null;
                 const cols = children(fk, 'columns').map((l) => {
                     const col = ctx.ids.get(l.text);
                     return col ? childText(col, 'name') : '?';
@@ -1284,7 +1289,7 @@ function digestModel(ctx) {
             }),
             connections: children(d, 'connections').map((c) => {
                 const fl = child(c, 'foreignKey');
-                const fk = fl && !isExternalRef(fl.text) ? ctx.ids.get(fl.text) : null;
+                const fk = fl ? ctx.ids.get(fl.text) : null;
                 return fk ? childText(fk, 'name') : '?';
             }),
         })),
@@ -1507,7 +1512,9 @@ function wbStructuralCheck(ctx) {
     walk(ctx.root);
     const checkLink = (node, where) => {
         for (const k of node.kids) {
-            if (k.tag === 'link' && k.text && !isExternalRef(k.text)) {
+            // UUID-shaped targets (braced or bare) are internal: missing from
+            // the map means dangling. Dotted GRT paths are external by nature.
+            if (k.tag === 'link' && k.text && isUuid(k.text)) {
                 if (!ids.has(k.text)) errors.push(`${where}: dangling link ${attr(k, 'key')} -> ${k.text}`);
             }
             checkLink(k, where);

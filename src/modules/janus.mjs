@@ -37,15 +37,13 @@ import config from './config.mjs';
  * ACTION ITEMS — status 2026-10-12 (Kaori):
  * 1. DONE (Duke 67b45ab): id-maps + runtime loadEnumMaps; string guards now
  *    resolve to ids. Public signatures unchanged.
- * 2. DONE (Duke 67b45ab): `src/tools/seed-janus.mjs` + `seed:janus` script
- *    (ENUMs + Role/Right + Role_Right grants to HRMO/SYSTEM_ADMIN).
- *    Seed direction since agreed: MODEL ROWS canonical (Inserts tab);
- *    seeder is the deploy runner. Both must stay identical — diff
- *    `seed:janus --dry-run` against `tools/mwb-inserts.py` output on drift.
- *    `Role_Right` grants stay seeder-only (runtime ids).
- * 3. OPEN (owner, Workbench Inserts tab): 11 ENUM descriptions are still NULL
- *    in the model (seeder has text) + 9 Role/Right rows missing entirely.
- *    Copy the seeder text in; then schema.sql carries them automatically.
+ * 2. SUPERSEDED 2026-10-13 (owner): model rows are canonical AND the only
+ *    writer. `src/tools/seed-janus.mjs` retired 2026-10-13 (backup:
+ *    `tools/backups/seed-janus.mjs`) and removed; `seed:janus` npm script
+ *    removed with it. `Role_Right` grants stay a manual deploy step until
+ *    they can live in the model against fixed Role/Right ids.
+ * 3. OPEN (owner, Workbench Inserts tab): Role/Right descriptions + any
+ *    remaining rows; then schema.sql carries everything automatically.
  * 4. OPEN (Duke): approveUnlink guard is vacuous (always true); verifyOAuthUser
  *    double-gate rejects the microsoft365 aliases the mapper accepts;
  *    loadEnumMaps derives a junk 'not'->0 key. Non-blocking nits.
@@ -68,7 +66,7 @@ const SEED_ROLES = ['JOB_APPLICANT', 'EXTERNAL_USER', 'REGULAR_EMPLOYEE', 'HRMO'
  * ENUM id-maps (Duke follow-up to KAORI-DB-NOTE action item #1).
  * `User.status`, `User.user_type`, `User_Login.provider`, and
  * `OAuth_Account.provider` are TINYINT FKs, NOT native ENUMs. Source of truth
- * is the table COMMENTs in DB-ERD.mwb (seeded by tools/seed-janus.mjs).
+ * is the table COMMENTs + Inserts-tab rows in DB-ERD.mwb.
  * App code must use these ids in SQL; the string helpers below keep the
  * public method signatures stable (accept 'active' etc., resolve to id).
  * Prefer `loadEnumMaps(db)` at runtime over these static defaults when the
