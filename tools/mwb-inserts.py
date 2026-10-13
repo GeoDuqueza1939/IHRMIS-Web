@@ -12,6 +12,17 @@ Only tables with >= 1 row are listed. Usage:
   python3 tools/mwb-inserts.py model.mwb [--summary]
 With --summary, prints {"tables": n, "rows": m, "perTable": {T: n}} instead.
 Exit non-zero when @db/data.db is absent (caller decides severity).
+
+Set-rows mode (writes Inserts-tab rows into the model):
+  python3 tools/mwb-inserts.py model.mwb --set-rows rows.json [--in-place]
+rows.json maps table names to lists of {column: value} dicts
+(values become TEXT, null stays NULL). Each listed table is REPLACED
+wholesale (DELETE + INSERT), so re-running converges; all other sqlite
+tables (e.g. XP_PROC) and all other zip entries are preserved byte-wise.
+Without --in-place, writes model.out.mwb next to the input (safe default).
+Column order follows the model; ids are used verbatim as they appear in
+the XML (braced and bare UUIDs both occur); unknown table/column names
+are hard errors.
 """
 import json
 import re
@@ -48,10 +59,130 @@ def id_name_map(xml_text):
     return out
 
 
+def model_tables(xml_text):
+    """table name -> {'id': raw id, 'columns': [(raw col id, name)]}.
+
+    Raw ids are kept verbatim (braced AND bare UUIDs both occur in the
+    wild); sqlite table/column names must match them exactly.
+    """
+    root = ET.fromstring(xml_text)
+    out = {}
+    for v in root.iter('value'):
+        if v.get('struct-name') != 'db.mysql.Table' or not v.get('id'):
+            continue
+        tname = None
+        cols = []
+        for c in v:
+            if c.tag != 'value':
+                continue
+            if c.get('key') == 'name':
+                tname = (c.text or '').strip()
+            if c.get('key') == 'columns':
+                for col in c:
+                    cid = col.get('id') or ''
+                    if not SQLITE_RE.match(cid):
+                        continue
+                    cname = None
+                    for k in col:
+                        if k.tag == 'value' and k.get('key') == 'name':
+                            cname = (k.text or '').strip()
+                            break
+                    cols.append((cid, cname))
+        if tname:
+            out[tname] = {'id': v.get('id'), 'columns': cols}
+    return out
+
+
+def cmd_set_rows(mwb_path, rows_path, in_place):
+    import os
+    with open(rows_path, encoding='utf-8') as f:
+        wanted = json.load(f)
+    with zipfile.ZipFile(mwb_path) as z:
+        infos = z.infolist()
+        try:
+            raw = z.read('@db/data.db')
+            have_db = True
+        except KeyError:
+            raw, have_db = None, False
+        xml_text = z.read('document.mwb.xml').decode('utf-8')
+        comment = z.comment
+    tables = model_tables(xml_text)
+    for t in wanted:
+        if t not in tables:
+            print(f'mwb-inserts: set-rows: unknown table {t!r}', file=sys.stderr)
+            return 2
+        known = {cname for _, cname in tables[t]['columns']}
+        for row in wanted[t]:
+            for c in row:
+                if c not in known:
+                    print(f'mwb-inserts: set-rows: {t}: unknown column {c!r}',
+                          file=sys.stderr)
+                    return 2
+    with tempfile.NamedTemporaryFile(suffix='.db', delete=False) as tmp:
+        tmpname = tmp.name
+        if have_db:
+            tmp.write(raw)
+            tmp.flush()
+        con = sqlite3.connect(tmpname)
+        for t, rows in wanted.items():
+            tid = tables[t]['id']
+            con.execute(f'DROP TABLE IF EXISTS "{tid}"')
+            coldefs = ', '.join(['"_" varchar'] +
+                                [f'"{cid}" varchar' for cid, _ in tables[t]['columns']])
+            con.execute(f'CREATE TABLE "{tid}" ({coldefs})')
+            byname = {cname: cid for cid, cname in tables[t]['columns']}
+            order = [cname for _, cname in tables[t]['columns']]
+            for row in rows:
+                vals = [None if row.get(c) is None else str(row.get(c))
+                        for c in order]
+                con.execute(
+                    f'INSERT INTO "{tid}" VALUES ({",".join("?" * (len(order) + 1))})',
+                    [None] + vals)
+        con.commit()
+        con.close()
+        with open(tmpname, 'rb') as f:
+            new_db = f.read()
+        os.unlink(tmpname)
+    out_path = mwb_path if in_place else (
+        mwb_path[:-4] + '.out.mwb' if mwb_path.endswith('.mwb')
+        else mwb_path + '.out.mwb')
+    zin = zipfile.ZipFile(mwb_path)
+    zout = zipfile.ZipFile(out_path, 'w')
+    try:
+        doc_dt = None
+        for info in infos:
+            if info.filename == '@db/data.db':
+                continue
+            if info.filename == 'document.mwb.xml':
+                doc_dt = info.date_time
+            zout.writestr(info, zin.read(info.filename))
+        # match surrounding entries: deflate like document.mwb.xml
+        db_info = zipfile.ZipInfo('@db/data.db')
+        db_info.date_time = doc_dt or db_info.date_time
+        db_info.compress_type = zipfile.ZIP_DEFLATED
+        zout.writestr(db_info, new_db)
+        zout.comment = comment
+    finally:
+        zin.close()
+        zout.close()
+    total = sum(len(v) for v in wanted.values())
+    print(f'mwb-inserts: set {total} row(s) in {len(wanted)} table(s) -> {out_path}',
+          file=sys.stderr)
+    return 0
+
+
 def main():
     if len(sys.argv) < 2:
-        print('usage: mwb-inserts.py <model.mwb> [--summary]', file=sys.stderr)
+        print('usage: mwb-inserts.py <model.mwb> [--summary | --set-rows rows.json [--in-place]]',
+              file=sys.stderr)
         return 2
+    if '--set-rows' in sys.argv:
+        i = sys.argv.index('--set-rows')
+        if i + 1 >= len(sys.argv):
+            print('mwb-inserts: --set-rows needs a rows.json path', file=sys.stderr)
+            return 2
+        return cmd_set_rows(sys.argv[1], sys.argv[i + 1],
+                            '--in-place' in sys.argv)
     summary = '--summary' in sys.argv[1:]
     with zipfile.ZipFile(sys.argv[1]) as z:
         try:

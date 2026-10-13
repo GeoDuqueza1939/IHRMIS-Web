@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="<%= baseDir %>">
+  <title>Employee Record Viewer</title>
+  <link rel="stylesheet" href="/styles/default.css">
+  <link rel="stylesheet" href="/styles/emre.css">
+</head>
+<body>
+    <main class="employee-data">
+        <h1>Employee Record</h1>
+        <aside class="photo">
+            <img src="<% //employee.photo_fpath %>" alt="Employee Photo" />
+        </aside>
+
+        <section class="summary">
+            <p class="data"><span class="label">Name:</span> <span class="value">Dela Cruz, Juan Santos</span></p>
+            <p class="data"><span class="label">Position:</span> <span class="value">Administrative Officer I</span></p>
+            <p class="data"><span class="label">Office/Unit:</span> <span class="value">Sto. Tomas North Central School</span></p>
+            <p class="data"><span class="label">Employee No.:</span> <span class="value"></span></p>
+            <p class="data"><span class="label">Salary Grade and Step:</span> <span class="value">10-1</span></p>
+            <p class="data"><span class="label">Salary/Wage:</span> <span class="value"></span></p>
+            <p class="data"><span class="label">Employment Status:</span> <span class="value">ACTIVE since January 1, 2000</span></p>
+            <p class="data"><span class="label">Designations:</span> <span class="value">NONE</span></p>
+        </section>
+
+        <section class="tabbed-data">
+            <div class="tabs" role="tablist" aria-label="Employee record sections"></div>
+            <section class="job-description" id="tab-job" role="tabpanel" aria-labelledby="tabbtn-job">
+                <h2 class="tab" title="Job Description/Duties and Responsibilities">Job Description</h2>
+                
+                <section class="position">
+                    <p class="data"><span class="label">Position:</span> <span class="value">Administrative Officer I</span></p>
+                    <p class="data"><span class="label">Office/Unit:</span> <span class="value">Sto. Tomas North Central School</span></p>
+                    <p class="data"><span class="label">Description:</span> <span class="value"></span></p>
+
+                    <table class="data-table">
+                        <caption>Duties and Responsibilities</caption>
+                        <thead>
+                            <th>Domain/Key Result Area</th>
+                            <th>Duties/Responsibilities</th>
+                        </thead>
+                    </table>
+                </section>
+
+                <section class="designation">
+                    <p class="data"><span class="label">Designation:</span> <span class="value"></span></p>
+                    <p class="data"><span class="label">Office/Unit:</span> <span class="value"></span></p>
+                    <p class="data"><span class="label">Concurrent:</span> <span class="value">Yes</span></p>
+
+                    <p class="data"><span class="label">Description:</span> <span class="value"></span></p>
+
+                    <table class="data-table">
+                        <caption>Terms of Reference</caption>
+                        <thead>
+                            <th>#</th>
+                            <th>Duties/Responsibilities</th>
+                        </thead>
+                    </table>
+                </section>
+            </section>
+            <section class="personal-data" id="tab-personal" role="tabpanel" aria-labelledby="tabbtn-personal">
+                <h2 class="tab" title="Personal Data">Personal Data</h2>
+                <div class="data-grp">
+                    <p class="data"><span class="label">Surname:</span> <span class="value"></span></p>
+                    <p class="data"><span class="label">First Name:</span> <span class="value"></span></p>
+                    <p class="data"><span class="label">Name Extension (Jr., Sr.):</span> <span class="value"></span></p>
+                    <p class="data"><span class="label">Middle Name:</span> <span class="value"></span></p>
+                    <p class="data"><span class="label">Age:</span> <span class="value"></span></p>
+                    <p class="data"><span class="label">Date of Birth:</span> <span class="value"></span></p>
+                    <p class="data"><span class="label">Place of Birth:</span> <span class="value"></span></p>
+                    <p class="data"><span class="label">Sex at Birth:</span> <span class="value"></span></p>
+                    <p class="data"><span class="label">Civil Status:</span> <span class="value"></span></p>
+                    <p class="data"><span class="label">Height (m):</span> <span class="value"></span></p>
+                    <p class="data"><span class="label">Weight (kg):</span> <span class="value"></span></p>
+                    <p class="data"><span class="label">Blood Type:</span> <span class="value"></span></p>
+                </div>
+
+                <div class="data-grp">
+                    <h3>Identification</h3>
+                    <p class="data"><span class="label">UMID ID No.:</span> <span class="value"></span></p>
+                    <p class="data"><span class="label">Pag-IBIG ID No.:</span> <span class="value"></span></p>
+                    <p class="data"><span class="label">PhilHealth No.:</span> <span class="value"></span></p>
+                    <p class="data"><span class="label">PhilSys Number (PSN):</span> <span class="value"></span></p>
+                    <p class="data"><span class="label">TIN No.:</span> <span class="value"></span></p>
+                    <p class="data"><span class="label">School ID:</span> <span class="value"></span></p>
+
+                </div>
+
+                <div class="data-grp">
+                    <h3>Family Background</h3>
+                    <div class="data-subgrp">
+                        <h4>Spouse Information</h4>
+                        <p class="data"><span class="label">Name:</span> <span class="value"></span></p>
+                        <p class="data"><span class="label">Occupation:</span> <span class="value"></span></p>
+                        <p class="data"><span class="label">Employer/Business Name:</span> <span class="value"></span></p>
+                        <p class="data"><span class="label">Business Address:</span> <span class="value"></span></p>
+                        <p class="data"><span class="label">Telephone No.:</span> <span class="value"></span></p>
+                    </div>
+
+                    <div class="data-subgrp">
+                        <h4>Parents</h4>
+                        <p class="data"><span class="label">Father's Name:</span> <span class="value"></span></p>
+                        <p class="data"><span class="label">Mother's Maiden Name:</span> <span class="value"></span></p>
+                    </div>
+
+                    <table class="data-subgrp-table">
+                        <caption>Children</caption>
+                      <thead>
+                            <th>Name</th>
+                            <th>Date of Birth</th>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+            <section class="education-data" id="tab-education" role="tabpanel" aria-labelledby="tabbtn-education">
+                <h2 class="tab" title="Education">Education</h2>
+                <table class="data-grp-table">
+                    <caption>Education</caption>
+                    <thead>
+                        <tr>
+                            <th rowspan="2">#</th>
+                            <th rowspan="2">Level</th>
+                            <th rowspan="2">Name of School</th>
+                            <th rowspan="2">Basic Education/&ZeroWidthSpace;Degree/&ZeroWidthSpace;Course</th>
+                            <th colspan="2">Period of Attendance</th>
+                            <th rowspan="2">Highest Level/Units Earned (if not graduated)</th>
+                            <th rowspan="2">Year Graduated</th>
+                            <th rowspan="2">Scholarship/Academic Honors Received</th>
+                        </tr>
+                        <tr>
+                            <th>From</th>
+                            <th>To</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+            <section class="training-data" id="tab-training" role="tabpanel" aria-labelledby="tabbtn-training">
+                <h2 class="tab" title="Learning and Development (L&D) Interventions/Training Programs Attended">Training</h2>
+                <table class="data-grp-table">
+                    <thead>
+                        <th rowspan="2">#</th>
+                        <th rowspan="2">Title of Learning and Development Interventions/Training Programs</th>
+                        <th colspan="2">Inclusive Dates of Attendance (dd/mm/yyyy)</th>
+                        <th rowspan="2">Number of Hours</th>
+                        <th rowspan="2">Type of L&D (Managerial/Supervisory/Technical/etc.)</th>
+                        <th rowspan="2">Conducted/Sponsored by</th>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+            <section class="work-data" id="tab-work" role="tabpanel" aria-labelledby="tabbtn-work">
+                <h2 class="tab" title="Work Experience">Work Experience</h2>
+                <table class="data-grp-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">#</th>
+                            <th colspan="2">Inclusive Dates (dd/mm/yyyy)</th>
+                            <th rowspan="2">Position Title</th>
+                            <th rowspan="2">Department/Agency/Office/Company</th>
+                            <th rowspan="2">Status of Appointment</th>
+                            <th rowspan="2">Government Service (Y/N)</th>
+                        </tr>
+                        <tr>
+                            <th>From</th>
+                            <th>To</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+            <section class="eligibility-data" id="tab-eligibility" role="tabpanel" aria-labelledby="tabbtn-eligibility">
+                <h2 class="tab" title="Civil Service Eligibility">Civil Service Eligibility</h2>
+                <table class="data-grp-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">#</th>
+                            <th rowspan="2">CES/CSEE/Career Service/RA 1080 (Board/Bar)/Under Special Laws/Category II/IV Eligibility and Eligibilities for Uniformed Personnel</th>
+                            <th rowspan="2">Rating (if applicable)</th>
+                            <th rowspan="2">Date of Examination/Conferment</th>
+                            <th rowspan="2">Place of Examination/Conferment</th>
+                            <th colspan="2">License (if applicable)</th>
+                        </tr>
+                        <tr>
+                            <th>Number (if applicable)</th>
+                            <th>Valid Until</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+            <section class="service-record" id="tab-service" role="tabpanel" aria-labelledby="tabbtn-service">
+                <h2 class="tab" title="Service Record">Service Record</h2>
+
+            </section>
+            <section class="awards-data" id="tab-awards" role="tabpanel" aria-labelledby="tabbtn-awards">
+                <h2 class="tab" title="Awards and Recognitions">Awards</h2>
+
+            </section>
+            <section class="voluntary-work-data" id="tab-voluntary" role="tabpanel" aria-labelledby="tabbtn-voluntary">
+                <h2 class="tab" title="Voluntary Work or Involvement in Civic/Non-Government/People/Voluntary Organization(s)">Voluntary Work</h2>
+                <table class="data-grp-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">#</th>
+                            <th rowspan="2">Name &amp; Address of Organization</th>
+                            <th colspan="2">Inclusive Dates (dd/mm/yyyy)</th>
+                            <th rowspan="2">Number of Hours</th>
+                            <th rowspan="2">Position/Nature of Work</th>
+                        </tr>
+                        <tr>
+                            <th>From</th>
+                            <th>To</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+        </section>
+    </main>
+  <script>
+  (function () {
+    var root = document.querySelector('.tabbed-data');
+    if (!root) return;
+    var bar = root.querySelector('.tabs');
+    var panels = Array.prototype.slice.call(
+      root.querySelectorAll(':scope > section[role="tabpanel"]'));
+    if (!bar || !panels.length) return;
+    root.classList.add('js-tabs');
+
+    function labelOf(panel) {
+      var h = panel.querySelector('h2.tab');
+      return h ? { text: h.textContent.trim(), title: h.getAttribute('title') || '' }
+               : { text: panel.id || 'Section', title: '' };
+    }
+
+    var buttons = panels.map(function (panel, i) {
+      var lab = labelOf(panel);
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.id = 'tabbtn-' + panel.id.replace(/^tab-/, '');
+      btn.setAttribute('role', 'tab');
+      btn.setAttribute('aria-controls', panel.id);
+      btn.textContent = lab.text;
+      if (lab.title) btn.title = lab.title;
+      btn.addEventListener('click', function () { activate(i, true); });
+      bar.appendChild(btn);
+      panel.setAttribute('aria-labelledby', btn.id);
+      return btn;
+    });
+
+    function activate(i, pushHash) {
+      buttons.forEach(function (b, j) {
+        var on = i === j;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-selected', on ? 'true' : 'false');
+        b.tabIndex = on ? 0 : -1;
+        panels[j].classList.toggle('active', on);
+      });
+      if (pushHash && panels[i].id) {
+        try { history.replaceState(null, '', '#' + panels[i].id); } catch (e) {}
+      }
+    }
+
+    bar.addEventListener('keydown', function (e) {
+      var cur = buttons.indexOf(document.activeElement);
+      if (cur < 0) return;
+      var next = null;
+      if (e.key === 'ArrowRight') next = (cur + 1) % buttons.length;
+      else if (e.key === 'ArrowLeft') next = (cur - 1 + buttons.length) % buttons.length;
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = buttons.length - 1;
+      if (next !== null) {
+        e.preventDefault();
+        buttons[next].focus();
+        activate(next, true);
+      }
+    });
+
+    var start = 0;
+    if (location.hash) {
+      var at = panels.findIndex(function (p) { return '#' + p.id === location.hash; });
+      if (at >= 0) start = at;
+    }
+    activate(start, false);
+  })();
+  </script>
+</body>
+</html>

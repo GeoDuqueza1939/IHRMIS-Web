@@ -26,6 +26,7 @@
 //   "renameTables":  [{"from": "A", "to": "B"}],
 //   "renameColumns": [{"table": "T", "from": "a", "to": "b"}],
 //   "createDiagrams": [{"name": "New Diagram"}],
+//   "renameDiagrams": [{"from": "Old Diagram", "to": "New Diagram"}],
 //   "addTables": [{
 //     "name": "T", "comment": "", "engine": "InnoDB",
 //     "diagram": "Personal Data", "x": 100, "y": 100, "color": "#808080",
@@ -44,6 +45,7 @@
 //       "onDelete": "CASCADE", "onUpdate": "NO ACTION", "diagrams": ["Personal Data"]
 //     }]
 //   }],
+//   "alterTables": [{"table": "T", "comment": "", "engine": "InnoDB"}],
 //   "addColumns": [{"table": "T", "columns": [ ... ]}],
 //   "alterColumns": [{"table": "T", "columns": [
 //     {"name": "c", "type": "VARCHAR(250)", "notNull": false, "default": "x",
@@ -1362,12 +1364,27 @@ function applySpec(ctx, spec, log) {
         if (r.created) log.push(`created diagram ${d.name}`);
         else log.push(`diagram ${d.name} already exists`);
     }
+    for (const r of spec.renameDiagrams || []) {
+        const d = diagramByName(ctx.physModel, r.from);
+        if (!d) fail(`renameDiagrams: ${r.from} not found`);
+        if (diagramByName(ctx.physModel, r.to)) fail(`renameDiagrams: ${r.to} already exists`);
+        child(d, 'name').text = r.to;
+        touch(d);
+        log.push(`renamed diagram ${r.from} -> ${r.to}`);
+    }
     for (const t of spec.addTables || []) {
         // addTableOp auto-creates a named-but-missing diagram (per project convention)
         addTableOp(ctx, t, log);
     }
-    for (const a of spec.addColumns || []) {
+    for (const a of spec.alterTables || []) {
         const t = tableByName(ctx.schema, a.table);
+        if (!t) fail(`alterTables: table ${a.table} not found`);
+        if (a.comment !== undefined) child(t, 'comment').text = a.comment;
+        if (a.engine !== undefined) child(t, 'tableEngine').text = a.engine;
+        touch(t);
+        log.push(`altered table ${a.table}`);
+    }
+    for (const a of spec.addColumns || []) {        const t = tableByName(ctx.schema, a.table);
         if (!t) fail(`addColumns: table ${a.table} not found`);
         const colsEl = child(t, 'columns');
         for (const c of a.columns || []) {

@@ -1,5 +1,5 @@
 -- Schema generated from .docsanddesign/DB-ERD.mwb
--- by tools/mwb-ddl.mjs on 2026-10-12T23:55:03.650Z
+-- by tools/mwb-ddl.mjs on 2026-10-13T02:35:05.361Z
 -- DO NOT hand-edit: the .mwb model is the source of truth; regenerate.
 
 CREATE DATABASE IF NOT EXISTS `ihrmis` CHARACTER SET utf8 COLLATE utf8_general_ci;
@@ -406,6 +406,20 @@ CREATE TABLE `ENUM_RSP_Phase` (
 5: Deliberation and Recommendation of the CAR
 6: Appointment and Onboarding';
 
+CREATE TABLE `ENUM_Res_Doc_Type` (
+  `doc_type` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `description` LONGTEXT NULL,
+  PRIMARY KEY (`doc_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='0: Not specified, 1: Miscellaneous/Multimedia/Non-Document, 2: Job Application Letter, 3: Personal Data Sheet (CS Form No. 212), 4: Curriculum Vitae, 5: Resume, 6: Bio-Data, 7: Birth Certificate, 8: Baptismal Certificate, 9: Marriage Certificate, 10: Barangay Residence Certificate, 11: Voter''s Certificate, 12: Identification, 13: NBI Clearance, 14: Police Clearance, 15: Barangay Clearance, 16: Certificate of Eligibility (CSC), 17: Report of Rating (CSC), 18: SF10, 19: Transcript of Records, 20: Diploma, 21: Certificate of Completion (graduate/post-graduate units/degrees), 22: Certificate of Authenticity and Veracity (CAV), 23: Certificate of Training, 24: Certificate of Employment, 25: Contract of Service, 26: Service Record, 27: CSC Appointment, 28: Barangay Business Clearance, 29: DTI Registration, 30: Business Permit, 31: Performance Rating, 32: Research, 33: Research Brief, 34: Research Proposal, 35: Project Proposal, 36: Learning Proposal, 37: Accomplishment Report, 38: Certification of Adoption of Project/Innovation, 39: Legal Affidavit, 40: Narrative Report, 41: UN Declaration/Regulations, 42: Republic Act, 43: Executive Order, 44: Presidential Decree, 45: Administrative Order, 46: Memorandum Circular, 47: DepEd Order, 48: DepEd Memorandum, 49: Division Memorandum, 50: Office Memorandum, 51: Localized Policy, 52: City/Municipal Ordinance, 53: Barangay Ordinance';
+
+CREATE TABLE `ENUM_Res_Hosting_Type` (
+  `hosting_type` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  `description` LONGTEXT NULL,
+  PRIMARY KEY (`hosting_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='0: Local/File Server, 1: Generated, 2: Web';
+
 CREATE TABLE `ENUM_Sex` (
   `sex` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
@@ -515,6 +529,19 @@ CREATE TABLE `Employee` (
   `tax_code` VARCHAR(10) NULL,
   PRIMARY KEY (`empno`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE `File_Format` (
+  `file_formatId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `code` VARCHAR(50) NOT NULL,
+  `name` VARCHAR(100) NOT NULL,
+  `extension` VARCHAR(10) NULL,
+  `mime_string` VARCHAR(100) NULL,
+  `description` LONGTEXT NULL,
+  PRIMARY KEY (`file_formatId`),
+  UNIQUE KEY `uq_File_Format_code` (`code`),
+  UNIQUE KEY `uq_File_Format_extension` (`extension`),
+  UNIQUE KEY `uq_File_Format_mime` (`mime_string`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='One row per servable format variant (code is the app handle); ids explicit 0-based, 0 = Unknown';
 
 CREATE TABLE `Information_System` (
   `info_sysId` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -1508,6 +1535,29 @@ CREATE TABLE `Position_QS` (
   CONSTRAINT `fk_Position_QS_Position1` FOREIGN KEY (`positionId`) REFERENCES `Position` (`positionId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Qualification Standards for Positions';
 
+CREATE TABLE `Resource` (
+  `resourceId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(255) NOT NULL,
+  `description` LONGTEXT NULL,
+  `file_path` VARCHAR(1000) NULL,
+  `web_url` VARCHAR(1000) NULL,
+  `file_size` BIGINT UNSIGNED NULL,
+  `doc_type` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `hosting_type` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `file_formatId` BIGINT UNSIGNED NOT NULL DEFAULT 0,
+  `uploaded_by` BIGINT UNSIGNED NULL,
+  `uploaded_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`resourceId`),
+  KEY `fk_Resource_ENUM_Res_Doc_Type_idx` (`doc_type`),
+  KEY `fk_Resource_ENUM_Res_Hosting_Type_idx` (`hosting_type`),
+  KEY `fk_Resource_File_Format_idx` (`file_formatId`),
+  KEY `fk_Resource_User1_idx` (`uploaded_by`),
+  CONSTRAINT `fk_Resource_ENUM_Res_Doc_Type` FOREIGN KEY (`doc_type`) REFERENCES `ENUM_Res_Doc_Type` (`doc_type`) ON DELETE RESTRICT ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Resource_ENUM_Res_Hosting_Type` FOREIGN KEY (`hosting_type`) REFERENCES `ENUM_Res_Hosting_Type` (`hosting_type`) ON DELETE RESTRICT ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Resource_File_Format` FOREIGN KEY (`file_formatId`) REFERENCES `File_Format` (`file_formatId`) ON DELETE RESTRICT ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Resource_User1` FOREIGN KEY (`uploaded_by`) REFERENCES `User` (`userId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Stored resources: documents, images, audio, video, web pages. Web-only rows use web_url; file-backed rows use file_path (+ web_url if mirrored). Per-kind nullability is app-enforced.';
+
 CREATE TABLE `User_Login` (
   `loginId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `userId` BIGINT UNSIGNED NOT NULL,
@@ -1881,22 +1931,108 @@ CREATE TABLE `Relevant_Work` (
 -- Idempotent (ON DUPLICATE KEY UPDATE). Give seed rows explicit
 -- stable ids (esp. Role/Right) so reloads converge; blank AI-PK
 -- cells are omitted (auto-assign).
-INSERT INTO `ENUM_OAuth_Provider` (`description`, `provider`, `name`) VALUES (NULL, 0, 'Not specified') ON DUPLICATE KEY UPDATE `description`=VALUES(`description`), `name`=VALUES(`name`);
-INSERT INTO `ENUM_OAuth_Provider` (`description`, `provider`, `name`) VALUES (NULL, 1, 'Local') ON DUPLICATE KEY UPDATE `description`=VALUES(`description`), `name`=VALUES(`name`);
-INSERT INTO `ENUM_OAuth_Provider` (`description`, `provider`, `name`) VALUES (NULL, 2, 'Google') ON DUPLICATE KEY UPDATE `description`=VALUES(`description`), `name`=VALUES(`name`);
-INSERT INTO `ENUM_OAuth_Provider` (`description`, `provider`, `name`) VALUES (NULL, 3, 'Microsoft 365') ON DUPLICATE KEY UPDATE `description`=VALUES(`description`), `name`=VALUES(`name`);
-INSERT INTO `ENUM_User_Status` (`description`, `status`, `name`) VALUES (NULL, 0, 'Not specified') ON DUPLICATE KEY UPDATE `description`=VALUES(`description`), `name`=VALUES(`name`);
-INSERT INTO `ENUM_User_Status` (`description`, `status`, `name`) VALUES (NULL, 1, 'Active') ON DUPLICATE KEY UPDATE `description`=VALUES(`description`), `name`=VALUES(`name`);
-INSERT INTO `ENUM_User_Status` (`description`, `status`, `name`) VALUES (NULL, 2, 'Inactive') ON DUPLICATE KEY UPDATE `description`=VALUES(`description`), `name`=VALUES(`name`);
-INSERT INTO `ENUM_User_Status` (`description`, `status`, `name`) VALUES (NULL, 3, 'Separated') ON DUPLICATE KEY UPDATE `description`=VALUES(`description`), `name`=VALUES(`name`);
-INSERT INTO `ENUM_User_Type` (`name`, `description`, `user_type`) VALUES ('Not specified', NULL, 0) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
-INSERT INTO `ENUM_User_Type` (`name`, `description`, `user_type`) VALUES ('External', NULL, 1) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
-INSERT INTO `ENUM_User_Type` (`name`, `description`, `user_type`) VALUES ('Employee', NULL, 2) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
-INSERT INTO `Role` (`code`, `roleId`, `name`, `description`) VALUES ('JOB_APPLICANT', 0, 'Job Applicant', 'Default role for new external signups; least rights') ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `description`=VALUES(`description`);
-INSERT INTO `Role` (`code`, `roleId`, `name`, `description`) VALUES ('EXT_USER', 1, 'External User', 'Auxiliary personnel and verified externals') ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `description`=VALUES(`description`);
-INSERT INTO `Role` (`code`, `roleId`, `name`, `description`) VALUES ('REG_EMP', 2, 'Regular Employee', 'Employee with linked DepEd account') ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `description`=VALUES(`description`);
-INSERT INTO `Role` (`code`, `roleId`, `name`, `description`) VALUES ('HRMO', 3, 'Human Resource Management Officer', 'Human Resource Management Officer; full HRM + role assignment') ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `description`=VALUES(`description`);
-INSERT INTO `Role` (`code`, `roleId`, `name`, `description`) VALUES ('SYS_ADMIN', 4, 'System Administrator', 'ITO sysadmin; full rights including user linking') ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `description`=VALUES(`description`);
-INSERT INTO `Role` (`code`, `roleId`, `name`, `description`) VALUES ('TOP_MGMT', 5, 'Top Management', 'Primary access to Dashboard and Analytics tools; Approver of requests, documents, reports, and actions') ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_OAuth_Provider` (`provider`, `name`, `description`) VALUES (0, 'Not specified', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_OAuth_Provider` (`provider`, `name`, `description`) VALUES (1, 'Local', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_OAuth_Provider` (`provider`, `name`, `description`) VALUES (2, 'Google', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_OAuth_Provider` (`provider`, `name`, `description`) VALUES (3, 'Microsoft 365', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (0, 'Not specified', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (1, 'Miscellaneous/Multimedia/Non-Document', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (2, 'Job Application Letter', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (3, 'Personal Data Sheet (CS Form No. 212)', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (4, 'Curriculum Vitae', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (5, 'Resume', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (6, 'Bio-Data', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (7, 'Birth Certificate', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (8, 'Baptismal Certificate', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (9, 'Marriage Certificate', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (10, 'Barangay Residence Certificate', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (11, 'Voter''s Certificate', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (12, 'Identification', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (13, 'NBI Clearance', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (14, 'Police Clearance', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (15, 'Barangay Clearance', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (16, 'Certificate of Eligibility (CSC)', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (17, 'Report of Rating (CSC)', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (18, 'SF10', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (19, 'Transcript of Records', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (20, 'Diploma', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (21, 'Certificate of Completion (graduate/post-graduate units/degrees)', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (22, 'Certificate of Authenticity and Veracity (CAV)', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (23, 'Certificate of Training', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (24, 'Certificate of Employment', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (25, 'Contract of Service', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (26, 'Service Record', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (27, 'CSC Appointment', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (28, 'Barangay Business Clearance', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (29, 'DTI Registration', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (30, 'Business Permit', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (31, 'Performance Rating', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (32, 'Research', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (33, 'Research Brief', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (34, 'Research Proposal', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (35, 'Project Proposal', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (36, 'Learning Proposal', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (37, 'Accomplishment Report', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (38, 'Certification of Adoption of Project/Innovation', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (39, 'Legal Affidavit', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (40, 'Narrative Report', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (41, 'UN Declaration/Regulations', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (42, 'Republic Act', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (43, 'Executive Order', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (44, 'Presidential Decree', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (45, 'Administrative Order', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (46, 'Memorandum Circular', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (47, 'DepEd Order', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (48, 'DepEd Memorandum', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (49, 'Division Memorandum', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (50, 'Office Memorandum', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (51, 'Localized Policy', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (52, 'City/Municipal Ordinance', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Doc_Type` (`doc_type`, `name`, `description`) VALUES (53, 'Barangay Ordinance', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Hosting_Type` (`hosting_type`, `name`, `description`) VALUES (0, 'Local/File Server', 'Uploaded files') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Hosting_Type` (`hosting_type`, `name`, `description`) VALUES (1, 'Generated', 'Files originally auto-generated by the system') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Res_Hosting_Type` (`hosting_type`, `name`, `description`) VALUES (2, 'Web', 'Files/resources hosted in the web') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_User_Status` (`status`, `name`, `description`) VALUES (0, 'Not specified', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_User_Status` (`status`, `name`, `description`) VALUES (1, 'Active', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_User_Status` (`status`, `name`, `description`) VALUES (2, 'Inactive', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_User_Status` (`status`, `name`, `description`) VALUES (3, 'Separated', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_User_Type` (`user_type`, `name`, `description`) VALUES (0, 'Not specified', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_User_Type` (`user_type`, `name`, `description`) VALUES (1, 'External', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_User_Type` (`user_type`, `name`, `description`) VALUES (2, 'Employee', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (0, 'UNKNOWN', 'Unknown/Unspecified', NULL, NULL, NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (1, 'DOC', 'Microsoft Word Document', '.doc', 'application/msword', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (2, 'DOCX', 'Microsoft Word Document', '.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (3, 'XLS', 'Microsoft Excel Workbook', '.xls', 'application/vnd.ms-excel', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (4, 'XLSX', 'Microsoft Excel Workbook', '.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (5, 'PPT', 'Microsoft PowerPoint Presentation', '.ppt', 'application/vnd.ms-powerpoint', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (6, 'PPTX', 'Microsoft PowerPoint Presentation', '.pptx', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (7, 'ODT', 'OpenDocument Text Document', '.odt', 'application/vnd.oasis.opendocument.text', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (8, 'ODS', 'OpenDocument Spreadsheet', '.ods', 'application/vnd.oasis.opendocument.spreadsheet', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (9, 'ODP', 'OpenDocument Presentation', '.odp', 'application/vnd.oasis.opendocument.presentation', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (10, 'ODG', 'OpenDocument Graphics', '.odg', 'application/vnd.oasis.opendocument.graphics', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (11, 'ODF', 'OpenDocument Formula', '.odf', 'application/vnd.oasis.opendocument.formula', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (12, 'PDF', 'Portable Document Format', '.pdf', 'application/pdf', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (13, 'PNG', 'Portable Network Graphics', '.png', 'image/png', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (14, 'JPEG', 'JPEG Image', '.jpg', 'image/jpeg', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (15, 'GIF', 'Graphics Interchange Format', '.gif', 'image/gif', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (16, 'BMP', 'Bitmap Image', '.bmp', 'image/bmp', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (17, 'WEBP', 'WebP Image', '.webp', 'image/webp', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (18, 'TXT', 'Text File', '.txt', 'text/plain', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (19, 'HTML', 'HTML Document', '.html', 'text/html', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (20, 'MP3', 'MP3 Audio', '.mp3', 'audio/mpeg', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (21, 'WAV', 'WAV Audio', '.wav', 'audio/wav', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (22, 'OGG', 'OGG Audio', '.ogg', 'audio/ogg', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (23, 'M4A', 'MPEG-4 Audio', '.m4a', 'audio/mp4', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (24, 'MP4', 'MP4 Video', '.mp4', 'video/mp4', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (25, 'MOV', 'QuickTime Video', '.mov', 'video/quicktime', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (26, 'AVI', 'AVI Video', '.avi', 'video/x-msvideo', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (27, 'MKV', 'Matroska Video', '.mkv', 'video/x-matroska', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (28, 'WEBM', 'WebM Video', '.webm', 'video/webm', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `Role` (`roleId`, `code`, `name`, `description`) VALUES (0, 'JOB_APPLICANT', 'Job Applicant', 'Default role for new external signups; least rights') ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `Role` (`roleId`, `code`, `name`, `description`) VALUES (1, 'EXT_USER', 'External User', 'Auxiliary personnel and verified externals') ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `Role` (`roleId`, `code`, `name`, `description`) VALUES (2, 'REG_EMP', 'Regular Employee', 'Employee with linked DepEd account') ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `Role` (`roleId`, `code`, `name`, `description`) VALUES (3, 'HRMO', 'Human Resource Management Officer', 'Human Resource Management Officer; full HRM + role assignment') ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `Role` (`roleId`, `code`, `name`, `description`) VALUES (4, 'SYS_ADMIN', 'System Administrator', 'ITO sysadmin; full rights including user linking') ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `Role` (`roleId`, `code`, `name`, `description`) VALUES (5, 'TOP_MGMT', 'Top Management', 'Primary access to Dashboard and Analytics tools; Approver of requests, documents, reports, and actions') ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `description`=VALUES(`description`);
 
 SET FOREIGN_KEY_CHECKS=1;

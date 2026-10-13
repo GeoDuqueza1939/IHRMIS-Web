@@ -81,6 +81,7 @@ export default class controller {
             login: `${config.baseDir}/test/login`,
             ssp: `${config.baseDir}/test/ssp`,
             main: `${config.baseDir}/test/main`,
+            emre: `${config.baseDir}/test/emre`,
         };
 
         // login sample layouts
@@ -135,6 +136,22 @@ export default class controller {
         this.#router.get(`${urlSample.main}/:id`, renderMainById);
         this.#router.post(`${urlSample.main}/:id`, renderMainById);
         this.#router.get(urlSample.main, this.#sampleLayoutViewer("Main", mainDesigns, urlSample.main));
+
+        const emreDesigns = [1];
+
+        const renderEmREById = (req, res) => {
+            if (emreDesigns.includes(parseInt(req.params.id))) {
+                res.render(`emre${req.params.id}`, { baseDir: config.baseDir });
+            }
+            else {
+                res.status(404).render('error', { baseDir: config.baseDir, message: 'EmRE Viewer page not found.', statusCode: 404, app_name: config.shortname });
+                return;
+            }
+        };
+
+        this.#router.get(`${urlSample.emre}/:id`, renderEmREById);
+        this.#router.post(`${urlSample.emre}/:id`, renderEmREById);
+        this.#router.get(urlSample.emre, this.#sampleLayoutViewer("EmRE", emreDesigns, urlSample.emre));
 
         // test page
         const renderTest = (req, res) => {
