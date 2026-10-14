@@ -1,0 +1,58 @@
+:root {
+    --tabactive: #c0c0c0;
+    --tabinactive: #909090;
+}
+
+.tabbed-display {
+    display: block;
+}
+
+
+.tabs {
+    display: block;
+    white-space: nowrap;
+    /* border: 1px solid white; */
+    overflow: auto;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+}
+
+.tab {
+    display: inline-block;
+    font-size: inherit;
+    font-weight: normal;
+    position: relative;
+    margin: 0;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    clip-path: polygon(0.5em 0%, calc(100% - 0.5em) 0%, calc(100% - 0em) 100%, 0em 100%);
+    border-radius: 1em 1em 0 0;
+    background-color: var(--tabinactive);
+}
+
+.tab + .tab {
+    margin-left:-0.25em;
+}
+
+.tab.selected {
+    background-color: var(--tabactive);
+    /* font-weight: bold; */
+    z-index: 1;
+}
+
+.tab-panel {
+    display: none;
+    visibility: hidden;
+}
+
+.tab-panel.selected {
+    display: block;
+    visibility: visible;
+    border: 2px outset;
+    border-top: 0 none;
+    margin-top: -0.1em;
+    padding: 1em;
+    background-color: var(--tabactive);
+    overflow-x: auto;
+    scrollbar-width: thin;
+}

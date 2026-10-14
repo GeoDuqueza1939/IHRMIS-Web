@@ -1,17 +1,94 @@
+* {
+  /* outline: 1px dotted red; */
+}
+
+:root {
+    --tabactive: white;
+    --tabinactive: gray;
+}
+
+body {
+  padding: 1em;
+  background-color: #a0a0a0;
+  text-shadow: lightgray 0.1em 0.05em 0.1em;
+}
+
+h1 {
+  margin-top: 0;
+  text-align: center;
+  font-size: 1.25em;
+}
+
+.photo {
+  display: flex;
+  width: 12em;
+  height: 12em;
+  border: 1px solid;
+  padding: 0.5em;
+  box-shadow: gray 0.25em 0.25em 0.5em;
+  float: right;
+  border-radius: 0.25em;
+  margin: 0 0 3em 1em;
+}
+
+photo > img {
+}
+
+.data {
+  display: grid;
+  grid-template: auto / 8em auto;
+  padding: 0.12em 0;
+}
+
+.data > .label {
+  padding: 0.2em;
+  font-weight: 600;
+  user-select: none;
+  /* align-content: end; */
+  color: #383838;
+}
+
+.data > .value {
+  padding: 0.2em;
+  font-weight: 500;
+  /* background-color: white; */
+  /* border: 2px inset; */
+}
+
+.data > .value {
+  /* border-bottom: 1px solid lightgray; */
+}
+
+.summary {
+  margin: 1em 0;
+}
+
+.summary > .data {
+  grid-template: auto / 13em auto;
+}
+
+#tab-personal .data-grp > .data {
+  grid-template: auto / 15em auto;
+}
+
+#tab-personal .data-subgrp > .data {
+  grid-template: auto / 20em auto;
+}
+
 /* emre.css — tabbed Employee Record view (emre1.ejs).
  * Palette mirrors the project theme (navy #0e3a6d, gold #f1a925).
  * Panes hide only under .js-tabs (added by script), so content stays
  * readable with JavaScript disabled. */
 
-.tabbed-data {
+ /*
+.tabbed-display {
   max-width: 1100px;
   margin: 1.5rem auto;
   padding: 0 clamp(1rem, 4vw, 2rem);
-  font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
   color: #173a63;
 }
 
-.tabbed-data .tabs {
+.tabbed-display .tabs {
   display: flex;
   gap: 0.3rem;
   border-bottom: 1px solid #d7e0ec;
@@ -20,9 +97,9 @@
   scrollbar-width: none;
 }
 
-.tabbed-data .tabs::-webkit-scrollbar { display: none; }
+.tabbed-display .tabs::-webkit-scrollbar { display: none; }
 
-.tabbed-data .tabs button {
+.tabbed-display .tabs button {
   border: none;
   background: none;
   padding: 0.55rem 0.9rem;
@@ -36,21 +113,21 @@
   cursor: pointer;
 }
 
-.tabbed-data .tabs button:hover { color: #0e3a6d; }
+.tabbed-display .tabs button:hover { color: #0e3a6d; }
 
-.tabbed-data .tabs button:focus-visible {
+.tabbed-display .tabs button:focus-visible {
   outline: 2px solid #f1a925;
   outline-offset: 2px;
 }
 
-.tabbed-data .tabs button.active {
+.tabbed-display .tabs button.active {
   color: #0e3a6d;
   border-bottom-color: #0e3a6d;
 }
 
-.tabbed-data.js-tabs > section[role="tabpanel"] { display: none; }
+.tabbed-display.js-tabs > section[role="tabpanel"] { display: none; }
 
-.tabbed-data.js-tabs > section[role="tabpanel"].active {
+.tabbed-display.js-tabs > section[role="tabpanel"].active {
   display: block;
   animation: emre-fade 0.18s ease;
 }
@@ -61,49 +138,53 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tabbed-data.js-tabs > section[role="tabpanel"].active { animation: none; }
+  .tabbed-display.js-tabs > section[role="tabpanel"].active { animation: none; }
 }
+*/
 
 /* in-panel headings double as panel titles */
-.tabbed-data h2.tab {
+/*
+.tabbed-display h2.tab {
   font-size: 1.1rem;
   letter-spacing: 0.02em;
   color: #0e3a6d;
   margin: 0 0 0.9rem;
 }
 
-.tabbed-data h3 { font-size: 0.95rem; color: #0e3a6d; margin: 1.1rem 0 0.5rem; }
-.tabbed-data h4 { font-size: 0.85rem; color: #33557b; margin: 0.9rem 0 0.4rem; }
-
+.tabbed-display h3 { font-size: 0.95rem; color: #0e3a6d; margin: 1.1rem 0 0.5rem; }
+.tabbed-display h4 { font-size: 0.85rem; color: #33557b; margin: 0.9rem 0 0.4rem; }
+*/
 /* wide record tables scroll horizontally instead of breaking layout */
-.tabbed-data section[role="tabpanel"] { overflow-x: auto; }
+/*
+.tabbed-display section[role="tabpanel"] { overflow-x: auto; }
 
-.tabbed-data table {
+.tabbed-display table {
   border-collapse: collapse;
   width: 100%;
   margin: 0.6rem 0 1.2rem;
   font-size: 0.84rem;
 }
 
-.tabbed-data caption {
+.tabbed-display caption {
   text-align: left;
   font-weight: 700;
   color: #0e3a6d;
   padding-bottom: 0.4rem;
 }
 
-.tabbed-data th,
-.tabbed-data td {
+.tabbed-display th,
+.tabbed-display td {
   border: 1px solid #d7e0ec;
   padding: 0.45rem 0.6rem;
   text-align: left;
   vertical-align: top;
 }
 
-.tabbed-data thead th {
+.tabbed-display thead th {
   background: #eef3f9;
   color: #0e3a6d;
   font-size: 0.76rem;
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
+*/

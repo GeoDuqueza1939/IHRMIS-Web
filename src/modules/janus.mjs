@@ -60,7 +60,6 @@ import config from './config.mjs';
 
 const DEPED_SUFFIX = `@${(config.janus?.depedDomain || 'deped.gov.ph').toLowerCase()}`;
 const MAX_ALT_LOGINS = config.janus?.maxAltLogins ?? 3;
-const SEED_ROLES = ['JOB_APPLICANT', 'EXTERNAL_USER', 'REGULAR_EMPLOYEE', 'HRMO', 'SYSTEM_ADMIN'];
 
 /* ----------------------------------------------------------------------------
  * ENUM id-maps (Duke follow-up to KAORI-DB-NOTE action item #1).
@@ -144,6 +143,11 @@ export default class janus {
     #logger = null;
     #controller = null;
     #janus_url = '';
+
+    // Known role codes (model-canonical: Role.code rows). Refreshed from the
+    // Role table via loadRoles() once the database is online; the static
+    // defaults below apply until then.
+    seedRoles = ['JOB_APPLICANT', 'EXT_USER', 'REG_EMP', 'HRMO', 'SYS_ADMIN', 'TOP_MGMT'];
 
     constructor(ihrmis_app) {
         this.#ihrmis_app = ihrmis_app;
@@ -271,6 +275,21 @@ export default class janus {
         this.#logger?.info('JANUS logout');
     }
 
+    /** Refresh known role codes from the Role table once the DB is online.
+     *  Keeps static defaults when unreachable, mirroring loadEnumMaps(). */
+    async loadRoles(db) {
+        const source = db ?? this.#db();
+        if (!source) return [...this.seedRoles];
+        try {
+            const [rows] = await source.query('SELECT `code` FROM `Role`');
+            const codes = (rows || []).map((r) => r.code).filter(Boolean);
+            if (codes.length) this.seedRoles = codes;
+        } catch {
+            /* keep static defaults */
+        }
+        return [...this.seedRoles];
+    }
+
     // --- User management; username should be an email address ---
 
     signup(username) { // for email sign-ups only; sends email to specified email address with verification link
@@ -353,7 +372,7 @@ export default class janus {
     }
 
     addRole(username, role) {
-        if (!SEED_ROLES.includes(role) && !/^[A-Z0-9_]+$/.test(String(role || ''))) {
+        if (!this.seedRoles.includes(role) && !/^[A-Z0-9_]+$/.test(String(role || ''))) {
             throw new Error(`Unknown role: ${role}`);
         }
         this.#logger?.info(`JANUS addRole (stub): ${normalizeEmail(username)} <- ${role}`);

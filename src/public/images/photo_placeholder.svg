@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Profile photo placeholder (Windows-style user bust silhouette).
+     Used by EmRE employee views until an actual photo is available. -->
+<svg
+   width="200"
+   height="200"
+   viewBox="0 0 200 200"
+   version="1.1"
+   id="photo-placeholder"
+   xmlns="http://www.w3.org/2000/svg">
+  <rect
+     id="background"
+     width="200"
+     height="200"
+     style="fill:#bfbfbf;stroke-width:0" />
+  <g
+      id="bust"
+      style="fill:#e8e8e8;stroke:none">
+    <circle
+       id="head"
+       cx="100"
+       cy="68"
+       r="34" />
+    <path
+       id="shoulders"
+       d="M 38,172 C 38,122 66,104 100,104 C 134,104 162,122 162,172 Z" />
+  </g>
+</svg>

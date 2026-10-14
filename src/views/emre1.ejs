@@ -6,29 +6,29 @@
   <base href="<%= baseDir %>">
   <title>Employee Record Viewer</title>
   <link rel="stylesheet" href="/styles/default.css">
+  <link rel="stylesheet" href="/styles/tab.css">
   <link rel="stylesheet" href="/styles/emre.css">
 </head>
 <body>
     <main class="employee-data">
         <h1>Employee Record</h1>
         <aside class="photo">
-            <img src="<% //employee.photo_fpath %>" alt="Employee Photo" />
+            <img src="<%= (typeof employee == 'undefined' ? '/images/photo_placeholder.svg' : employee.photo_fpath) %>" alt="Employee Photo" />
         </aside>
 
         <section class="summary">
-            <p class="data"><span class="label">Name:</span> <span class="value">Dela Cruz, Juan Santos</span></p>
-            <p class="data"><span class="label">Position:</span> <span class="value">Administrative Officer I</span></p>
-            <p class="data"><span class="label">Office/Unit:</span> <span class="value">Sto. Tomas North Central School</span></p>
-            <p class="data"><span class="label">Employee No.:</span> <span class="value"></span></p>
+            <p class="data name"><span class="label">Name:</span> <span class="value">Dela Cruz, Juan Santos</span></p>
+            <p class="data position"><span class="label">Position:</span> <span class="value">Administrative Officer I</span></p>
+            <p class="data unit"><span class="label">Office/Unit:</span> <span class="value">Sto. Tomas North Central School</span></p>
+            <p class="data empno"><span class="label">Employee No.:</span> <span class="value">0000000</span></p>
             <p class="data"><span class="label">Salary Grade and Step:</span> <span class="value">10-1</span></p>
-            <p class="data"><span class="label">Salary/Wage:</span> <span class="value"></span></p>
-            <p class="data"><span class="label">Employment Status:</span> <span class="value">ACTIVE since January 1, 2000</span></p>
+            <p class="data"><span class="label">Salary/Wage:</span> <span class="value">&#x20b1; 21,234.00</span></p>
+            <p class="data"><span class="label">Employment Status:</span> <span class="value">ACTIVE DUTY since January 1, 2000</span></p>
             <p class="data"><span class="label">Designations:</span> <span class="value">NONE</span></p>
         </section>
 
-        <section class="tabbed-data">
-            <div class="tabs" role="tablist" aria-label="Employee record sections"></div>
-            <section class="job-description" id="tab-job" role="tabpanel" aria-labelledby="tabbtn-job">
+        <section class="tabbed-display">
+            <section class="tab-panel job-description" id="tab-job">
                 <h2 class="tab" title="Job Description/Duties and Responsibilities">Job Description</h2>
                 
                 <section class="position">
@@ -61,13 +61,13 @@
                     </table>
                 </section>
             </section>
-            <section class="personal-data" id="tab-personal" role="tabpanel" aria-labelledby="tabbtn-personal">
+            <section class="tab-panel personal-data" id="tab-personal">
                 <h2 class="tab" title="Personal Data">Personal Data</h2>
                 <div class="data-grp">
-                    <p class="data"><span class="label">Surname:</span> <span class="value"></span></p>
-                    <p class="data"><span class="label">First Name:</span> <span class="value"></span></p>
+                    <p class="data"><span class="label">Surname:</span> <span class="value">Dela Cruz</span></p>
+                    <p class="data"><span class="label">First Name:</span> <span class="value">Juan</span></p>
                     <p class="data"><span class="label">Name Extension (Jr., Sr.):</span> <span class="value"></span></p>
-                    <p class="data"><span class="label">Middle Name:</span> <span class="value"></span></p>
+                    <p class="data"><span class="label">Middle Name:</span> <span class="value">Santos</span></p>
                     <p class="data"><span class="label">Age:</span> <span class="value"></span></p>
                     <p class="data"><span class="label">Date of Birth:</span> <span class="value"></span></p>
                     <p class="data"><span class="label">Place of Birth:</span> <span class="value"></span></p>
@@ -116,7 +116,7 @@
                     </table>
                 </div>
             </section>
-            <section class="education-data" id="tab-education" role="tabpanel" aria-labelledby="tabbtn-education">
+            <section class="tab-panel education-data" id="tab-education">
                 <h2 class="tab" title="Education">Education</h2>
                 <table class="data-grp-table">
                     <caption>Education</caption>
@@ -139,7 +139,7 @@
                     <tbody></tbody>
                 </table>
             </section>
-            <section class="training-data" id="tab-training" role="tabpanel" aria-labelledby="tabbtn-training">
+            <section class="tab-panel training-data" id="tab-training">
                 <h2 class="tab" title="Learning and Development (L&D) Interventions/Training Programs Attended">Training</h2>
                 <table class="data-grp-table">
                     <thead>
@@ -153,7 +153,7 @@
                     <tbody></tbody>
                 </table>
             </section>
-            <section class="work-data" id="tab-work" role="tabpanel" aria-labelledby="tabbtn-work">
+            <section class="tab-panel work-data" id="tab-work">
                 <h2 class="tab" title="Work Experience">Work Experience</h2>
                 <table class="data-grp-table">
                     <thead>
@@ -173,7 +173,7 @@
                     <tbody></tbody>
                 </table>
             </section>
-            <section class="eligibility-data" id="tab-eligibility" role="tabpanel" aria-labelledby="tabbtn-eligibility">
+            <section class="tab-panel eligibility-data" id="tab-eligibility">
                 <h2 class="tab" title="Civil Service Eligibility">Civil Service Eligibility</h2>
                 <table class="data-grp-table">
                     <thead>
@@ -193,15 +193,15 @@
                     <tbody></tbody>
                 </table>
             </section>
-            <section class="service-record" id="tab-service" role="tabpanel" aria-labelledby="tabbtn-service">
+            <section class="tab-panel service-record" id="tab-service">
                 <h2 class="tab" title="Service Record">Service Record</h2>
 
             </section>
-            <section class="awards-data" id="tab-awards" role="tabpanel" aria-labelledby="tabbtn-awards">
+            <section class="tab-panel awards-data" id="tab-awards">
                 <h2 class="tab" title="Awards and Recognitions">Awards</h2>
 
             </section>
-            <section class="voluntary-work-data" id="tab-voluntary" role="tabpanel" aria-labelledby="tabbtn-voluntary">
+            <section class="tab-panel voluntary-work-data" id="tab-voluntary">
                 <h2 class="tab" title="Voluntary Work or Involvement in Civic/Non-Government/People/Voluntary Organization(s)">Voluntary Work</h2>
                 <table class="data-grp-table">
                     <thead>
@@ -223,8 +223,9 @@
         </section>
     </main>
   <script>
+    /*
   (function () {
-    var root = document.querySelector('.tabbed-data');
+    var root = document.querySelector('.tabbed-display');
     if (!root) return;
     var bar = root.querySelector('.tabs');
     var panels = Array.prototype.slice.call(
@@ -288,6 +289,17 @@
     }
     activate(start, false);
   })();
+  */
+  </script>
+  <script src="/js/elements.js"></script>
+  <script src="/js/tab.js"></script>
+  <script>
+    "use strict";
+
+    Array.from(document.getElementsByClassName("tabbed-display")).forEach(tabbedDisplay=>{
+        new TabControl(tabbedDisplay, 'Employee record sections');
+    });
+
   </script>
 </body>
 </html>
