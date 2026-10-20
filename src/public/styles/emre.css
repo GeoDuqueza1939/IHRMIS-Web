@@ -27,7 +27,7 @@ h1 {
   padding: 0.5em;
   box-shadow: gray 0.25em 0.25em 0.5em;
   float: right;
-  border-radius: 0.25em;
+  border-radius: 0.5em;
   margin: 0 0 3em 1em;
 }
 
@@ -64,7 +64,7 @@ photo > img {
 }
 
 .summary > .data {
-  grid-template: auto / 13em auto;
+  grid-template: auto / 12em auto;
 }
 
 #tab-personal .data-grp > .data {
@@ -73,6 +73,109 @@ photo > img {
 
 #tab-personal .data-subgrp > .data {
   grid-template: auto / 20em auto;
+}
+
+.tab-panel > .data-grp-table, 
+.tab-panel .data-table,
+.tab-panel .data-subgrp-table {
+  border-collapse: collapse;
+  width: 100%;
+  border: #383838 1px solid;
+  border-radius: 0.5em;
+}
+
+.tab-panel > .data-grp-table > caption,
+.tab-panel .data-table > caption,
+.tab-panel .data-subgrp-table > caption {
+  /* display: none; */
+  /* visibility: hidden; */
+  margin-bottom: 0.25em;
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #383838;
+}
+
+.tab-panel > .data-grp-table > thead > tr > *,
+.tab-panel .data-table > thead > tr > *,
+.tab-panel .data-subgrp-table > thead > tr > * {
+  background-color: #383838;
+  color: white;
+  font-size: 0.9em;
+  text-align: center;
+  padding: 0.3em 0.5em;
+  text-shadow: none;
+  border: 1px solid #838383;
+}
+
+.tab-panel > .data-grp-table > tbody > tr > *,
+.tab-panel .data-table > tbody > tr > *,
+.tab-panel .data-subgrp-table > tbody > tr > * {
+  font-size: 0.85em;
+  padding: 0.2em 0.5em;
+  text-shadow: lightgray 0.1em 0.05em 0.1em;
+}
+
+@media screen and (max-width: 500px) {
+    body {
+      padding: 11vw;
+      background-color: RGBA(224, 224, 224, 0.9);
+    }
+
+    h1 {
+        display: none;
+        visibility: hidden;
+    }
+
+    .photo {
+        display: block;
+        float: none;
+        width: 100%;
+        height: auto;
+        position: initial;
+        margin: 0 auto;
+        border-width: 0.5vw;
+        padding: 2vw;
+    }
+
+    .photo > img {
+        display: block;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .summary {
+      margin: 2.5vw 0 0;
+      font-size: calc(4vw);
+    }
+
+    .summary > .data {
+        display: none;
+        visibility: hidden;
+    }
+
+    .summary > .data.name, .summary > .data.position, .summary > .data.unit {
+        display: block;
+        visibility: visible;
+        text-align: center;
+        /* align-items: center; */
+        /* justify-content: center; */
+    }
+
+    .summary > .data.name > .value {
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+
+    .summary > .data > .label {
+        display: none;
+        visibility: hidden;
+    }
+
+    .tabbed-display {
+        display: none;
+        visibility: hidden;
+    }
 }
 
 /* emre.css — tabbed Employee Record view (emre1.ejs).

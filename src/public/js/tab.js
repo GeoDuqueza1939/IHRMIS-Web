@@ -8,6 +8,7 @@ class TabControl {
     #tabs = [];
     #tabList = null;
     #selectedTabId = '';
+    #tabScrollBtn = [];
 
     constructor(parentElement, ariaLabel = '') {
         this.#parent = parentElement;
@@ -56,6 +57,22 @@ class TabControl {
                 this.#tabs[tabPanelId].panel.classList.add('selected');
             }
         });
+
+        this.#setupScrollButtons();
+    }
+
+    #setupScrollButtons() {
+        let scrollBtnContainer = createSimpleElement(NO_NS, 'div', 'tab-scroll-container', this.#tabList);
+
+        let scrollLeftBtn = createSimpleElement(NO_NS, 'button', 'tab-scroll-btn tab-scroll-left', scrollBtnContainer);
+        scrollLeftBtn.setAttribute('type', 'button');
+        scrollLeftBtn.setAttribute('aria-label', 'Scroll Left');
+        scrollLeftBtn.innerHTML = '&#9664;'; // Left arrow symbol
+
+        let scrollRightBtn = createSimpleElement(NO_NS, 'button', 'tab-scroll-btn tab-scroll-right', scrollBtnContainer);
+        scrollRightBtn.setAttribute('type', 'button');
+        scrollRightBtn.setAttribute('aria-label', 'Scroll Right');
+        scrollRightBtn.innerHTML = '&#9654;'; // Right arrow symbol
     }
 
     activateTab(tabId) {

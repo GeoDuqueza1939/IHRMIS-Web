@@ -7,12 +7,11 @@
     display: block;
 }
 
-
 .tabs {
     display: block;
     white-space: nowrap;
     /* border: 1px solid white; */
-    overflow: auto;
+    overflow: scroll;
     scrollbar-width: none;
     scroll-behavior: smooth;
 }
@@ -55,4 +54,17 @@
     background-color: var(--tabactive);
     overflow-x: auto;
     scrollbar-width: thin;
+}
+
+.tab-scroll-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* width: 100%; */
+    position: absolute;
+    right: 1em;
+    z-index: 2;
+    margin-top: -2em;
+    padding: 0.25em 0;
+    box-shadow: 0 0 0.5em gray;
 }
