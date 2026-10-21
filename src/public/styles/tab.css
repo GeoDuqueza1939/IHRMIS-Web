@@ -56,15 +56,32 @@
     scrollbar-width: thin;
 }
 
-.tab-scroll-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    /* width: 100%; */
+[class^="tab-scroll-btn"] {
+    margin: 0.5em 0 0;
+    padding: 0 0.25em;
+    border-radius: 50%;
+    opacity: 0.5;
+    cursor: pointer;
+    font-size: 0.8em;
+    width: 1.75em;
+    height: 1.75em;
     position: absolute;
-    right: 1em;
-    z-index: 2;
-    margin-top: -2em;
-    padding: 0.25em 0;
-    box-shadow: 0 0 0.5em gray;
+    z-index: 3;
+}
+
+[class^="tab-scroll-btn"]:hover {
+    opacity: 1;
+}
+
+.tab-scroll-btn-left {
+    left: 1.25em;
+}
+
+.tab-scroll-btn-right {
+    right: 1.25em;
+}
+
+[class^="tab-scroll-btn"].hidden {
+    display: none;
+    visibility: hidden;
 }

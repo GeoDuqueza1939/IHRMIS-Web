@@ -36,7 +36,9 @@ class TabControl {
                 tabPanel.setAttribute('id', tabPanelId);
             }
 
-            tabPanel.setAttribute('aria-labelledby', tabPanelId.replace(/(tab)(-)/, '$1btn$2'));
+            let tabId = tabPanelId.replace(/(tab)(-)/, '$1btn$2');
+
+            tabPanel.setAttribute('aria-labelledby', tabId);
             this.#tabs[tabPanelId] = {
                 tab: tab[0],
                 panel: tabPanel,
@@ -44,6 +46,7 @@ class TabControl {
 
             this.#tabList.append(tab[0]);
 
+            tab[0].setAttribute('id', tabId);
             tab[0].setAttribute('role', 'tab');
             tab[0].setAttribute('aria-tabfor', tabPanelId);
 
@@ -53,36 +56,49 @@ class TabControl {
 
             if (this.#selectedTabId === '') {
                 this.#selectedTabId = tabPanelId;
-                this.#tabs[tabPanelId].tab.classList.add('selected');
-                this.#tabs[tabPanelId].panel.classList.add('selected');
+                Object.values(this.#tabs[tabPanelId]).forEach(el => el.classList.add('selected'));
             }
         });
 
-        this.#setupScrollButtons();
+        this.#setupTabScroll();
     }
 
-    #setupScrollButtons() {
-        let scrollBtnContainer = createSimpleElement(NO_NS, 'div', 'tab-scroll-container', this.#tabList);
+    #setupTabScroll() {
+        ["Left", "Right"].forEach((btnDirection, index) => {
+            let btn = createElementEx(NO_NS, 'button', this.#tabList, null, 'class', `tab-scroll-btn-${btnDirection.toLowerCase()} hidden`, 'type', 'button', 'aria-label', `Scroll ${btnDirection}`);
+            btn.innerHTML = `&#${9664 - index * 10};`
+            btn.addEventListener('click', () => {
+                this.#tabList.scrollBy({
+                    left: (2 * index - 1) * 100,
+                    behavior: 'smooth',
+                });
+            });
+            this.#tabScrollBtn[btnDirection] = btn;
+        });
 
-        let scrollLeftBtn = createSimpleElement(NO_NS, 'button', 'tab-scroll-btn tab-scroll-left', scrollBtnContainer);
-        scrollLeftBtn.setAttribute('type', 'button');
-        scrollLeftBtn.setAttribute('aria-label', 'Scroll Left');
-        scrollLeftBtn.innerHTML = '&#9664;'; // Left arrow symbol
+        const observer = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                Object.values(this.#tabScrollBtn).forEach(btn => {
+                    btn.classList.toggle('hidden', entry.contentRect.width >= entry.target.scrollWidth);
+                });
+            }
+        });
 
-        let scrollRightBtn = createSimpleElement(NO_NS, 'button', 'tab-scroll-btn tab-scroll-right', scrollBtnContainer);
-        scrollRightBtn.setAttribute('type', 'button');
-        scrollRightBtn.setAttribute('aria-label', 'Scroll Right');
-        scrollRightBtn.innerHTML = '&#9654;'; // Right arrow symbol
+        observer.observe(this.#tabList);
+
+        this.#tabList.addEventListener('mousewheel', event => {
+            event.preventDefault();
+            this.#tabList.scrollBy({
+                left: event.deltaY,
+                behavior: 'smooth',
+            });
+        });
     }
 
     activateTab(tabId) {
-        let selected = this.#tabs[this.#selectedTabId]; 
-        selected.tab.classList.remove('selected');
-        selected.panel.classList.remove('selected');
-
-        selected = this.#tabs[tabId];
-        selected.tab.classList.add('selected');
-        selected.panel.classList.add('selected');
+        [this.#tabs[this.#selectedTabId], this.#tabs[tabId]].forEach((tab, index) => {
+            Object.values(tab).forEach(el => el.classList.toggle('selected', index === 1));
+        });
 
         this.#selectedTabId = tabId;
     }
