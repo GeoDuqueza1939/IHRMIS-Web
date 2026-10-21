@@ -7,13 +7,14 @@
   <title>Employee Record Viewer</title>
   <link rel="stylesheet" href="/styles/default.css">
   <link rel="stylesheet" href="/styles/tab.css">
+  <link rel="stylesheet" href="/styles/themes.css">
   <link rel="stylesheet" href="/styles/emre.css">
 </head>
 <body>
     <main class="employee-data">
         <h1>Employee Record</h1>
         <aside class="photo">
-            <img src="<%= (typeof employee == 'undefined' ? '/images/photo_placeholder.svg' : employee.photo_fpath) %>" alt="Employee Photo" />
+            <img src="<%= (typeof employee == 'undefined' || !employee.photo_fpath ? '/images/photo_placeholder.svg' : employee.photo_fpath) %>" alt="Employee Photo" />
         </aside>
 
         <section class="summary">

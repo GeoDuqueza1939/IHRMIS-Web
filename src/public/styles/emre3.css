@@ -1,0 +1,519 @@
+/* ============================================================================
+   EMPLOYEE RECORD VIEWER — layout 3 (card deck)
+   ----------------------------------------------------------------------------
+   An alternative to the tabbed layout of emre1.ejs and the dossier layout of
+   emre2.ejs. The record sections are rendered as a deck of cards: a row of
+   overlapping card spines acts as the navigation, and the section itself
+   arrives as a card that slides on top of the pile.
+
+   Layout-specific rules only; the color tokens and the shared data/table
+   primitives live in themes.css, which this stylesheet expects to be loaded
+   first.
+   ========================================================================== */
+
+body.deck-view {
+    --bar-h: 3.1rem;
+    --spine-w: 3.1rem;
+    --spine-overlap: 2.15rem;
+    --card-radius: 0.65em;
+    padding: 0;
+}
+
+body.deck-view h1 {
+    margin: 0;
+    text-align: left;
+    font-size: inherit;
+}
+
+/* ============================================================================
+   HEADER
+   ========================================================================== */
+
+.deck-header {
+    position: sticky;
+    top: 0;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    height: var(--bar-h);
+    padding: 0 clamp(0.9rem, 3vw, 2rem);
+    background: var(--mainpanelbgcolor);
+    -webkit-backdrop-filter: var(--mainpanelblur);
+    backdrop-filter: var(--mainpanelblur);
+    border-bottom: 1px solid var(--mainbordercolor);
+    text-shadow: none;
+}
+
+.deck-header__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-width: 0;
+}
+
+.deck-header__brand img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    border-radius: 50%;
+    background: #ffffff;
+    padding: 2px;
+    flex: none;
+}
+
+.deck-header__system {
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    white-space: nowrap;
+}
+
+.deck-header__sep {
+    opacity: 0.45;
+}
+
+.deck-header__subject {
+    color: var(--mainlabelcolor);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.deck-header__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.76rem;
+    color: var(--mainlabelcolor);
+    white-space: nowrap;
+}
+
+.deck-header__meta b {
+    color: var(--mainfgcolor);
+    letter-spacing: 0.04em;
+}
+
+.deck-header__status {
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mainaccentcontrast);
+    background: var(--mainaccent);
+    text-shadow: none;
+}
+
+.deck-header__count {
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.68rem;
+    white-space: nowrap;
+}
+
+.deck-header__pager {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.deck-header__pager .record-card__nav {
+    padding: 0.2rem 0.55rem;
+    font-size: 0.7rem;
+}
+
+/* ============================================================================
+   DECK
+   ========================================================================== */
+
+.deck {
+    max-width: 96rem;
+    margin: 0 auto;
+    padding: 1.4rem clamp(0.9rem, 3vw, 2rem) 3rem;
+}
+
+/* --- the overlapping card spines --- */
+
+.deck__spines {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: -0.6rem;
+    padding-left: 0.15rem;
+}
+
+.spine {
+    position: relative;
+    z-index: 1;
+    flex: 0 0 auto;
+    width: var(--spine-w);
+    height: 7.4rem;
+    margin-right: calc(var(--spine-overlap) - var(--spine-w));
+    padding: 0.55rem 0 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--mainbordercolor);
+    border-bottom: 0;
+    border-radius: 0.45em 0.45em 0 0;
+    background: var(--mainpanelbgcolor);
+    -webkit-backdrop-filter: var(--mainpanelblur);
+    backdrop-filter: var(--mainpanelblur);
+    color: var(--mainlabelcolor);
+    font: inherit;
+    cursor: pointer;
+    transition: transform 0.22s ease, color 0.22s ease, background 0.22s ease,
+                border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.spine:last-child {
+    margin-right: 0;
+}
+
+.spine__label {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: nowrap;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+.spine:hover {
+    color: var(--mainfgcolor);
+    transform: translateY(-0.3rem);
+}
+
+.spine:focus-visible {
+    outline: 2px solid var(--mainaccent);
+    outline-offset: 1px;
+}
+
+.spine.selected {
+    z-index: 4;
+    height: 8.1rem;
+    transform: translateY(-0.7rem);
+    color: var(--mainfgcolor);
+    background: var(--mainrowaltcolor);
+    border-color: var(--mainaccent);
+    box-shadow: var(--mainboxshadowcolor) 0.2em 0.2em 0.5em;
+}
+
+.spine.selected .spine__label {
+    font-weight: 700;
+    color: var(--mainaccent);
+}
+
+/* ============================================================================
+   STAGE — the pile of section cards
+   ========================================================================== */
+
+.deck__stage {
+    position: relative;
+    height: clamp(26rem, 68vh, 44rem);
+    padding-bottom: 1.5rem;
+}
+
+.record-card {
+    /* --depth and --dir are set per card by the view's script, to place a
+       card in the pile relative to the active one */
+    --depth: 0;
+    --dir: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: calc(100% - 1.5rem);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--mainbordercolor);
+    border-radius: var(--card-radius);
+    background: var(--mainpanelbgcolor);
+    -webkit-backdrop-filter: var(--mainpanelblur);
+    backdrop-filter: var(--mainpanelblur);
+    text-shadow: none;
+    /* the inactive cards stay faintly visible so the deck reads as a pile of
+       cards with the active one on top */
+    opacity: 0.22;
+    transform: translate3d(calc(var(--dir, 0) * var(--depth, 0) * 0.3rem),
+                           calc(var(--depth, 0) * 0.42rem), 0)
+               scale(calc(1 - var(--depth, 0) * 0.012));
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.26s ease, transform 0.26s ease;
+}
+
+.record-card.selected {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    z-index: 5;
+    box-shadow: var(--mainboxshadowcolor) 0.3em 0.3em 0.8em;
+    border-color: var(--mainaccent);
+}
+
+/* the incoming card slides in from the side it came from */
+.deck__stage[data-direction="1"] .record-card.selected {
+    animation: slide-from-right 0.3s ease;
+}
+
+.deck__stage[data-direction="-1"] .record-card.selected {
+    animation: slide-from-left 0.3s ease;
+}
+
+@keyframes slide-from-right {
+    from { transform: translateX(1.8rem); opacity: 0; }
+    to   { transform: none; opacity: 1; }
+}
+
+@keyframes slide-from-left {
+    from { transform: translateX(-1.8rem); opacity: 0; }
+    to   { transform: none; opacity: 1; }
+}
+
+/* --- card chrome --- */
+
+.record-card__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding: 0.85rem 1.1rem;
+    border-bottom: 1px solid var(--mainbordercolor);
+    background: var(--mainrowaltcolor);
+}
+
+.record-card__title {
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 0.55rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+.record-card__num {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--mainaccent);
+}
+
+.record-card__nav {
+    padding: 0.26rem 0.7rem;
+    border: 1px solid var(--mainbordercolor);
+    border-radius: 0.35em;
+    background: transparent;
+    color: var(--mainfgcolor);
+    font: inherit;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+}
+
+.record-card__nav:hover:not(:disabled) {
+    background: var(--mainrowhovercolor);
+    border-color: var(--mainaccent);
+}
+
+.record-card__nav:focus-visible {
+    outline: 2px solid var(--mainaccent);
+    outline-offset: 1px;
+}
+
+.record-card__nav:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+/* --- card body --- */
+
+.record-card__body {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 1rem 1.1rem 1.2rem;
+    scrollbar-width: thin;
+}
+
+.record-card__body::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+.record-card__body::-webkit-scrollbar-thumb {
+    background: var(--mainbordercolor);
+    border-radius: 0.25rem;
+}
+
+.block {
+    margin-bottom: 1.1rem;
+    padding: 0.9rem 1rem 1rem;
+    border: 1px solid var(--mainbordercolor);
+    border-radius: 0.5em;
+    background: var(--mainrowaltcolor);
+}
+
+.block:last-child {
+    margin-bottom: 0;
+}
+
+.block__title {
+    margin: 0 0 0.6rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 2px solid var(--mainaccent);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.block__subtitle {
+    margin: 0.9rem 0 0.35rem;
+    font-size: 0.73rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--mainlabelcolor);
+}
+
+.block__subtitle:first-of-type {
+    margin-top: 0;
+}
+
+.rows {
+    display: flex;
+    flex-direction: column;
+}
+
+.rows .data {
+    grid-template: auto / 12em auto;
+    padding: 0.28em 0;
+    border-bottom: 1px solid var(--mainbordercolor);
+}
+
+.rows .data:last-child {
+    border-bottom: 0;
+}
+
+.rows .data > .label {
+    font-weight: 500;
+    letter-spacing: 0.03em;
+}
+
+.rows .data > .value {
+    font-weight: 600;
+}
+
+/* --- tables inside a card --- */
+
+.block .data-grp-table,
+.block .data-table,
+.block .data-subgrp-table {
+    font-size: 0.83em;
+}
+
+.block .data-grp-table > caption,
+.block .data-table > caption,
+.block .data-subgrp-table > caption {
+    text-align: left;
+    font-size: 0.92rem;
+    margin: 0.2rem 0 0.4rem;
+}
+
+.block .data-grp-table > thead > tr > *,
+.block .data-table > thead > tr > *,
+.block .data-subgrp-table > thead > tr > * {
+    text-align: left;
+}
+
+.block .data-grp-table > thead > tr > *:first-child,
+.block .data-table > thead > tr > *:first-child,
+.block .data-subgrp-table > thead > tr > *:first-child {
+    text-align: center;
+}
+
+.empty {
+    margin: 0;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--mainlabelcolor);
+}
+
+.empty::before {
+    content: "";
+    display: block;
+    width: 2.2em;
+    height: 2.2em;
+    margin: 0 auto 0.7rem;
+    border: 2px dashed var(--mainbordercolor);
+    border-radius: 50%;
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media screen and (max-width: 900px) {
+    body.deck-view {
+        --spine-w: 2.7rem;
+        --spine-overlap: 1.85rem;
+    }
+
+    .spine {
+        height: 6.4rem;
+    }
+
+    .spine.selected {
+        height: 7rem;
+    }
+
+    .spine__label {
+        font-size: 0.66rem;
+    }
+}
+
+@media screen and (max-width: 620px) {
+    .deck-header {
+        height: auto;
+        flex-wrap: wrap;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .deck-header__meta {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .deck__spines {
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding-bottom: 0.2rem;
+    }
+
+    .deck__stage {
+        height: clamp(24rem, 72vh, 40rem);
+    }
+
+    .record-card__head {
+        padding: 0.7rem 0.8rem;
+    }
+
+    .record-card__body {
+        padding: 0.8rem;
+    }
+
+    .rows .data {
+        grid-template: auto / 1fr;
+        gap: 0.1rem;
+    }
+
+    .rows .data > .value {
+        padding-left: 0;
+    }
+}

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="navy">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="<%= baseDir %>">
+  <title>Employee Record - IHRMIS</title>
+  <link rel="stylesheet" href="/styles/default.css">
+  <link rel="stylesheet" href="/styles/themes.css">
+  <link rel="stylesheet" href="/styles/emre3.css">
+</head>
+<body class="deck-view">
+
+  <header class="deck-header">
+    <div class="deck-header__brand">
+      <img src="/images/logo-depedstotomas.webp" alt="Department of Education" />
+      <span class="deck-header__system">IHRMIS</span>
+      <span class="deck-header__sep" aria-hidden="true">/</span>
+      <span class="deck-header__subject">Dela Cruz, Juan Santos</span>
+    </div>
+    <div class="deck-header__meta">
+      <span class="deck-header__count" data-section-count>1 of 9</span>
+      <span class="deck-header__pager">
+        <button type="button" class="record-card__nav" data-section-prev>&lsaquo; Prev</button>
+        <button type="button" class="record-card__nav" data-section-next>Next &rsaquo;</button>
+      </span>
+      <span>Employee No. <b>0000000</b></span>
+      <span class="deck-header__status">Active Duty</span>
+    </div>
+  </header>
+
+  <div class="deck">
+
+    <!-- the deck of overlapping card spines -->
+    <div class="deck__spines" role="tablist" aria-label="Record sections" aria-orientation="horizontal">
+      <button type="button" class="spine" role="tab" id="tab3-sec-job" aria-controls="card3-job" aria-selected="true"><span class="spine__label">Job</span></button>
+      <button type="button" class="spine" role="tab" id="tab3-sec-personal" aria-controls="card3-personal" aria-selected="false" tabindex="-1"><span class="spine__label">Personal</span></button>
+      <button type="button" class="spine" role="tab" id="tab3-sec-education" aria-controls="card3-education" aria-selected="false" tabindex="-1"><span class="spine__label">Education</span></button>
+      <button type="button" class="spine" role="tab" id="tab3-sec-training" aria-controls="card3-training" aria-selected="false" tabindex="-1"><span class="spine__label">Training</span></button>
+      <button type="button" class="spine" role="tab" id="tab3-sec-work" aria-controls="card3-work" aria-selected="false" tabindex="-1"><span class="spine__label">Work</span></button>
+      <button type="button" class="spine" role="tab" id="tab3-sec-eligibility" aria-controls="card3-eligibility" aria-selected="false" tabindex="-1"><span class="spine__label">Eligibility</span></button>
+      <button type="button" class="spine" role="tab" id="tab3-sec-service" aria-controls="card3-service" aria-selected="false" tabindex="-1"><span class="spine__label">Service</span></button>
+      <button type="button" class="spine" role="tab" id="tab3-sec-awards" aria-controls="card3-awards" aria-selected="false" tabindex="-1"><span class="spine__label">Awards</span></button>
+      <button type="button" class="spine" role="tab" id="tab3-sec-voluntary" aria-controls="card3-voluntary" aria-selected="false" tabindex="-1"><span class="spine__label">Voluntary</span></button>
+    </div>
+
+    <!-- the pile of section cards -->
+    <div class="deck__stage" data-direction="0">
+
+      <article class="record-card" id="card3-job" role="tabpanel" aria-labelledby="tab3-sec-job" tabindex="0">
+        <header class="record-card__head">
+          <h2 class="record-card__title"><span class="record-card__num">01</span> Job Description</h2>
+        </header>
+        <div class="record-card__body">
+          <div class="block">
+            <h3 class="block__title">Position</h3>
+            <div class="rows">
+              <p class="data"><span class="label">Position</span><span class="value">Administrative Officer I</span></p>
+              <p class="data"><span class="label">Office/Unit</span><span class="value">Sto. Tomas North Central School</span></p>
+              <p class="data"><span class="label">Description</span><span class="value"></span></p>
+            </div>
+          </div>
+          <div class="block">
+            <h3 class="block__title">Duties and Responsibilities</h3>
+            <table class="data-grp-table">
+              <thead>
+                <tr><th>Domain/Key Result Area</th><th>Duties/Responsibilities</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="block">
+            <h3 class="block__title">Designation</h3>
+            <div class="rows">
+              <p class="data"><span class="label">Designation</span><span class="value"></span></p>
+              <p class="data"><span class="label">Office/Unit</span><span class="value"></span></p>
+              <p class="data"><span class="label">Concurrent</span><span class="value">Yes</span></p>
+              <p class="data"><span class="label">Description</span><span class="value"></span></p>
+            </div>
+          </div>
+          <div class="block">
+            <h3 class="block__title">Terms of Reference</h3>
+            <table class="data-grp-table">
+              <thead>
+                <tr><th>#</th><th>Duties/Responsibilities</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </article>
+
+      <article class="record-card" id="card3-personal" role="tabpanel" aria-labelledby="tab3-sec-personal" tabindex="0">
+        <header class="record-card__head">
+          <h2 class="record-card__title"><span class="record-card__num">02</span> Personal Data</h2>
+        </header>
+        <div class="record-card__body">
+          <div class="block">
+            <h3 class="block__title">Personal Data</h3>
+            <div class="rows">
+              <p class="data"><span class="label">Surname</span><span class="value">Dela Cruz</span></p>
+              <p class="data"><span class="label">First Name</span><span class="value">Juan</span></p>
+              <p class="data"><span class="label">Name Extension</span><span class="value"></span></p>
+              <p class="data"><span class="label">Middle Name</span><span class="value">Santos</span></p>
+              <p class="data"><span class="label">Age</span><span class="value"></span></p>
+              <p class="data"><span class="label">Date of Birth</span><span class="value"></span></p>
+              <p class="data"><span class="label">Place of Birth</span><span class="value"></span></p>
+              <p class="data"><span class="label">Sex at Birth</span><span class="value"></span></p>
+              <p class="data"><span class="label">Civil Status</span><span class="value"></span></p>
+              <p class="data"><span class="label">Height (m)</span><span class="value"></span></p>
+              <p class="data"><span class="label">Weight (kg)</span><span class="value"></span></p>
+              <p class="data"><span class="label">Blood Type</span><span class="value"></span></p>
+            </div>
+          </div>
+          <div class="block">
+            <h3 class="block__title">Identification</h3>
+            <div class="rows">
+              <p class="data"><span class="label">UMID ID No.</span><span class="value"></span></p>
+              <p class="data"><span class="label">Pag-IBIG ID No.</span><span class="value"></span></p>
+              <p class="data"><span class="label">PhilHealth No.</span><span class="value"></span></p>
+              <p class="data"><span class="label">PhilSys Number</span><span class="value"></span></p>
+              <p class="data"><span class="label">TIN No.</span><span class="value"></span></p>
+              <p class="data"><span class="label">School ID</span><span class="value"></span></p>
+            </div>
+          </div>
+          <div class="block">
+            <h3 class="block__title">Family Background</h3>
+            <h4 class="block__subtitle">Spouse Information</h4>
+            <div class="rows">
+              <p class="data"><span class="label">Name</span><span class="value"></span></p>
+              <p class="data"><span class="label">Occupation</span><span class="value"></span></p>
+              <p class="data"><span class="label">Employer/Business Name</span><span class="value"></span></p>
+              <p class="data"><span class="label">Business Address</span><span class="value"></span></p>
+              <p class="data"><span class="label">Telephone No.</span><span class="value"></span></p>
+            </div>
+            <h4 class="block__subtitle">Parents</h4>
+            <div class="rows">
+              <p class="data"><span class="label">Father's Name</span><span class="value"></span></p>
+              <p class="data"><span class="label">Mother's Maiden Name</span><span class="value"></span></p>
+            </div>
+            <h4 class="block__subtitle">Children</h4>
+            <table class="data-subgrp-table">
+              <thead><tr><th>Name</th><th>Date of Birth</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </article>
+
+      <article class="record-card" id="card3-education" role="tabpanel" aria-labelledby="tab3-sec-education" tabindex="0">
+        <header class="record-card__head">
+          <h2 class="record-card__title"><span class="record-card__num">03</span> Education</h2>
+        </header>
+        <div class="record-card__body">
+          <div class="block">
+            <h3 class="block__title">Education</h3>
+            <table class="data-grp-table">
+              <thead>
+                <tr>
+                  <th>#</th><th>Level</th><th>Name of School</th><th>Basic Education/Degree/Course</th>
+                  <th>From</th><th>To</th><th>Highest Level/Units Earned</th>
+                  <th>Year Graduated</th><th>Scholarship/Academic Honors</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </article>
+
+      <article class="record-card" id="card3-training" role="tabpanel" aria-labelledby="tab3-sec-training" tabindex="0">
+        <header class="record-card__head">
+          <h2 class="record-card__title"><span class="record-card__num">04</span> Training</h2>
+        </header>
+        <div class="record-card__body">
+          <div class="block">
+            <h3 class="block__title">Learning and Development Interventions / Training Programs Attended</h3>
+            <table class="data-grp-table">
+              <thead>
+                <tr>
+                  <th>#</th><th>Title of L&D Interventions / Training Programs</th>
+                  <th>From</th><th>To</th><th>Number of Hours</th>
+                  <th>Type of L&D</th><th>Conducted/Sponsored by</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </article>
+
+      <article class="record-card" id="card3-work" role="tabpanel" aria-labelledby="tab3-sec-work" tabindex="0">
+        <header class="record-card__head">
+          <h2 class="record-card__title"><span class="record-card__num">05</span> Work Experience</h2>
+        </header>
+        <div class="record-card__body">
+          <div class="block">
+            <h3 class="block__title">Work Experience</h3>
+            <table class="data-grp-table">
+              <thead>
+                <tr>
+                  <th>#</th><th>From</th><th>To</th><th>Position Title</th>
+                  <th>Department/Agency/Office/Company</th><th>Status of Appointment</th>
+                  <th>Government Service (Y/N)</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </article>
+
+      <article class="record-card" id="card3-eligibility" role="tabpanel" aria-labelledby="tab3-sec-eligibility" tabindex="0">
+        <header class="record-card__head">
+          <h2 class="record-card__title"><span class="record-card__num">06</span> Civil Service Eligibility</h2>
+        </header>
+        <div class="record-card__body">
+          <div class="block">
+            <h3 class="block__title">Civil Service Eligibility</h3>
+            <table class="data-grp-table">
+              <thead>
+                <tr>
+                  <th>CES/CSEE/Career Service/RA 1080 (Board/Bar)/Under Special Laws/Category II/IV Eligibility and Eligibilities for Uniformed Personnel</th>
+                  <th>Rating (if applicable)</th><th>Date of Examination/Conferment</th>
+                  <th>Place of Examination/Conferment</th><th>License No. (if applicable)</th>
+                  <th>Valid Until</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </article>
+
+      <article class="record-card" id="card3-service" role="tabpanel" aria-labelledby="tab3-sec-service" tabindex="0">
+        <header class="record-card__head">
+          <h2 class="record-card__title"><span class="record-card__num">07</span> Service Record</h2>
+        </header>
+        <div class="record-card__body">
+          <div class="block">
+            <h3 class="block__title">Service Record</h3>
+            <p class="empty">No service record entries have been encoded yet.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="record-card" id="card3-awards" role="tabpanel" aria-labelledby="tab3-sec-awards" tabindex="0">
+        <header class="record-card__head">
+          <h2 class="record-card__title"><span class="record-card__num">08</span> Awards</h2>
+        </header>
+        <div class="record-card__body">
+          <div class="block">
+            <h3 class="block__title">Awards and Recognitions</h3>
+            <p class="empty">No awards or recognitions have been encoded yet.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="record-card" id="card3-voluntary" role="tabpanel" aria-labelledby="tab3-sec-voluntary" tabindex="0">
+        <header class="record-card__head">
+          <h2 class="record-card__title"><span class="record-card__num">09</span> Voluntary Work</h2>
+        </header>
+        <div class="record-card__body">
+          <div class="block">
+            <h3 class="block__title">Voluntary Work or Involvement in Civic / Non-Government / People / Voluntary Organization(s)</h3>
+            <table class="data-grp-table">
+              <thead>
+                <tr>
+                  <th>#</th><th>Name &amp; Address of Organization</th>
+                  <th>From</th><th>To</th><th>Number of Hours</th>
+                  <th>Position/Nature of Work</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <script src="/js/sections.js"></script>
+  <script>
+    "use strict";
+
+    // the header holds the counter and the pager, so the whole page is the
+    // switcher's root
+    Array.from(document.getElementsByClassName("deck")).forEach(deck => {
+      const stage = deck.querySelector('.deck__stage');
+      new SectionSwitcher(document.body, {
+        onChange: (index, direction) => {
+            // let the pile settle, and show the incoming card sliding in from
+            // the side it was approached from
+            stage.setAttribute('data-direction', String(direction));
+            stage.querySelectorAll('.record-card').forEach((card, i) => {
+                const depth = Math.abs(i - index);
+                const dir = i === index ? 0 : (i > index ? 1 : -1);
+                card.style.setProperty('--depth', String(depth));
+                card.style.setProperty('--dir', String(dir));
+            });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

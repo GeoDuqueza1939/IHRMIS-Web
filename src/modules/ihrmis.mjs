@@ -9,6 +9,7 @@ import lifecycle from './lifecycle.mjs';
 import controller from './controller.mjs';
 import nabu from './nabu.mjs';
 import janus from './janus.mjs';
+import emre from './emre.mjs';
 
 const __dirname = config.rootDir;
 
@@ -25,6 +26,7 @@ export default class ihrmis_app {
     #controller = null;
     #nabu = null;
     #janus = null;
+    #emre = null;
     #ready = false;
 
     // Constructor
@@ -60,6 +62,10 @@ export default class ihrmis_app {
 
         // JANUS owns /janus/* auth + account routes (login31.ejs is canonical UI; login3.ejs kept as fallback).
         this.#janus = new janus(this);
+
+        // EmRE owns /emre/* employee record routes (emre1.ejs is the default
+        // view; emre2.ejs is the dossier layout and emre3.ejs the card deck).
+        this.#emre = new emre(this);
 
         this.#ready = true;
 

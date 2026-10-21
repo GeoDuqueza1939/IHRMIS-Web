@@ -1,0 +1,541 @@
+/* ============================================================================
+   EMPLOYEE RECORD VIEWER — layout 2 (dossier)
+   ----------------------------------------------------------------------------
+   An alternative to the tabbed layout of emre1.ejs. Where emre1 puts the nine
+   record sections in a horizontal tab strip, this one puts them in a vertical
+   list beside a pinned identity panel — so a long record never needs a
+   horizontal scroller, and the employee's identity stays in view while
+   browsing.
+
+   Layout-specific rules only; the color tokens and the shared data/table
+   primitives live in themes.css, which this stylesheet expects to be loaded
+   first.
+   ========================================================================== */
+
+body.dossier {
+    --bar-h: 3.25rem;
+    --rail-w: 17.5rem;
+    --gap: 1.5rem;
+    --radius: 0.6em;
+    padding: 0;
+}
+
+body.dossier h1 {
+    margin: 0;
+    text-align: left;
+    font-size: inherit;
+}
+
+/* ============================================================================
+   TOP BAR
+   ========================================================================== */
+
+.dossier-bar {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    height: var(--bar-h);
+    padding: 0 clamp(0.9rem, 3vw, 2rem);
+    background: var(--mainpanelbgcolor);
+    -webkit-backdrop-filter: var(--mainpanelblur);
+    backdrop-filter: var(--mainpanelblur);
+    border-bottom: 1px solid var(--mainbordercolor);
+    text-shadow: none;
+}
+
+.dossier-bar__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-width: 0;
+}
+
+.dossier-bar__brand img {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    border-radius: 50%;
+    background: #ffffff;
+    padding: 2px;
+    flex: none;
+}
+
+.dossier-bar__system {
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    white-space: nowrap;
+}
+
+.dossier-bar__sep {
+    opacity: 0.45;
+}
+
+.dossier-bar__page {
+    color: var(--mainlabelcolor);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dossier-bar__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.78rem;
+    color: var(--mainlabelcolor);
+    white-space: nowrap;
+}
+
+.dossier-bar__meta b {
+    color: var(--mainfgcolor);
+    letter-spacing: 0.04em;
+}
+
+.dossier-bar__status {
+    padding: 0.24rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mainaccentcontrast);
+    background: var(--mainaccent);
+    text-shadow: none;
+}
+
+/* ============================================================================
+   BODY GRID
+   ========================================================================== */
+
+.dossier-body {
+    display: grid;
+    grid-template-columns: var(--rail-w) minmax(0, 1fr);
+    gap: var(--gap);
+    align-items: start;
+    padding: var(--gap) clamp(0.9rem, 3vw, 2rem) 3rem;
+    max-width: 96rem;
+    margin: 0 auto;
+}
+
+/* ============================================================================
+   RAIL
+   ========================================================================== */
+
+.rail {
+    position: sticky;
+    top: calc(var(--bar-h) + var(--gap));
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    padding: 1.1rem;
+    border: 1px solid var(--mainbordercolor);
+    border-radius: var(--radius);
+    background: var(--mainpanelbgcolor);
+    -webkit-backdrop-filter: var(--mainpanelblur);
+    backdrop-filter: var(--mainpanelblur);
+    text-shadow: none;
+}
+
+.portrait {
+    margin: 0;
+    align-self: center;
+    width: 8.5em;
+    height: 8.5em;
+    padding: 0.4em;
+    border: 1px solid var(--mainbordercolor);
+    border-radius: 50%;
+    background: var(--mainpanelbgcolor);
+    box-shadow: var(--mainboxshadowcolor) 0.15em 0.15em 0.4em;
+}
+
+.portrait > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    background: rgba(128, 128, 128, 0.18);
+}
+
+.identity__name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: 0.01em;
+}
+
+.identity__role {
+    margin: 0.35rem 0 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--mainaccent);
+}
+
+.identity__unit {
+    margin: 0.15rem 0 0;
+    font-size: 0.8rem;
+    color: var(--mainlabelcolor);
+}
+
+.facts {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8rem;
+}
+
+.facts__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding: 0.42rem 0;
+    border-top: 1px solid var(--mainbordercolor);
+}
+
+.facts__row:first-child {
+    border-top: 0;
+    padding-top: 0;
+}
+
+.facts dt {
+    color: var(--mainlabelcolor);
+    letter-spacing: 0.03em;
+}
+
+.facts dd {
+    margin: 0;
+    font-weight: 600;
+    text-align: right;
+}
+
+/* --- section navigation --- */
+
+.sections {
+    margin-top: 0.2rem;
+    border-top: 1px solid var(--mainbordercolor);
+    padding-top: 0.8rem;
+}
+
+.sections__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.sections__tab {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.45rem 0.6rem 0.45rem 0.7rem;
+    border: 0;
+    border-left: 3px solid transparent;
+    border-radius: 0.3em;
+    background: transparent;
+    color: var(--mainlabelcolor);
+    font: inherit;
+    font-size: 0.84rem;
+    line-height: 1.3;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.sections__tab:hover {
+    background: var(--mainrowhovercolor);
+    color: var(--mainfgcolor);
+}
+
+.sections__tab:focus-visible {
+    outline: 2px solid var(--mainaccent);
+    outline-offset: 1px;
+}
+
+.sections__tab.selected {
+    border-left-color: var(--mainaccent);
+    background: var(--mainrowaltcolor);
+    color: var(--mainfgcolor);
+    font-weight: 600;
+}
+
+/* ============================================================================
+   CONTENT
+   ========================================================================== */
+
+.content {
+    min-width: 0;
+}
+
+.content__bar {
+    position: sticky;
+    top: var(--bar-h);
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: var(--gap);
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--mainbordercolor);
+    border-radius: var(--radius);
+    background: var(--mainpanelbgcolor);
+    -webkit-backdrop-filter: var(--mainpanelblur);
+    backdrop-filter: var(--mainpanelblur);
+    text-shadow: none;
+}
+
+.content__title {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+.content__tools {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.content__count {
+    font-size: 0.74rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--mainlabelcolor);
+    white-space: nowrap;
+}
+
+.pager__btn {
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--mainbordercolor);
+    border-radius: 0.35em;
+    background: transparent;
+    color: var(--mainfgcolor);
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+}
+
+.pager__btn:hover:not(:disabled) {
+    background: var(--mainrowhovercolor);
+    border-color: var(--mainaccent);
+}
+
+.pager__btn:focus-visible {
+    outline: 2px solid var(--mainaccent);
+    outline-offset: 1px;
+}
+
+.pager__btn:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+/* --- sections --- */
+
+.section {
+    display: none;
+}
+
+.section.selected {
+    display: block;
+}
+
+/* a deep link focuses the section, so give the focus ring the theme's accent
+   rather than the browser default */
+.section:focus {
+    outline: 2px solid var(--mainaccent);
+    outline-offset: 2px;
+    border-radius: var(--radius);
+}
+
+.block {
+    margin-bottom: var(--gap);
+    padding: 1rem 1.1rem 1.1rem;
+    border: 1px solid var(--mainbordercolor);
+    border-radius: var(--radius);
+    background: var(--mainpanelbgcolor);
+    -webkit-backdrop-filter: var(--mainpanelblur);
+    backdrop-filter: var(--mainpanelblur);
+    text-shadow: none;
+}
+
+.block:last-child {
+    margin-bottom: 0;
+}
+
+.block__title {
+    margin: 0 0 0.7rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--mainaccent);
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.block__subtitle {
+    margin: 1rem 0 0.4rem;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--mainlabelcolor);
+}
+
+.block__subtitle:first-of-type {
+    margin-top: 0;
+}
+
+.rows {
+    display: flex;
+    flex-direction: column;
+}
+
+.rows .data {
+    grid-template: auto / 12em auto;
+    padding: 0.3em 0;
+    border-bottom: 1px solid var(--mainbordercolor);
+}
+
+.rows .data:last-child {
+    border-bottom: 0;
+}
+
+.rows .data > .label {
+    font-weight: 500;
+    letter-spacing: 0.03em;
+}
+
+.rows .data > .value {
+    font-weight: 600;
+}
+
+/* --- empty state --- */
+
+.empty {
+    margin: 0;
+    padding: 1.6rem 1rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--mainlabelcolor);
+}
+
+.empty::before {
+    content: "";
+    display: block;
+    width: 2.2em;
+    height: 2.2em;
+    margin: 0 auto 0.7rem;
+    border: 2px dashed var(--mainbordercolor);
+    border-radius: 50%;
+}
+
+/* --- tables inside a block --- */
+
+.block .data-grp-table,
+.block .data-table,
+.block .data-subgrp-table {
+    font-size: 0.85em;
+}
+
+.block .data-grp-table > caption,
+.block .data-table > caption,
+.block .data-subgrp-table > caption {
+    text-align: left;
+    font-size: 0.95rem;
+    margin: 0.2rem 0 0.45rem;
+}
+
+.block .data-grp-table > thead > tr > *,
+.block .data-table > thead > tr > *,
+.block .data-subgrp-table > thead > tr > * {
+    text-align: left;
+}
+
+.block .data-grp-table > thead > tr > *:first-child,
+.block .data-table > thead > tr > *:first-child,
+.block .data-subgrp-table > thead > tr > *:first-child {
+    text-align: center;
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media screen and (max-width: 1000px) {
+    body.dossier {
+        --rail-w: 100%;
+    }
+
+    .dossier-body {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .rail {
+        position: static;
+    }
+
+    /* the vertical list becomes a horizontal strip, which keeps every section
+       reachable without a nested scroller */
+    .sections__list {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: thin;
+        gap: 0.35rem;
+        padding-bottom: 0.2rem;
+    }
+
+    .sections__tab {
+        white-space: nowrap;
+        border-left: 0;
+        border-bottom: 3px solid transparent;
+        border-radius: 0.3em 0.3em 0 0;
+    }
+
+    .sections__tab.selected {
+        border-left-color: transparent;
+        border-bottom-color: var(--mainaccent);
+    }
+}
+
+@media screen and (max-width: 620px) {
+    .dossier-bar {
+        height: auto;
+        flex-wrap: wrap;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .dossier-bar__meta {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .content__bar {
+        position: static;
+    }
+
+    .portrait {
+        width: 6.5em;
+        height: 6.5em;
+    }
+
+    .rows .data {
+        grid-template: auto / 1fr;
+        gap: 0.1rem;
+    }
+
+    .rows .data > .value {
+        padding-left: 0;
+    }
+}

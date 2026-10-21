@@ -137,7 +137,7 @@ export default class controller {
         this.#router.post(`${urlSample.main}/:id`, renderMainById);
         this.#router.get(urlSample.main, this.#sampleLayoutViewer("Main", mainDesigns, urlSample.main));
 
-        const emreDesigns = [1];
+        const emreDesigns = [1, 2, 3];
 
         const renderEmREById = (req, res) => {
             if (emreDesigns.includes(parseInt(req.params.id))) {
