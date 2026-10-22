@@ -27,6 +27,41 @@
 
 ---
 
+Date/Time: 2026-10-22 03:50 PM
+Developer: Geo
+
+**FOR EDITING**
+
+Let us fine tune the design first according to actual requirements in operations. However, call me out if you see gaps in the design.
+
+Now, let's talk about attendance. In current/manual workflows, the attendance is currently tracked per working day either via biometrics or via time cards marked manually or using bundy clocks. This is due to the lack of attendance-capturing equipment in some units/schools. Upon deployment of the system, attendance status will therefore be either tracked or untracked. Some employees may have their attendance specified as tracked beforehand, specifically those in the Schools Division Office which has a biometric attendance scanner installed. Likewise, if their attendance data is automatically recorded via biometrics or manually uploaded to the system using a specific file format, their attendance shall also be considered as tracked. The attendance status may also be updated if they are covered by specific approved documents, such as leave forms, travel orders, travel authority, official issuances, or legal decrees. Once an employee clocks in via biometrics or their attendance data is uploaded to the system, their attendance status is then recomputed to fit into the following statuses:
+
+- Present - employee clocks in on time or within the applicable grace period (if any); will change to either Half Day or Undertime if employee clocks out too early; the Present status will override any preset statuses but will not override the effects of the coverage of approved documents.
+- Absent - no time ins or time outs were recorded; no coverage of approved documents; no attendance record during an employee's official time
+- Late - employee clocks in after the start of their official time or after the applicable grace period (if any); also called as 'Tardy'.
+- Excused - any absence, tardiness, undertime, or half day not covered by approved documents may be excused through the discretion of both the HRMO and top management.
+
+The following statuses may be preset, depending on employee requests and other considerations. As such, these statuses may only be set once the required documents are either approved electronically or a scan of the required approved document is uploaded. Once set, they may only be manually reset to another value by a user with sufficient privilege. As such, changes to the attendance status shall be tracked. Setting of these statuses may be done individually or en masse, when an HRMO or an authorized HRM staff either uploads the approved document or reviews an electronically approved document. (Note: This has a consequence of requiring the review of approved documents by the HRMO or an authorized HRM staff. Likewise, when a document type is defined, its scope shall also be identified as either Individual, Group, or All, where a Group scope will allow the selection of more than one applicable employee or unit/school).
+
+- On Leave - requires an approved leave form
+- On Travel - requires the issuance of either a travel order or a travel authority
+- On Remote Work - requires an official issuance
+- Half Day - requires an approved leave form or an issuance if to be set in advance; Present status
+
+Thresholds for grace periods will be added to assigned shifts/schedules and the system settings. Thresholds for early clock ins and for determining half days and undertimes will be added to the system settings. 
+
+Key takeaway is that the following creates or modifies an existing attendance record:
+
+- clock in (start of shift)
+- clock out (lunch)
+- clock in (lunch)
+- clock out (end of shift)
+- approval of leaves
+- absence is excused upon the concurrence of HRMO and top management or other privileged users
+- 
+
+---
+
 Date/Time: 2026-10-22
 Developer: OC
 ATTN: Geo
