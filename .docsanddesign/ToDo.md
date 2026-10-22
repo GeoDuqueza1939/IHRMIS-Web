@@ -14,8 +14,8 @@
 - Checkboxes are the state: `[ ]` open, `[x]` done, `~~struck~~` removed.
 - New items go under the priority they belong to, with enough context that
   someone picking this up cold knows where to start.
-- Items that turn out to be done, obsolete, or duplicated are moved to
-  **Completed** or **Proposed for removal** rather than silently deleted.
+- Items that turn out to be done or obsolete are moved to **Completed** rather
+  than silently deleted.
 - Source-code `TODO` comments and commit-message `TODO:` blocks are written
   here instead. New inline `TODO` comments are not to be added.
 - Short comments that explain the code beside them may stay in the source.
@@ -25,22 +25,39 @@
 
 ## P0 — Foundations (block every other item)
 
-### Provision the live database and app user
-- [ ] Load `db/schema.sql`; verify **134 tables / 203 FKs / 103 seed rows**
-- [ ] Create the least-privilege app user and export `IHRMIS_MYSQL_*`
-- [ ] Wire the app's connection check green
-- Blocked on: `sudo` needs a password — a human must run the admin step
+### Design the feature-suite tables in the model
+Each suite needs its tables in the model before the schema is deployed — adding
+them afterwards means migrating a live system. Design them now, so that one
+deployment carries the complete schema. The build of each suite is tracked
+under **P0 — Feature suites**.
 
-### Enter the RBAC seed rows
-- [ ] `Right` rows — **0 present**. Minimum per the table's own COMMENT:
-      `rights.assign`, `roles.assign`, `users.manage`, `users.link.approve`
-- [ ] `Role_Right` grant rows — **0 present** (possible once `Right` has fixed ids)
-- [ ] Add the rights each feature suite below will need
+- [ ] **Time and Attendance** — shifts, schedules, holiday calendar,
+      attendance logs/day, leaves + ledger, teaching load
+- [ ] **Employee Discipline** — offense catalog, case, proceedings, decision,
+      appeal, preventive suspension
+- [ ] **Proceedings** — `Case_Proceeding` generic deliberation layer +
+      junction template
 
 ### Fill in the ENUM descriptions
 - [ ] **65 of 68** ENUM seed rows still have a NULL `description`:
       `ENUM_Res_Doc_Type` 54/54, `ENUM_User_Status` 4/4,
       `ENUM_User_Type` 3/3, `ENUM_OAuth_Provider` 4/4
+- [ ] Cover any ENUM rows added by the feature-suite tables above
+
+### Enter the RBAC seed rows
+- [ ] `Right` rows — **0 present**. Minimum per the table's own COMMENT:
+      `rights.assign`, `roles.assign`, `users.manage`, `users.link.approve`
+- [ ] `Role_Right` grant rows — **0 present** (possible once `Right` has fixed ids)
+- [ ] Add the rights each feature suite will need
+
+### Provision the live database and app user
+- [ ] Regenerate `db/schema.sql` from the completed model
+- [ ] Load it, and verify the table, FK and seed counts — today's figures are
+      **134 / 203 / 103**, and they will differ once the feature-suite tables
+      are added
+- [ ] Create the least-privilege app user and export `IHRMIS_MYSQL_*`
+- [ ] Wire the app's connection check green
+- Blocked on: `sudo` needs a password — a human must run the admin step
 
 ---
 
@@ -73,6 +90,17 @@
 
 ---
 
+## P0 — Feature suites
+
+The tables land in the model first (see **P0 — Foundations**); these are the
+builds.
+
+- [ ] **Time and Attendance** — module and views
+- [ ] **Employee Discipline** — module and views
+- [ ] **Proceedings** — module and views
+
+---
+
 ## P1 — Engineering hygiene
 
 - [ ] A real test runner — the `test` script (`node ihrmis-server.mjs && exit 0`) can never fail
@@ -80,17 +108,9 @@
 - [ ] CI workflow
 - [ ] `dotenv` + `.env.example` — configuration is export-only today
 - [ ] Root `README.md` with setup instructions
-- [ ] Correct the stale counts in `db/README.md` (says 126 tables / 195 FKs / "130 tables"; actual **134 / 203 / 103**)
+- [ ] Correct the stale counts in `db/README.md` (says 126 tables / 195 FKs / "130 tables"; actual **134 / 203 / 103**) — and again once the feature-suite tables land
 - [ ] Sitemap for the `emre3` card deck: the card body scrolls internally, which is awkward for printing
 - [ ] `emre3` spine labels are abbreviated ("Job", "Eligibility") to keep the vertical strips short
-
----
-
-## Feature suites (not started — all three depend on the P0 items above)
-
-- [ ] **Time and Attendance** — shifts, schedules, holiday calendar, attendance logs/day, leaves + ledger, teaching load
-- [ ] **Employee Discipline** — offense catalog, case, proceedings, decision, appeal, preventive suspension
-- [ ] **Proceedings** — `Case_Proceeding` generic deliberation layer + junction template
 
 ---
 
