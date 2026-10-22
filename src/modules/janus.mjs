@@ -2,61 +2,8 @@
 
 import config from './config.mjs';
 
-/* ============================================================================
- * KAORI-DB-NOTE — auth model as implemented in `.docsanddesign/DB-ERD.mwb`
- * (schema IHRMIS, `User Data` diagram). Applied 2026-10-02 via
- * `tools/mwb-edit.mjs apply --spec /tmp/opencode/auth-spec.json`
- * (new `alterColumns` op); `wbcheck` structural + type checks passed and
- * MySQL Workbench 8.0.47 opens the model cleanly (126 tables, 13 diagrams).
- * ----------------------------------------------------------------------------
- * DELTAS vs the original handoff (per owner decisions):
- * - `User.username` widened VARCHAR(100) -> VARCHAR(250): signup/login take
- *   emails (`User_Login.email` is 250), so 100 would truncate long addresses.
- * - `User.status` / `User_Login.provider` / `OAuth_Account.provider` are
- *   TINYINT UNSIGNED FKs to retained ENUM tables (NOT native MySQL ENUMs),
- *   so future statuses/providers need data rows, not DDL:
- *     ENUM_User_Status(status): 0: Not specified, 1: Active, 2: Inactive,
- *       3: Separated. `User.status` DEFAULT 1, RESTRICT on delete.
- *     ENUM_OAuth_Provider(provider): 0: Not specified, 1: Local, 2: Google,
- *       3: Microsoft 365. `User_Login.provider` DEFAULT 1, RESTRICT.
- *     ENUM_User_Type(user_type): 0: Not specified, 1: External, 2: Employee.
- *       `User.user_type` DEFAULT 1, RESTRICT. (Tabled for future user types.)
- *   `User.user_type` native ENUM dropped; `Verification_Token.purpose` stays
- *   native ENUM('signup','verify_alt','reset','link') (a purpose, not a ref).
- * - `User.password_hash` VARCHAR(255) NN (argon2); + `failed_attempts`,
- *   `locked_until`, `created_at` (DEFAULT CURRENT_TIMESTAMP), `updated_at`
- *   (DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP — folded into the
- *   default expression: GRT has no column-level ON UPDATE key, Workbench
- *   forward-engineers `DEFAULT <value>` verbatim so the SQL stays valid).
- * - `Verification_Token` gains lookup index `idx_Verification_Token_hash`
- *   (verifyUser looks tokens up by hash); `loginId`/`granted_by`/`decided_by`
- *   intentionally carry NO FK (insert-ordering); table/column names match this
- *   file's queries exactly. All user-owned rows CASCADE from User; shared
- *   refs (Role, Right, ENUMs) are RESTRICT. Junctions use composite PKs.
- * ----------------------------------------------------------------------------
- * ACTION ITEMS — status 2026-10-12 (Kaori):
- * 1. DONE (Duke 67b45ab): id-maps + runtime loadEnumMaps; string guards now
- *    resolve to ids. Public signatures unchanged.
- * 2. SUPERSEDED 2026-10-13 (owner): model rows are canonical AND the only
- *    writer. `src/tools/seed-janus.mjs` retired 2026-10-13 (backup:
- *    `tools/backups/seed-janus.mjs`) and removed; `seed:janus` npm script
- *    removed with it. `Role_Right` grants stay a manual deploy step until
- *    they can live in the model against fixed Role/Right ids.
- * 3. OPEN (owner, Workbench Inserts tab): Role/Right descriptions + any
- *    remaining rows; then schema.sql carries everything automatically.
- * 4. OPEN (Duke): approveUnlink guard is vacuous (always true); verifyOAuthUser
- *    double-gate rejects the microsoft365 aliases the mapper accepts;
- *    loadEnumMaps derives a junk 'not'->0 key. Non-blocking nits.
- * 5. OPEN (DBA): live schema + app user still not created (see db/README.md).
- * BACKLOG (not this pass): one-go conversion of ENUM tables — at minimum the
- * three new ones, possibly all `ENUM_*` — to native MySQL ENUM types.
- * ----------------------------------------------------------------------------
- * NOTES: keep `Email_Address` (Person contact) separate from `User_Login`
- * (auth identity). DepEd users MAY keep non-DepEd alt local emails; they just
- * may never use a @deped.gov.ph address in the email-login path. PM_Role and
- * ENUM_PM_Role are performance-cycle roles — DO NOT reuse for system RBAC.
- * ============================================================================
- */
+/* Auth model, schema deltas and design rationale: see DevNotes.md
+   ("KAORI-DB-NOTE", Geo). */
 
 const DEPED_SUFFIX = `@${(config.janus?.depedDomain || 'deped.gov.ph').toLowerCase()}`;
 const MAX_ALT_LOGINS = config.janus?.maxAltLogins ?? 3;
@@ -179,8 +126,6 @@ export default class janus {
             });
         };
         const passport = (provider) => (req, res) => {
-            // TODO: start OIDC Authorization Code + PKCE flow via openid-client/jose.
-            // Enforce hd/tenant = deped.gov.ph; callback must call verifyOAuthUser().
             this.#logger?.info(`JANUS SSO start: provider=${provider}`);
             res.status(501).render('error', {
                 baseDir: config.baseDir, app_name: config.shortname, statusCode: 501,
@@ -214,8 +159,6 @@ export default class janus {
                 baseDir: config.baseDir, username, password: '', error: '', warning,
             });
         }
-        // TODO(Kaori tables landed): lookup User_Login+User, check status/lockout,
-        // argon2-verify password_hash, rotate session, update failed_attempts.
         this.#logger?.info(`JANUS email-login attempt: ${username}`);
         return res.status(501).render('login31', {
             baseDir: config.baseDir, username, password: '',
@@ -232,7 +175,6 @@ export default class janus {
                 baseDir: config.baseDir, username, password: '', error: '', warning,
             });
         }
-        // TODO: create User + User_Login(is_verified=0) + Verification_Token, send SMTP link.
         this.#logger?.info(`JANUS signup attempt: ${username}`);
         return res.status(501).render('login31', {
             baseDir: config.baseDir, username, password: '',
@@ -259,7 +201,6 @@ export default class janus {
         const warning = emailLoginWarning(email);
         if (warning) throw new Error(warning);
         if (!password) throw new Error('Password is required.');
-        // TODO: argon2.verify(storedHash, password) via NABU User_Login join.
         this.#logger?.info(`JANUS verifyPassword (stub): ${email}`);
         return false;
     }
@@ -296,7 +237,6 @@ export default class janus {
         const email = normalizeEmail(username);
         const warning = emailLoginWarning(email);
         if (warning) throw new Error(warning);
-        // TODO: INSERT User(user_type=<USER_TYPE.external=1>, status=<USER_STATUS.active=1>) + User_Login(provider=1) + Verification_Token(purpose='signup'); nodemailer send.
         this.#logger?.info(`JANUS signup (stub): ${email}`);
     }
 
@@ -319,9 +259,6 @@ export default class janus {
         if (!['google', 'ms365'].includes(String(provider).toLowerCase())) throw new Error(`Unknown provider: ${provider}`);
         if (!isDepEdEmail(email)) throw new Error(`Only ${DEPED_SUFFIX} accounts may use ${provider} sign-in.`);
         if (!token) throw new Error('IdP token is required.');
-        // TODO: JWKS-validate id_token (iss/aud/exp, hd=deped.gov.ph), then:
-        // SELECT/INSERT OAuth_Account SET provider=<providerId>, deped_email=<email>;
-        // link to existing User on verified alt-email match, else INSERT User(user_type=<USER_TYPE.employee>).
         this.#logger?.info(`JANUS verifyOAuthUser (stub): ${email} via ${provider} (provider_id=${providerId})`);
         return false;
     }
@@ -332,21 +269,17 @@ export default class janus {
         if (![OAUTH_PROVIDER.google, OAUTH_PROVIDER.ms365].includes(providerId)) throw new Error(`Unknown provider: ${provider}`);
         if (!isDepEdEmail(depedEmail)) throw new Error(`Only ${DEPED_SUFFIX} addresses can be linked via ${provider}.`);
         this.#logger?.info(`JANUS linkOAuthAccount (stub): user=${userId} ${provider}:${normalizeEmail(depedEmail)} (provider_id=${providerId})`);
-        // TODO: INSERT INTO OAuth_Account(userId, provider=<providerId>, subject, deped_email).
     }
 
     requestUnlink(userId, oauthId) {
         // Account unlinking: user requests, sysadmin approves (users.link.approve right).
         this.#logger?.info(`JANUS unlink requested (stub): user=${userId} oauth=${oauthId}`);
-        // TODO: INSERT INTO Unlink_Request(userId, oauthId, status='pending').
     }
 
     approveUnlink(requestId, approverId, approve = true) {
         // Unlink_Request.status is a native ENUM('pending','approved','rejected') — no id-map needed.
         if (!UNLINK_STATUS.includes(approve ? 'approved' : 'rejected')) throw new Error('Invalid unlink decision.');
         this.#logger?.info(`JANUS unlink ${approve ? 'approved' : 'rejected'} (stub): req=${requestId} by=${approverId}`);
-        // TODO: check approver has users.link.approve / roles.assign; UPDATE Unlink_Request SET status, decided_by, decided_at;
-        // on approve DELETE OAuth_Account row (never auto-unlink active employee without audit).
     }
 
     changePassword(username, oldPassword, newPassword) { // for email logins only
@@ -361,14 +294,11 @@ export default class janus {
         const alt = normalizeEmail(email);
         const warning = emailLoginWarning(alt);
         if (warning) throw new Error(warning);
-        // TODO: SELECT COUNT(*) FROM User_Login WHERE userId=? AND provider=<OAUTH_PROVIDER.local=1> AND is_primary=0;
-        // throw if >= MAX_ALT_LOGINS; INSERT (provider=1) + Verification_Token(purpose='verify_alt').
         this.#logger?.info(`JANUS addLogin (stub): user=${userId} alt=${alt} (limit ${MAX_ALT_LOGINS}, provider_id=${OAUTH_PROVIDER.local})`);
     }
 
     removeLogin(userId, email) {
         this.#logger?.info(`JANUS removeLogin (stub): user=${userId} email=${normalizeEmail(email)}`);
-        // TODO: DELETE FROM User_Login WHERE userId AND email (never delete last verified login).
     }
 
     addRole(username, role) {
@@ -376,35 +306,28 @@ export default class janus {
             throw new Error(`Unknown role: ${role}`);
         }
         this.#logger?.info(`JANUS addRole (stub): ${normalizeEmail(username)} <- ${role}`);
-        // TODO: require caller right roles.assign; INSERT INTO User_Role.
     }
 
     removeRole(username, role) {
         this.#logger?.info(`JANUS removeRole (stub): ${normalizeEmail(username)} -/-> ${role}`);
-        // TODO: require caller right roles.assign; DELETE FROM User_Role (guard last-admin).
     }
 
     assignRight(username, right, granted = true) {
         // A user with rights.assign may modify others' rights (limited scope);
         // roles.assign may assign/remove both rights and roles.
         this.#logger?.info(`JANUS assignRight (stub): ${normalizeEmail(username)} ${granted ? '+=' : '-='} ${right}`);
-        // TODO: upsert User_Right(granted); enforce scope limits for rights.assign callers.
     }
 
     mergeUsers(username1, username2, mergedData = {}) { // USE WITH CAUTION
         this.#logger?.warn(`JANUS mergeUsers (stub): ${normalizeEmail(username1)} + ${normalizeEmail(username2)}`);
-        // TODO: sysadmin-only; re-point User_Login/OAuth_Account/User_Role/User_Right, keep audit trail.
     }
 
     setUserStatus(username, status) { // 'active'->1, 'inactive'->2, 'separated'->3 (ENUM_User_Status).
         const statusId = userStatusId(status); // throws on unknown
         this.#logger?.info(`JANUS setUserStatus (stub): ${normalizeEmail(username)} -> ${status} (status_id=${statusId})`);
-        // TODO: UPDATE User SET status=<statusId> WHERE username=?; separated employees keep record, lose access.
     }
 
     deleteUser(username) { // USE WITH CAUTION — external accounts only per Workflows.md:325
         this.#logger?.warn(`JANUS deleteUser (stub): ${normalizeEmail(username)}`);
-        // TODO: SELECT user_type FROM User; allow only user_type=<USER_TYPE.external=1>
-        // (or separated+unlinked); else throw; cascade via FKs + audit.
     }
 }
