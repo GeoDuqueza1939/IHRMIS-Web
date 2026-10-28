@@ -31,8 +31,8 @@ them afterwards means migrating a live system. Design them now, so that one
 deployment carries the complete schema. The build of each suite is tracked
 under **P0 — Feature suites**.
 
-- [ ] **Time and Attendance** — shifts, schedules, holiday calendar,
-      attendance logs/day, leaves + ledger, teaching load
+- [x] **Time and Attendance** — shifts, schedules, holiday calendar,
+      attendance logs/day, leaves + ledger
 - [ ] **Employee Discipline** — offense catalog, case, proceedings, decision,
       appeal, preventive suspension
 - [ ] **Proceedings** — `Case_Proceeding` generic deliberation layer +
@@ -51,10 +51,10 @@ under **P0 — Feature suites**.
 - [ ] Add the rights each feature suite will need
 
 ### Provision the live database and app user
-- [ ] Regenerate `db/schema.sql` from the completed model
+- [x] Regenerate `db/schema.sql` from the completed model
 - [ ] Load it, and verify the table, FK and seed counts — today's figures are
-      **134 / 203 / 103**, and they will differ once the feature-suite tables
-      are added
+      **149 / 222 / 143**, up from **134 / 203 / 103** before the feature-suite
+      tables were added
 - [ ] Create the least-privilege app user and export `IHRMIS_MYSQL_*`
 - [ ] Wire the app's connection check green
 - Blocked on: `sudo` needs a password — a human must run the admin step

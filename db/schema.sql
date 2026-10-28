@@ -1,5 +1,5 @@
 -- Schema generated from .docsanddesign/DB-ERD.mwb
--- by tools/mwb-ddl.mjs on 2026-10-13T02:35:05.361Z
+-- by tools/mwb-ddl.mjs on 2026-10-28T16:50:06.259Z
 -- DO NOT hand-edit: the .mwb model is the source of truth; regenerate.
 
 CREATE DATABASE IF NOT EXISTS `ihrmis` CHARACTER SET utf8 COLLATE utf8_general_ci;
@@ -15,6 +15,20 @@ CREATE TABLE `Classroom_Observation` (
   `observer_remarks` LONGTEXT NULL,
   PRIMARY KEY (`classroom_observationId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE `ENUM_Attendance_Source` (
+  `source` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  `description` LONGTEXT NULL,
+  PRIMARY KEY (`source`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Source of attendance record: Not specified, Biometric, Manual Upload, Self-Reported, System Computed';
+
+CREATE TABLE `ENUM_Attendance_Status` (
+  `status` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  `description` LONGTEXT NULL,
+  PRIMARY KEY (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Attendance status values: Not specified, Present, Absent, Late/Tardy, Undertime, Half Day, Excused, On Leave, On Travel, On Remote Work';
 
 CREATE TABLE `ENUM_Civil_Status` (
   `civil_status` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -63,6 +77,13 @@ CREATE TABLE `ENUM_Criterion_Type` (
 2: Cumulative
 3: Selection
 4: Incremental';
+
+CREATE TABLE `ENUM_Day_Type` (
+  `day_type` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `description` LONGTEXT NULL,
+  PRIMARY KEY (`day_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Day type: Not specified, Regular Workday, Rest Day, Special Non-Working Day, Regular Holiday, School Break';
 
 CREATE TABLE `ENUM_Disability_Type` (
   `disability_type` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -240,6 +261,20 @@ CREATE TABLE `ENUM_Item_Status` (
 2: Published
 3: For Reclassification
 4: Dissolved';
+
+CREATE TABLE `ENUM_Leave_Status` (
+  `leave_status` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  `description` LONGTEXT NULL,
+  PRIMARY KEY (`leave_status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Leave request status: Not specified, Requested, Recommended, Approved, Disapproved, Cancelled, Withdrawn';
+
+CREATE TABLE `ENUM_Leave_Transaction` (
+  `transaction` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  `description` LONGTEXT NULL,
+  PRIMARY KEY (`transaction`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Leave ledger transaction type: Not specified, Earned, Deducted, Adjusted, Converted, Cancelled, Restored';
 
 CREATE TABLE `ENUM_Location_Type` (
   `location_type` INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -550,6 +585,23 @@ CREATE TABLE `Information_System` (
   PRIMARY KEY (`info_sysId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+CREATE TABLE `Leave_Type` (
+  `leave_typeId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `leave_code` VARCHAR(30) NOT NULL,
+  `leave_name` VARCHAR(100) NOT NULL,
+  `description` LONGTEXT NULL,
+  `is_paid` TINYINT UNSIGNED NOT NULL DEFAULT 1,
+  `is_credit_bearing` TINYINT UNSIGNED NOT NULL DEFAULT 1,
+  `is_convertible` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `max_days_per_year` DECIMAL(6,2) NULL,
+  `requires_attachment` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `requires_medical_certificate` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `notice_days` SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+  `allow_half_day` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `active` TINYINT UNSIGNED NOT NULL DEFAULT 1,
+  PRIMARY KEY (`leave_typeId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Leave type catalog';
+
 CREATE TABLE `MFO` (
   `mfoId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `mfo` VARCHAR(255) NOT NULL,
@@ -578,6 +630,27 @@ CREATE TABLE `Role` (
   PRIMARY KEY (`roleId`),
   UNIQUE KEY `uq_Role_code` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Seed: JOB_APPLICANT (default for new users), EXT_USER, REG_EMP, HRMO, SYS_ADMIN, TOP_MGMT';
+
+CREATE TABLE `Schedule` (
+  `scheduleId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `schedule_name` VARCHAR(100) NOT NULL,
+  `schedule_type` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `remarks` LONGTEXT NULL,
+  PRIMARY KEY (`scheduleId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Weekly pattern template (schedule_type: Regular, Partial Flexi, Full Flexi, Classroom Teacher, Shifting)';
+
+CREATE TABLE `Shift` (
+  `shiftId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `shift_name` VARCHAR(100) NOT NULL,
+  `start_time` TIME NOT NULL,
+  `end_time` TIME NOT NULL,
+  `break_minutes` SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+  `is_overnight` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `is_flexible` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `grace_period_minutes` SMALLINT UNSIGNED NULL,
+  `remarks` LONGTEXT NULL,
+  PRIMARY KEY (`shiftId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Shift template defining working hours, breaks, and flexi settings';
 
 CREATE TABLE `Team` (
   `teamId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -696,6 +769,29 @@ CREATE TABLE `LD_Program` (
   CONSTRAINT `fk_LD_Program_ENUM_Time_Unit1` FOREIGN KEY (`time_unit`) REFERENCES `ENUM_Time_Unit` (`time_unit`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+CREATE TABLE `Leave_Request` (
+  `leave_requestId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `empno` VARCHAR(50) NOT NULL,
+  `leave_typeId` BIGINT UNSIGNED NOT NULL,
+  `start_date` DATE NOT NULL,
+  `end_date` DATE NOT NULL,
+  `total_days` DECIMAL(6,2) NOT NULL DEFAULT 0,
+  `leave_status` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `is_paid` TINYINT UNSIGNED NOT NULL DEFAULT 1,
+  `recommended_by` VARCHAR(50) NULL,
+  `recommended_on` DATETIME NULL,
+  `approved_by` VARCHAR(50) NULL,
+  `approved_on` DATETIME NULL,
+  `disapproval_reason` LONGTEXT NULL,
+  `remarks` LONGTEXT NULL,
+  `timestamp` TIMESTAMP_F NOT NULL,
+  PRIMARY KEY (`leave_requestId`),
+  KEY `fk_Leave_Request_Employee1_idx` (`empno`),
+  KEY `fk_Leave_Request_Leave_Type1_idx` (`leave_typeId`),
+  CONSTRAINT `fk_Leave_Request_Employee1` FOREIGN KEY (`empno`) REFERENCES `Employee` (`empno`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Leave_Request_Leave_Type1` FOREIGN KEY (`leave_typeId`) REFERENCES `Leave_Type` (`leave_typeId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Leave application';
+
 CREATE TABLE `Location` (
   `locationId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `location_name` VARCHAR(255) NOT NULL,
@@ -764,6 +860,19 @@ CREATE TABLE `Role_Right` (
   CONSTRAINT `fk_Role_Right_Right1` FOREIGN KEY (`rightId`) REFERENCES `Right` (`rightId`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+CREATE TABLE `Schedule_Day` (
+  `schedule_dayId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `scheduleId` BIGINT UNSIGNED NOT NULL,
+  `day_of_week` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `shiftId` BIGINT UNSIGNED NOT NULL,
+  `remarks` LONGTEXT NULL,
+  PRIMARY KEY (`schedule_dayId`),
+  KEY `fk_Schedule_Day_Schedule1_idx` (`scheduleId`),
+  KEY `fk_Schedule_Day_Shift1_idx` (`shiftId`),
+  CONSTRAINT `fk_Schedule_Day_Schedule1` FOREIGN KEY (`scheduleId`) REFERENCES `Schedule` (`scheduleId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Schedule_Day_Shift1` FOREIGN KEY (`shiftId`) REFERENCES `Shift` (`shiftId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Which shift applies each weekday within a schedule';
+
 CREATE TABLE `Team_Member` (
   `memberId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `empno` VARCHAR(50) NOT NULL,
@@ -823,6 +932,25 @@ CREATE TABLE `ENUM_PPST_Indicator` (
   CONSTRAINT `fk_ENUM_PPST_Indicator_ENUM_PPST_Strand1` FOREIGN KEY (`ppst_strand`) REFERENCES `ENUM_PPST_Strand` (`ppst_strand`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_ENUM_PPST_Indicator_ENUM_Teacher_Career_Stage1` FOREIGN KEY (`career_stage`) REFERENCES `ENUM_Teacher_Career_Stage` (`career_stage`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE `Leave_Ledger` (
+  `ledgerId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `empno` VARCHAR(50) NOT NULL,
+  `leave_typeId` BIGINT UNSIGNED NOT NULL,
+  `transaction` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `quantity` DECIMAL(6,2) NOT NULL DEFAULT 0,
+  `effective_date` DATE NOT NULL,
+  `leave_requestId` BIGINT UNSIGNED NULL,
+  `remarks` LONGTEXT NULL,
+  `timestamp` TIMESTAMP_F NOT NULL,
+  PRIMARY KEY (`ledgerId`),
+  KEY `fk_Leave_Ledger_Employee1_idx` (`empno`),
+  KEY `fk_Leave_Ledger_Leave_Type1_idx` (`leave_typeId`),
+  KEY `fk_Leave_Ledger_Leave_Request1_idx` (`leave_requestId`),
+  CONSTRAINT `fk_Leave_Ledger_Employee1` FOREIGN KEY (`empno`) REFERENCES `Employee` (`empno`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Leave_Ledger_Leave_Type1` FOREIGN KEY (`leave_typeId`) REFERENCES `Leave_Type` (`leave_typeId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Leave_Ledger_Leave_Request1` FOREIGN KEY (`leave_requestId`) REFERENCES `Leave_Request` (`leave_requestId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Every credit/debit movement in leave credits; quantity stores minutes';
 
 CREATE TABLE `PM_Coaching_Session` (
   `coaching_sessionId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -1174,6 +1302,20 @@ CREATE TABLE `Hobby` (
   KEY `fk_Hobby_Person1_idx` (`personId`),
   CONSTRAINT `fk_Hobby_Person1` FOREIGN KEY (`personId`) REFERENCES `Person` (`personId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE `Holiday_Calendar` (
+  `holidayId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `orgId` BIGINT UNSIGNED NOT NULL,
+  `calendar_date` DATE NOT NULL,
+  `day_type` TINYINT UNSIGNED NOT NULL,
+  `calendar_name` VARCHAR(200) NULL,
+  `remarks` LONGTEXT NULL,
+  PRIMARY KEY (`holidayId`),
+  KEY `fk_Holiday_Calendar_Organization1_idx` (`orgId`),
+  KEY `fk_Holiday_Calendar_ENUM_Day_Type1_idx` (`day_type`),
+  CONSTRAINT `fk_Holiday_Calendar_Organization1` FOREIGN KEY (`orgId`) REFERENCES `Organization` (`orgId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Holiday_Calendar_ENUM_Day_Type1` FOREIGN KEY (`day_type`) REFERENCES `ENUM_Day_Type` (`day_type`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Holidays and non-working days per office';
 
 CREATE TABLE `Identification` (
   `idIndex` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -1625,6 +1767,36 @@ CREATE TABLE `Verification_Token` (
   CONSTRAINT `fk_Verification_Token_User1` FOREIGN KEY (`userId`) REFERENCES `User` (`userId`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+CREATE TABLE `Attendance_Log` (
+  `attendanceId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `empno` VARCHAR(50) NOT NULL,
+  `attendance_date` DATE NOT NULL,
+  `attendance_status` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `source` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `shiftId` BIGINT UNSIGNED NULL,
+  `time_in` TIME NULL,
+  `time_out` TIME NULL,
+  `late_minutes` SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+  `undertime_minutes` SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+  `half_day` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `half_day_type` TINYINT UNSIGNED NULL,
+  `is_automatic` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `leave_requestId` BIGINT UNSIGNED NULL,
+  `resourceId` BIGINT UNSIGNED NULL,
+  `remarks` LONGTEXT NULL,
+  `timestamp` TIMESTAMP_F NOT NULL,
+  PRIMARY KEY (`attendanceId`),
+  UNIQUE KEY `uq_Attendance_Log_empno_date` (`empno`, `attendance_date`),
+  KEY `fk_Attendance_Log_Employee1_idx` (`empno`),
+  KEY `fk_Attendance_Log_Shift1_idx` (`shiftId`),
+  KEY `fk_Attendance_Log_Leave_Request1_idx` (`leave_requestId`),
+  KEY `fk_Attendance_Log_Resource1_idx` (`resourceId`),
+  CONSTRAINT `fk_Attendance_Log_Employee1` FOREIGN KEY (`empno`) REFERENCES `Employee` (`empno`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Attendance_Log_Shift1` FOREIGN KEY (`shiftId`) REFERENCES `Shift` (`shiftId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Attendance_Log_Leave_Request1` FOREIGN KEY (`leave_requestId`) REFERENCES `Leave_Request` (`leave_requestId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Attendance_Log_Resource1` FOREIGN KEY (`resourceId`) REFERENCES `Resource` (`resourceId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Daily attendance record per employee';
+
 CREATE TABLE `Incumbency` (
   `incumbencyId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `plantilla_item_number` VARCHAR(50) NULL,
@@ -1696,6 +1868,40 @@ CREATE TABLE `PM_Action_Plan` (
   KEY `fk_PM_Action_Plan_PM_Development_Need1_idx` (`development_needId`),
   CONSTRAINT `fk_PM_Action_Plan_PM_Development_Need1` FOREIGN KEY (`development_needId`) REFERENCES `PM_Development_Need` (`development_needId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE `Resource_Link` (
+  `linkId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `resourceId` BIGINT UNSIGNED NOT NULL,
+  `entity` VARCHAR(50) NOT NULL,
+  `entity_id` BIGINT UNSIGNED NOT NULL,
+  `remarks` LONGTEXT NULL,
+  PRIMARY KEY (`linkId`),
+  KEY `fk_Resource_Link_Resource1_idx` (`resourceId`),
+  CONSTRAINT `fk_Resource_Link_Resource1` FOREIGN KEY (`resourceId`) REFERENCES `Resource` (`resourceId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Generic attachments (leave forms, travel orders, travel authorities, official issuances)';
+
+CREATE TABLE `Shift_Assignment` (
+  `assignmentId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `empno` VARCHAR(50) NULL,
+  `positionId` BIGINT UNSIGNED NULL,
+  `plantilla_item_number` VARCHAR(50) NULL,
+  `orgId` BIGINT UNSIGNED NULL,
+  `scheduleId` BIGINT UNSIGNED NULL,
+  `start_date` DATE NOT NULL,
+  `end_date` DATE NULL,
+  `timestamp` TIMESTAMP_F NOT NULL,
+  PRIMARY KEY (`assignmentId`),
+  KEY `fk_Shift_Assignment_Employee1_idx` (`empno`),
+  KEY `fk_Shift_Assignment_Position1_idx` (`positionId`),
+  KEY `fk_Shift_Assignment_Plantilla_Item1_idx` (`plantilla_item_number`),
+  KEY `fk_Shift_Assignment_Organization1_idx` (`orgId`),
+  KEY `fk_Shift_Assignment_Schedule1_idx` (`scheduleId`),
+  CONSTRAINT `fk_Shift_Assignment_Employee1` FOREIGN KEY (`empno`) REFERENCES `Employee` (`empno`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Shift_Assignment_Position1` FOREIGN KEY (`positionId`) REFERENCES `Position` (`positionId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Shift_Assignment_Plantilla_Item1` FOREIGN KEY (`plantilla_item_number`) REFERENCES `Plantilla_Item` (`plantilla_item_number`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Shift_Assignment_Organization1` FOREIGN KEY (`orgId`) REFERENCES `Organization` (`orgId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Shift_Assignment_Schedule1` FOREIGN KEY (`scheduleId`) REFERENCES `Schedule` (`scheduleId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Assigns employee/position/plantilla/org to a schedule over a date range; also stores rest day (non-working day) assignments';
 
 CREATE TABLE `Term_of_Reference` (
   `torId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -1931,6 +2137,41 @@ CREATE TABLE `Relevant_Work` (
 -- Idempotent (ON DUPLICATE KEY UPDATE). Give seed rows explicit
 -- stable ids (esp. Role/Right) so reloads converge; blank AI-PK
 -- cells are omitted (auto-assign).
+INSERT INTO `ENUM_Attendance_Source` (`source`, `name`, `description`) VALUES (1, 'Not specified', '') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Attendance_Source` (`source`, `name`, `description`) VALUES (2, 'Biometric', 'Automatically recorded via biometrics') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Attendance_Source` (`source`, `name`, `description`) VALUES (3, 'Manual Upload', 'Manually uploaded attendance data') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Attendance_Source` (`source`, `name`, `description`) VALUES (4, 'Self-Reported', 'Self-reported attendance') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Attendance_Source` (`source`, `name`, `description`) VALUES (5, 'System Computed', 'System-computed attendance') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Attendance_Status` (`status`, `name`, `description`) VALUES (1, 'Not specified', '') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Attendance_Status` (`status`, `name`, `description`) VALUES (2, 'Present', 'Employee clocks in on time or within grace period') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Attendance_Status` (`status`, `name`, `description`) VALUES (3, 'Absent', 'No time in/out recorded, no coverage') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Attendance_Status` (`status`, `name`, `description`) VALUES (4, 'Late', 'Clocks in after official time or grace period') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Attendance_Status` (`status`, `name`, `description`) VALUES (5, 'Undertime', 'Clocks out too early') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Attendance_Status` (`status`, `name`, `description`) VALUES (6, 'Half Day', 'Worked approximately minimum 4 hours') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Attendance_Status` (`status`, `name`, `description`) VALUES (7, 'Excused', 'Excused by HRMO or top management') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Attendance_Status` (`status`, `name`, `description`) VALUES (8, 'On Leave', 'Approved leave form') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Attendance_Status` (`status`, `name`, `description`) VALUES (9, 'On Travel', 'Travel order or travel authority') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Attendance_Status` (`status`, `name`, `description`) VALUES (10, 'On Remote Work', 'Official issuance for remote work') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Day_Type` (`day_type`, `name`, `description`) VALUES (1, 'Not specified', '') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Day_Type` (`day_type`, `name`, `description`) VALUES (2, 'Regular Workday', 'Regular workday') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Day_Type` (`day_type`, `name`, `description`) VALUES (3, 'Rest Day', 'Rest day') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Day_Type` (`day_type`, `name`, `description`) VALUES (4, 'Special Non-Working Day', 'Special non-working day') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Day_Type` (`day_type`, `name`, `description`) VALUES (5, 'Regular Holiday', 'Regular holiday') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Day_Type` (`day_type`, `name`, `description`) VALUES (6, 'School Break', 'School break') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Leave_Status` (`leave_status`, `name`, `description`) VALUES (1, 'Not specified', '') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Leave_Status` (`leave_status`, `name`, `description`) VALUES (2, 'Requested', 'Leave request submitted') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Leave_Status` (`leave_status`, `name`, `description`) VALUES (2, 'Recommended', 'Recommended by approver') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Leave_Status` (`leave_status`, `name`, `description`) VALUES (3, 'Approved', 'Leave approved') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Leave_Status` (`leave_status`, `name`, `description`) VALUES (4, 'Disapproved', 'Leave disapproved') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Leave_Status` (`leave_status`, `name`, `description`) VALUES (5, 'Cancelled', 'Leave cancelled') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Leave_Status` (`leave_status`, `name`, `description`) VALUES (6, 'Withdrawn', 'Leave withdrawn') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Leave_Transaction` (`transaction`, `name`, `description`) VALUES (1, 'Not specified', '') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Leave_Transaction` (`transaction`, `name`, `description`) VALUES (2, 'Earned', 'Leave credits earned') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Leave_Transaction` (`transaction`, `name`, `description`) VALUES (3, 'Deducted', 'Leave credits deducted') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Leave_Transaction` (`transaction`, `name`, `description`) VALUES (4, 'Adjusted', 'Leave credits adjusted') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Leave_Transaction` (`transaction`, `name`, `description`) VALUES (5, 'Converted', 'Leave credits converted') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Leave_Transaction` (`transaction`, `name`, `description`) VALUES (6, 'Cancelled', 'Leave credits cancelled') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
+INSERT INTO `ENUM_Leave_Transaction` (`transaction`, `name`, `description`) VALUES (7, 'Restored', 'Leave credits restored') ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
 INSERT INTO `ENUM_OAuth_Provider` (`provider`, `name`, `description`) VALUES (0, 'Not specified', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
 INSERT INTO `ENUM_OAuth_Provider` (`provider`, `name`, `description`) VALUES (1, 'Local', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
 INSERT INTO `ENUM_OAuth_Provider` (`provider`, `name`, `description`) VALUES (2, 'Google', NULL) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `description`=VALUES(`description`);
@@ -2028,6 +2269,11 @@ INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_s
 INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (26, 'AVI', 'AVI Video', '.avi', 'video/x-msvideo', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
 INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (27, 'MKV', 'Matroska Video', '.mkv', 'video/x-matroska', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
 INSERT INTO `File_Format` (`file_formatId`, `code`, `name`, `extension`, `mime_string`, `description`) VALUES (28, 'WEBM', 'WebM Video', '.webm', 'video/webm', NULL) ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `extension`=VALUES(`extension`), `mime_string`=VALUES(`mime_string`), `description`=VALUES(`description`);
+INSERT INTO `Leave_Type` (`leave_typeId`, `leave_code`, `leave_name`, `description`, `is_paid`, `is_credit_bearing`, `is_convertible`, `max_days_per_year`, `requires_attachment`, `requires_medical_certificate`, `notice_days`, `allow_half_day`, `active`) VALUES (1, 'VL', 'Vacation Leave', 'Vacation leave for personal reasons', 1, 1, 1, 15.00, 0, 0, 5, 1, 1) ON DUPLICATE KEY UPDATE `leave_code`=VALUES(`leave_code`), `leave_name`=VALUES(`leave_name`), `description`=VALUES(`description`), `is_paid`=VALUES(`is_paid`), `is_credit_bearing`=VALUES(`is_credit_bearing`), `is_convertible`=VALUES(`is_convertible`), `max_days_per_year`=VALUES(`max_days_per_year`), `requires_attachment`=VALUES(`requires_attachment`), `requires_medical_certificate`=VALUES(`requires_medical_certificate`), `notice_days`=VALUES(`notice_days`), `allow_half_day`=VALUES(`allow_half_day`), `active`=VALUES(`active`);
+INSERT INTO `Leave_Type` (`leave_typeId`, `leave_code`, `leave_name`, `description`, `is_paid`, `is_credit_bearing`, `is_convertible`, `max_days_per_year`, `requires_attachment`, `requires_medical_certificate`, `notice_days`, `allow_half_day`, `active`) VALUES (2, 'SL', 'Sick Leave', 'Sick leave for illness', 1, 1, 0, 15.00, 1, 1, 0, 1, 1) ON DUPLICATE KEY UPDATE `leave_code`=VALUES(`leave_code`), `leave_name`=VALUES(`leave_name`), `description`=VALUES(`description`), `is_paid`=VALUES(`is_paid`), `is_credit_bearing`=VALUES(`is_credit_bearing`), `is_convertible`=VALUES(`is_convertible`), `max_days_per_year`=VALUES(`max_days_per_year`), `requires_attachment`=VALUES(`requires_attachment`), `requires_medical_certificate`=VALUES(`requires_medical_certificate`), `notice_days`=VALUES(`notice_days`), `allow_half_day`=VALUES(`allow_half_day`), `active`=VALUES(`active`);
+INSERT INTO `Leave_Type` (`leave_typeId`, `leave_code`, `leave_name`, `description`, `is_paid`, `is_credit_bearing`, `is_convertible`, `max_days_per_year`, `requires_attachment`, `requires_medical_certificate`, `notice_days`, `allow_half_day`, `active`) VALUES (3, 'PL', 'Paternity Leave', 'Paternity leave for married male employees', 1, 1, 0, 7.00, 1, 0, 0, 0, 1) ON DUPLICATE KEY UPDATE `leave_code`=VALUES(`leave_code`), `leave_name`=VALUES(`leave_name`), `description`=VALUES(`description`), `is_paid`=VALUES(`is_paid`), `is_credit_bearing`=VALUES(`is_credit_bearing`), `is_convertible`=VALUES(`is_convertible`), `max_days_per_year`=VALUES(`max_days_per_year`), `requires_attachment`=VALUES(`requires_attachment`), `requires_medical_certificate`=VALUES(`requires_medical_certificate`), `notice_days`=VALUES(`notice_days`), `allow_half_day`=VALUES(`allow_half_day`), `active`=VALUES(`active`);
+INSERT INTO `Leave_Type` (`leave_typeId`, `leave_code`, `leave_name`, `description`, `is_paid`, `is_credit_bearing`, `is_convertible`, `max_days_per_year`, `requires_attachment`, `requires_medical_certificate`, `notice_days`, `allow_half_day`, `active`) VALUES (4, 'ML', 'Maternity Leave', 'Maternity leave for female employees', 1, 1, 0, 105.00, 1, 1, 0, 0, 1) ON DUPLICATE KEY UPDATE `leave_code`=VALUES(`leave_code`), `leave_name`=VALUES(`leave_name`), `description`=VALUES(`description`), `is_paid`=VALUES(`is_paid`), `is_credit_bearing`=VALUES(`is_credit_bearing`), `is_convertible`=VALUES(`is_convertible`), `max_days_per_year`=VALUES(`max_days_per_year`), `requires_attachment`=VALUES(`requires_attachment`), `requires_medical_certificate`=VALUES(`requires_medical_certificate`), `notice_days`=VALUES(`notice_days`), `allow_half_day`=VALUES(`allow_half_day`), `active`=VALUES(`active`);
+INSERT INTO `Leave_Type` (`leave_typeId`, `leave_code`, `leave_name`, `description`, `is_paid`, `is_credit_bearing`, `is_convertible`, `max_days_per_year`, `requires_attachment`, `requires_medical_certificate`, `notice_days`, `allow_half_day`, `active`) VALUES (5, 'SL', 'Study Leave', 'Study leave for educational purposes', 1, 1, 0, 5.00, 1, 0, 5, 0, 1) ON DUPLICATE KEY UPDATE `leave_code`=VALUES(`leave_code`), `leave_name`=VALUES(`leave_name`), `description`=VALUES(`description`), `is_paid`=VALUES(`is_paid`), `is_credit_bearing`=VALUES(`is_credit_bearing`), `is_convertible`=VALUES(`is_convertible`), `max_days_per_year`=VALUES(`max_days_per_year`), `requires_attachment`=VALUES(`requires_attachment`), `requires_medical_certificate`=VALUES(`requires_medical_certificate`), `notice_days`=VALUES(`notice_days`), `allow_half_day`=VALUES(`allow_half_day`), `active`=VALUES(`active`);
 INSERT INTO `Role` (`roleId`, `code`, `name`, `description`) VALUES (0, 'JOB_APPLICANT', 'Job Applicant', 'Default role for new external signups; least rights') ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `description`=VALUES(`description`);
 INSERT INTO `Role` (`roleId`, `code`, `name`, `description`) VALUES (1, 'EXT_USER', 'External User', 'Auxiliary personnel and verified externals') ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `description`=VALUES(`description`);
 INSERT INTO `Role` (`roleId`, `code`, `name`, `description`) VALUES (2, 'REG_EMP', 'Regular Employee', 'Employee with linked DepEd account') ON DUPLICATE KEY UPDATE `code`=VALUES(`code`), `name`=VALUES(`name`), `description`=VALUES(`description`);
