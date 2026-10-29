@@ -1,5 +1,5 @@
 -- Schema generated from .docsanddesign/DB-ERD.mwb
--- by tools/mwb-ddl.mjs on 2026-10-28T16:50:06.259Z
+-- by tools/mwb-ddl.mjs on 2026-10-29T00:39:52.955Z
 -- DO NOT hand-edit: the .mwb model is the source of truth; regenerate.
 
 CREATE DATABASE IF NOT EXISTS `ihrmis` CHARACTER SET utf8 COLLATE utf8_general_ci;
@@ -769,29 +769,6 @@ CREATE TABLE `LD_Program` (
   CONSTRAINT `fk_LD_Program_ENUM_Time_Unit1` FOREIGN KEY (`time_unit`) REFERENCES `ENUM_Time_Unit` (`time_unit`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-CREATE TABLE `Leave_Request` (
-  `leave_requestId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `empno` VARCHAR(50) NOT NULL,
-  `leave_typeId` BIGINT UNSIGNED NOT NULL,
-  `start_date` DATE NOT NULL,
-  `end_date` DATE NOT NULL,
-  `total_days` DECIMAL(6,2) NOT NULL DEFAULT 0,
-  `leave_status` TINYINT UNSIGNED NOT NULL DEFAULT 0,
-  `is_paid` TINYINT UNSIGNED NOT NULL DEFAULT 1,
-  `recommended_by` VARCHAR(50) NULL,
-  `recommended_on` DATETIME NULL,
-  `approved_by` VARCHAR(50) NULL,
-  `approved_on` DATETIME NULL,
-  `disapproval_reason` LONGTEXT NULL,
-  `remarks` LONGTEXT NULL,
-  `timestamp` TIMESTAMP_F NOT NULL,
-  PRIMARY KEY (`leave_requestId`),
-  KEY `fk_Leave_Request_Employee1_idx` (`empno`),
-  KEY `fk_Leave_Request_Leave_Type1_idx` (`leave_typeId`),
-  CONSTRAINT `fk_Leave_Request_Employee1` FOREIGN KEY (`empno`) REFERENCES `Employee` (`empno`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Leave_Request_Leave_Type1` FOREIGN KEY (`leave_typeId`) REFERENCES `Leave_Type` (`leave_typeId`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Leave application';
-
 CREATE TABLE `Location` (
   `locationId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `location_name` VARCHAR(255) NOT NULL,
@@ -932,25 +909,6 @@ CREATE TABLE `ENUM_PPST_Indicator` (
   CONSTRAINT `fk_ENUM_PPST_Indicator_ENUM_PPST_Strand1` FOREIGN KEY (`ppst_strand`) REFERENCES `ENUM_PPST_Strand` (`ppst_strand`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_ENUM_PPST_Indicator_ENUM_Teacher_Career_Stage1` FOREIGN KEY (`career_stage`) REFERENCES `ENUM_Teacher_Career_Stage` (`career_stage`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-CREATE TABLE `Leave_Ledger` (
-  `ledgerId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `empno` VARCHAR(50) NOT NULL,
-  `leave_typeId` BIGINT UNSIGNED NOT NULL,
-  `transaction` TINYINT UNSIGNED NOT NULL DEFAULT 0,
-  `quantity` DECIMAL(6,2) NOT NULL DEFAULT 0,
-  `effective_date` DATE NOT NULL,
-  `leave_requestId` BIGINT UNSIGNED NULL,
-  `remarks` LONGTEXT NULL,
-  `timestamp` TIMESTAMP_F NOT NULL,
-  PRIMARY KEY (`ledgerId`),
-  KEY `fk_Leave_Ledger_Employee1_idx` (`empno`),
-  KEY `fk_Leave_Ledger_Leave_Type1_idx` (`leave_typeId`),
-  KEY `fk_Leave_Ledger_Leave_Request1_idx` (`leave_requestId`),
-  CONSTRAINT `fk_Leave_Ledger_Employee1` FOREIGN KEY (`empno`) REFERENCES `Employee` (`empno`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Leave_Ledger_Leave_Type1` FOREIGN KEY (`leave_typeId`) REFERENCES `Leave_Type` (`leave_typeId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Leave_Ledger_Leave_Request1` FOREIGN KEY (`leave_requestId`) REFERENCES `Leave_Request` (`leave_requestId`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Every credit/debit movement in leave credits; quantity stores minutes';
 
 CREATE TABLE `PM_Coaching_Session` (
   `coaching_sessionId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -1767,36 +1725,6 @@ CREATE TABLE `Verification_Token` (
   CONSTRAINT `fk_Verification_Token_User1` FOREIGN KEY (`userId`) REFERENCES `User` (`userId`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-CREATE TABLE `Attendance_Log` (
-  `attendanceId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `empno` VARCHAR(50) NOT NULL,
-  `attendance_date` DATE NOT NULL,
-  `attendance_status` TINYINT UNSIGNED NOT NULL DEFAULT 0,
-  `source` TINYINT UNSIGNED NOT NULL DEFAULT 0,
-  `shiftId` BIGINT UNSIGNED NULL,
-  `time_in` TIME NULL,
-  `time_out` TIME NULL,
-  `late_minutes` SMALLINT UNSIGNED NOT NULL DEFAULT 0,
-  `undertime_minutes` SMALLINT UNSIGNED NOT NULL DEFAULT 0,
-  `half_day` TINYINT UNSIGNED NOT NULL DEFAULT 0,
-  `half_day_type` TINYINT UNSIGNED NULL,
-  `is_automatic` TINYINT UNSIGNED NOT NULL DEFAULT 0,
-  `leave_requestId` BIGINT UNSIGNED NULL,
-  `resourceId` BIGINT UNSIGNED NULL,
-  `remarks` LONGTEXT NULL,
-  `timestamp` TIMESTAMP_F NOT NULL,
-  PRIMARY KEY (`attendanceId`),
-  UNIQUE KEY `uq_Attendance_Log_empno_date` (`empno`, `attendance_date`),
-  KEY `fk_Attendance_Log_Employee1_idx` (`empno`),
-  KEY `fk_Attendance_Log_Shift1_idx` (`shiftId`),
-  KEY `fk_Attendance_Log_Leave_Request1_idx` (`leave_requestId`),
-  KEY `fk_Attendance_Log_Resource1_idx` (`resourceId`),
-  CONSTRAINT `fk_Attendance_Log_Employee1` FOREIGN KEY (`empno`) REFERENCES `Employee` (`empno`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Attendance_Log_Shift1` FOREIGN KEY (`shiftId`) REFERENCES `Shift` (`shiftId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Attendance_Log_Leave_Request1` FOREIGN KEY (`leave_requestId`) REFERENCES `Leave_Request` (`leave_requestId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Attendance_Log_Resource1` FOREIGN KEY (`resourceId`) REFERENCES `Resource` (`resourceId`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Daily attendance record per employee';
-
 CREATE TABLE `Incumbency` (
   `incumbencyId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `plantilla_item_number` VARCHAR(50) NULL,
@@ -1828,6 +1756,34 @@ CREATE TABLE `Incumbency` (
   CONSTRAINT `fk_Incumbency_ENUM_HR_Action1` FOREIGN KEY (`hr_action`) REFERENCES `ENUM_HR_Action` (`hr_action`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Incumbency_ENUM_HR_Action2` FOREIGN KEY (`mode_of_separation`) REFERENCES `ENUM_HR_Action` (`hr_action`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='This should cover all HR actions related to incumbency.';
+
+CREATE TABLE `Leave_Request` (
+  `leave_requestId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `empno` VARCHAR(50) NOT NULL,
+  `leave_typeId` BIGINT UNSIGNED NOT NULL,
+  `start_date` DATE NOT NULL,
+  `end_date` DATE NOT NULL,
+  `total_days` DECIMAL(6,2) NOT NULL DEFAULT 0,
+  `leave_status` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `is_paid` TINYINT UNSIGNED NOT NULL DEFAULT 1,
+  `recommended_by` VARCHAR(50) NULL,
+  `recommended_on` DATETIME NULL,
+  `approved_by` VARCHAR(50) NULL,
+  `approved_on` DATETIME NULL,
+  `disapproval_reason` LONGTEXT NULL,
+  `remarks` LONGTEXT NULL,
+  `timestamp` TIMESTAMP_F NOT NULL,
+  `resourceId` BIGINT UNSIGNED NULL,
+  PRIMARY KEY (`leave_requestId`),
+  KEY `fk_Leave_Request_Employee1_idx` (`empno`),
+  KEY `fk_Leave_Request_Leave_Type1_idx` (`leave_typeId`),
+  KEY `fk_Leave_Request_ENUM_Leave_Status1_idx` (`leave_status`),
+  KEY `fk_Leave_Request_Resource1_idx` (`resourceId`),
+  CONSTRAINT `fk_Leave_Request_Employee1` FOREIGN KEY (`empno`) REFERENCES `Employee` (`empno`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Leave_Request_Leave_Type1` FOREIGN KEY (`leave_typeId`) REFERENCES `Leave_Type` (`leave_typeId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Leave_Request_ENUM_Leave_Status1` FOREIGN KEY (`leave_status`) REFERENCES `ENUM_Leave_Status` (`leave_status`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Leave_Request_Resource1` FOREIGN KEY (`resourceId`) REFERENCES `Resource` (`resourceId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Leave application';
 
 CREATE TABLE `Nominee_Evaluation_History` (
   `nom_eval_histId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -1868,17 +1824,6 @@ CREATE TABLE `PM_Action_Plan` (
   KEY `fk_PM_Action_Plan_PM_Development_Need1_idx` (`development_needId`),
   CONSTRAINT `fk_PM_Action_Plan_PM_Development_Need1` FOREIGN KEY (`development_needId`) REFERENCES `PM_Development_Need` (`development_needId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-CREATE TABLE `Resource_Link` (
-  `linkId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `resourceId` BIGINT UNSIGNED NOT NULL,
-  `entity` VARCHAR(50) NOT NULL,
-  `entity_id` BIGINT UNSIGNED NOT NULL,
-  `remarks` LONGTEXT NULL,
-  PRIMARY KEY (`linkId`),
-  KEY `fk_Resource_Link_Resource1_idx` (`resourceId`),
-  CONSTRAINT `fk_Resource_Link_Resource1` FOREIGN KEY (`resourceId`) REFERENCES `Resource` (`resourceId`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Generic attachments (leave forms, travel orders, travel authorities, official issuances)';
 
 CREATE TABLE `Shift_Assignment` (
   `assignmentId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -1950,6 +1895,40 @@ CREATE TABLE `Vacancy` (
   CONSTRAINT `fk_Vacancy_RSP_Criterion1` FOREIGN KEY (`criteriaId`) REFERENCES `Criterion` (`criterionId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+CREATE TABLE `Attendance_Log` (
+  `attendanceId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `empno` VARCHAR(50) NOT NULL,
+  `attendance_date` DATE NOT NULL,
+  `attendance_status` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `source` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `shiftId` BIGINT UNSIGNED NULL,
+  `time_in` TIME NULL,
+  `time_out` TIME NULL,
+  `late_minutes` SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+  `undertime_minutes` SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+  `half_day` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `half_day_type` TINYINT UNSIGNED NULL,
+  `is_automatic` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `leave_requestId` BIGINT UNSIGNED NULL,
+  `resourceId` BIGINT UNSIGNED NULL,
+  `remarks` LONGTEXT NULL,
+  `timestamp` TIMESTAMP_F NOT NULL,
+  PRIMARY KEY (`attendanceId`),
+  UNIQUE KEY `uq_Attendance_Log_empno_date` (`empno`, `attendance_date`),
+  KEY `fk_Attendance_Log_Employee1_idx` (`empno`),
+  KEY `fk_Attendance_Log_Shift1_idx` (`shiftId`),
+  KEY `fk_Attendance_Log_Leave_Request1_idx` (`leave_requestId`),
+  KEY `fk_Attendance_Log_Resource1_idx` (`resourceId`),
+  KEY `fk_Attendance_Log_ENUM_Attendance_Source1_idx` (`source`),
+  KEY `fk_Attendance_Log_ENUM_Attendance_Status1_idx` (`attendance_status`),
+  CONSTRAINT `fk_Attendance_Log_Employee1` FOREIGN KEY (`empno`) REFERENCES `Employee` (`empno`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Attendance_Log_Shift1` FOREIGN KEY (`shiftId`) REFERENCES `Shift` (`shiftId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Attendance_Log_Leave_Request1` FOREIGN KEY (`leave_requestId`) REFERENCES `Leave_Request` (`leave_requestId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Attendance_Log_Resource1` FOREIGN KEY (`resourceId`) REFERENCES `Resource` (`resourceId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Attendance_Log_ENUM_Attendance_Source1` FOREIGN KEY (`source`) REFERENCES `ENUM_Attendance_Source` (`source`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Attendance_Log_ENUM_Attendance_Status1` FOREIGN KEY (`attendance_status`) REFERENCES `ENUM_Attendance_Status` (`status`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Daily attendance record per employee';
+
 CREATE TABLE `CAR` (
   `carId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `vacancyId` BIGINT UNSIGNED NOT NULL,
@@ -1996,6 +1975,27 @@ CREATE TABLE `Job_Application` (
   CONSTRAINT `fk_Job_Application_Person1` FOREIGN KEY (`personId`) REFERENCES `Person` (`personId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+CREATE TABLE `Leave_Ledger` (
+  `ledgerId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `empno` VARCHAR(50) NOT NULL,
+  `leave_typeId` BIGINT UNSIGNED NOT NULL,
+  `transaction` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `quantity` DECIMAL(6,2) NOT NULL DEFAULT 0,
+  `effective_date` DATE NOT NULL,
+  `leave_requestId` BIGINT UNSIGNED NULL,
+  `remarks` LONGTEXT NULL,
+  `timestamp` TIMESTAMP_F NOT NULL,
+  PRIMARY KEY (`ledgerId`),
+  KEY `fk_Leave_Ledger_Employee1_idx` (`empno`),
+  KEY `fk_Leave_Ledger_Leave_Type1_idx` (`leave_typeId`),
+  KEY `fk_Leave_Ledger_Leave_Request1_idx` (`leave_requestId`),
+  KEY `fk_Leave_Ledger_ENUM_Leave_Transaction1_idx` (`transaction`),
+  CONSTRAINT `fk_Leave_Ledger_Employee1` FOREIGN KEY (`empno`) REFERENCES `Employee` (`empno`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Leave_Ledger_Leave_Type1` FOREIGN KEY (`leave_typeId`) REFERENCES `Leave_Type` (`leave_typeId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Leave_Ledger_Leave_Request1` FOREIGN KEY (`leave_requestId`) REFERENCES `Leave_Request` (`leave_requestId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Leave_Ledger_ENUM_Leave_Transaction1` FOREIGN KEY (`transaction`) REFERENCES `ENUM_Leave_Transaction` (`transaction`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Every credit/debit movement in leave credits; quantity stores minutes';
+
 CREATE TABLE `Applicant_Evaluation` (
   `evaluationId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `application_code` VARCHAR(50) NOT NULL,
@@ -2010,6 +2010,19 @@ CREATE TABLE `Applicant_Evaluation` (
   CONSTRAINT `fk_Application_Evaluation_IER1` FOREIGN KEY (`ierId`) REFERENCES `IER` (`ierId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Applicant_Evaluation_CAR1` FOREIGN KEY (`carId`) REFERENCES `CAR` (`carId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='An applicant evaluation will be generated starting initial evaluation. For successive versions of IER and CAR, applicant evaluations shall also be duplicated before modification.';
+
+CREATE TABLE `Attendance_Resource_Link` (
+  `linkId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `resourceId` BIGINT UNSIGNED NOT NULL,
+  `entity` VARCHAR(50) NOT NULL,
+  `attendanceId` BIGINT UNSIGNED NOT NULL,
+  `remarks` LONGTEXT NULL,
+  PRIMARY KEY (`linkId`),
+  KEY `fk_Resource_Link_Resource1_idx` (`resourceId`),
+  KEY `fk_Attendance_Resource_Link_Attendance_Log1_idx` (`attendanceId`),
+  CONSTRAINT `fk_Resource_Link_Resource1` FOREIGN KEY (`resourceId`) REFERENCES `Resource` (`resourceId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Attendance_Resource_Link_Attendance_Log1` FOREIGN KEY (`attendanceId`) REFERENCES `Attendance_Log` (`attendanceId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='Generic attachments (leave forms, travel orders, travel authorities, official issuances)';
 
 CREATE TABLE `Applicant_Evaluation_History` (
   `app_eval_histId` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
