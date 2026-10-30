@@ -27,6 +27,30 @@
 
 ---
 
+Date/Time: 2026-10-29 6:00 PM
+Developer: Geo
+
+The database model, DB-ERD.mwb, has been updated with new tables for tracking attendance and leaves. Tables for holding data on documentary requests and RSP applicant checklists have been likewise created. The biggest part that remains to be modelled for the database are the following:
+
+- Payroll (Compensation, Benefits, Taxation) - This group might now become a priority feature ever since PRIME-HRM has been replaced by PRIME-ESG.
+- Workload management - already started with Workload table related to Duty table. This will record data similar to what business process/workload tracking software handle. In such software, the employee transacts a process/task when beginning work on that process/task and, upon completion, records quantified results of the task (e.g., number of documents processed, number of subject classes handled). Low priority feature, but great for task and performance monitoring, tracking, and auditing. Since I consider this low priority anyway, I wont be incorporating a feature to upload snapshots/screenshots and other MOVs for now, as, if necessary, these things have to be verified face-to-face and manually, anyway.
+- Policies and employee discipline
+- Loyalty incentive and step increment recipients tracking - These might be better created after the Payroll-related tables had been created.
+- Tag and ENUM_table - Connect different pieces of data; very useful for searching, filtering, and relating data to each other.
+- Log table - Very important system feature, especially for digital governance.
+
+All these tables and table groups are very important so they have to be modelled before the database can finally be deployed. But then again, I may have to revisit each table again to ensure that entity relationships are properly setup...
+
+Regarding initial setup of the system, particularly during initial deployment, there is a need to ensure that configuration are properly captured into config.mjs and the databases with inserts are properly deployed so that the system is in a usable state right after setup. We need to verify that these are implemented:
+
+- Initialization of the database(s); in cases of reinitialization/refreshing of the system, database backup flows should be incorporated.
+- Setting up of initial database and system users.
+- Capturing and recording of system and database settings.
+
+Do note that some of these are not yet in the ToDo.md file. These will have to be added as well and included in the prioritization of tasks.
+
+---
+
 Date/Time: 2026-10-22 03:50 PM
 Developer: Geo
 
