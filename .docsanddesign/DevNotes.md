@@ -27,6 +27,22 @@
 
 ---
 
+Date/Time: 2026-11-03 12:22 AM
+Developer: Geo
+
+Inserted several payroll related tables in the model in the Payroll Data diagram. Payroll table will define the payroll type and period. Payroll_History table will record actions done on the Payroll as it is processed. Compensation will hold the compensation data of each employee for the payroll period. 3 ENUM tables were also added.
+
+Deductions, such as for mandatory and voluntary government contributions, taxation, insurance premiums, and loan payments are still not yet modelled.
+
+---
+
+Date/Time: 2026-10-30 4:45 PM
+Developer: Geo
+
+Workload management tables have been inserted in the model in the Workload Management Data diagram. Corresponding item in ToDo has been added and updated. To describe the changes, __Workload__ is transacted either from an employee's set of duties or from a set of tasks assigned by a supervisor (dutyId is optional in this case), whereas Workload_Transaction carries relevant time and status data. ENUM_Workload_Status has been seeded with pre-defined statuses. If the dutyId is not defined, the task will be considered as 'Other Tasks'.
+
+---
+
 Date/Time: 2026-10-29 6:00 PM
 Developer: Geo
 
@@ -36,7 +52,7 @@ The database model, DB-ERD.mwb, has been updated with new tables for tracking at
 - Workload management - already started with Workload table related to Duty table. This will record data similar to what business process/workload tracking software handle. In such software, the employee transacts a process/task when beginning work on that process/task and, upon completion, records quantified results of the task (e.g., number of documents processed, number of subject classes handled). Low priority feature, but great for task and performance monitoring, tracking, and auditing. Since I consider this low priority anyway, I wont be incorporating a feature to upload snapshots/screenshots and other MOVs for now, as, if necessary, these things have to be verified face-to-face and manually, anyway.
 - Policies and employee discipline
 - Loyalty incentive and step increment recipients tracking - These might be better created after the Payroll-related tables had been created.
-- Tag and ENUM_table - Connect different pieces of data; very useful for searching, filtering, and relating data to each other.
+- Tag table - Connect different pieces of data; very useful for searching, filtering, and relating data to each other.
 - Log table - Very important system feature, especially for digital governance.
 
 All these tables and table groups are very important so they have to be modelled before the database can finally be deployed. But then again, I may have to revisit each table again to ensure that entity relationships are properly setup...

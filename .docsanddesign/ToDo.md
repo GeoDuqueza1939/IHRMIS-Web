@@ -33,6 +33,8 @@ under **P0 — Feature suites**.
 
 - [x] **Time and Attendance** — shifts, schedules, holiday calendar,
       attendance logs/day, leaves + ledger
+- [x] **Workload Management** - workload, workload transactions
+- [ ] **Payroll** - compensation, benefits, taxation, loyalty incentive, step increment tracking
 - [ ] **Employee Discipline** — offense catalog, case, proceedings, decision,
       appeal, preventive suspension
 - [ ] **Proceedings** — `Case_Proceeding` generic deliberation layer +
