@@ -27,6 +27,18 @@
 
 ---
 
+Date/Time: 2026-11-04 04:03 PM
+Developer: Geo
+
+While pondering about the design of the payroll-related tables, I've gotten into thinking about the usual payrolls processed. I've determined them to be the following:
+
+- Regular Payroll - This is the monthly payroll where compensation is computed for each employee-payee integrated into the payroll. Standard payroll items will be automatically included in the computation of this payroll.
+- Supplementary Payroll - This is the payroll prepared in cases where employee-payees cannot be directly integrated into the regular payroll, particularly in the case of new hires. This may also be prepared if waiting for the regular payroll processing cycle will cause considerable delays in crediting the compensation of employee-payees. Payroll items may be specified and prepared beforehand (e.g., selected from a queue). Taxation and other deductions may or may not be included, depending on the payroll items included.
+
+Other payroll-related tables may be created later after consultation with the Payroll Officer. After payroll, will be employee discipline and proceedings (all types).
+
+---
+
 Date/Time: 2026-11-03 12:22 AM
 Developer: Geo
 
