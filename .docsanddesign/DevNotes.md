@@ -27,6 +27,15 @@
 
 ---
 
+Date/Time: 2026-11-04 04:58 PM
+Developer: Geo
+
+Me pondering on the way home: maybe we should now also add the tables that will serve as queues for recipients of monetary incentives and step increments. I am thinking of covering not just loyalty incentive but of other monetary incentives as well. These may be put in the R&R data diagram, but payroll processing will refer to these, whenever necessary.
+
+Speaking of queues, we might also need to plan queues for different categories, such as retireables (captured/filtered according to age). Business logic or manual filtering may be used for these queues/categories. This shall have a very low priority, for now, although it might prove to be useful in the long run, as it could potentially make the system more flexible in profiling/categorizing people for various puposes within the bounds of law and policy.
+
+---
+
 Date/Time: 2026-11-04 04:03 PM
 Developer: Geo
 
