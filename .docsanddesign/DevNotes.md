@@ -27,6 +27,38 @@
 
 ---
 
+Date/Time: 2026-11-05 07:16 AM
+Developer: Geo
+
+Here are the things that the system (and the Payroll Officer) will do whenever a regular payroll is prepared for a period (default is for a whole month):
+
+1. Employees and employee information updates for payroll integration
+2. Uploading of billing data according to date of receipt and workflow procedure.
+3. Trigger creation of payroll for specified period.
+4. Create compensation items for basic salary/wage
+5. Create compensation items for overtime pay (if applicable)
+6. Create deduction items for mandatory government contributions (GSIS, PhilHealth, Pag-IBIG/HDMF)
+7. Create compensation items for taxable incentives and allowances
+8. Create deduction items for withholding tax (if applicable)
+9. Create compensation items for PERA and other allowances and incentives (non-taxable and with annual tax threshold)
+10. Create deduction items for voluntary contributions
+11. Create deduction items for all loan payments.
+12. Add prepared salary adjustment compensation/deduction items, if required.
+13. Add tax adjustment compensation/deduction items, if required.
+12. Generate PDF version of the payroll (for printing, e-signing, or wet signature).
+13. Print payroll.
+14. Print payslips (no PDF versions of payslips will be generated).
+
+Here are the things that the system will ask whenever a supplemental payroll is prepared, although some of these may be prepared even before a payroll is prepared.
+
+1. Specific employees to be included as payee
+2. Compensation and deduction item types to include per employee-payee
+3. Whether to recompute tax based on compensation entries (except for salary adjustment and tax adjustment items)
+
+The net pay for each payee in the payroll will not be recorded but will be aggregated from the recorded compensation and deductions.
+
+---
+
 Date/Time: 2026-11-04 04:58 PM
 Developer: Geo
 
