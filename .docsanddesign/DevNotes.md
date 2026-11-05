@@ -57,6 +57,8 @@ Here are the things that the system will ask whenever a supplemental payroll is 
 
 The net pay for each payee in the payroll will not be recorded but will be aggregated from the recorded compensation and deductions.
 
+I have also compiled a salary table from all the salary schedules that I could find covering the years 1989 to 2027. It is currently for OCR and visual re-auditing to ensure accuracy. Please see the file Philippine_Civilian_Government_Salary_Schedules_1989_2027.xlsx.
+
 ---
 
 Date/Time: 2026-11-04 04:58 PM
