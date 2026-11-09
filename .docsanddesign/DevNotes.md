@@ -27,6 +27,53 @@
 
 ---
 
+Date/Time: 2026-11-09 03:44 PM
+Developer: Geo
+
+I renamed Allowance to Compensation_Entitlement, so it can cover more types of benefits and compensation. I also renamed Loan_Deduction to Deduction_Code, as deduction codes is its only significant content. From here on, I will need the input of the Payroll Officer to proceed with the payroll tables design.
+
+I also proceeded to design tables related to employee discipline, grievance, and the like. I went to create the following tables:
+
+- Case
+- Case_Party
+- Case_History
+- Case_Document
+- Case_Tag
+- ENUM_Case_Type
+- ENUM_Case_Category
+- ENUM_Case_Status
+- ENUM_Confidentiality_Level
+- ENUM_Case_Role
+
+Finally, I have added the single Log table to record all user operations. I have also added a Tag table to the model and combined both Tag and Case_Tag under the Tag Data diagrams. Then, I hit a snag: how do I connect multiple types of data to one or more tags? Case_Tag was easy, as it directly connects tags with cases. Nevertheless, I came up with a not-so-elegant solution: a data tag that any type of data can refer to which connects the data to the actual tags. I cycled through many other solutions, eventually settling on the tables Tag, Tag_Item, and Tags. Tags will be the junction table that will connect all tag data to all other tables.
+
+The database model is now 98%-99% complete. What's left is to add tags references to concerned tables, consult the Payroll Officer regarding payroll data design, enter all seed entries, and finalize the database model before deploying it for testing. I don't have enough time to add these to the ToDo and I don't have any other helper, so I guess I would just refer to the DevNotes, instead, for now.
+
+---
+
+Date/Time: 2026-11-09 10:01 AM
+Developer: Geo
+
+I added the following payroll-related tables to the model:
+
+- Billing - will contain the data of employees' loan payment schedule from billers/public lending institutions (PLIs)
+- Loan_Deduction - will group billing data according to PLIs and deduction codes
+- Allowance - specifically assigned allowances/compensations that are regularly credited
+- Payee - added to ensure that each payroll has a specific list of employee-payees; may be used to facilitate the indirect grouping of compensation and deduction entries according to payee
+
+The definition of the Allowance almost duplicates the core structure of the ENUM_Compensation_Type table, but it is retained as such to allow for specific (non-generalized) assignments of these allowances.
+
+Payroll tables are mostly done. However, I need direct inputs from the Payroll Officer before finalizing things.
+
+---
+
+Date/Time: 2026-11-06 02:56 PM
+Developer: Geo
+
+I mainly just modified the layout of some ERD in the model. No big changes, just tried to make some of the recent diagrams more readable, specifically Employee data and Payroll data diagrams. However, the most significant change is renaming the Agency_Contribution table to Employer_Contribution. What remains to be done for the payroll data diagrams is to add the tables related to billing and allowances. Billing is assigned by PLIs/biller organizations to the employee. I am thinking of something similar for the allowances, but implicitly understood as assigned by the employer and has effective and end dates. These tables will facilitate the computation of compensation and deduction entries in the payroll.
+
+---
+
 Date/Time: 2026-11-05 07:16 AM
 Developer: Geo
 
@@ -45,9 +92,9 @@ Here are the things that the system (and the Payroll Officer) will do whenever a
 11. Create deduction items for all loan payments.
 12. Add prepared salary adjustment compensation/deduction items, if required.
 13. Add tax adjustment compensation/deduction items, if required.
-12. Generate PDF version of the payroll (for printing, e-signing, or wet signature).
-13. Print payroll.
-14. Print payslips (no PDF versions of payslips will be generated).
+14. Generate PDF version of the payroll (for printing, e-signing, or wet signature).
+15. Print payroll.
+16. Print payslips (no PDF versions of payslips will be generated).
 
 Here are the things that the system will ask whenever a supplemental payroll is prepared, although some of these may be prepared even before a payroll is prepared.
 
@@ -66,7 +113,7 @@ Developer: Geo
 
 Me pondering on the way home: maybe we should now also add the tables that will serve as queues for recipients of monetary incentives and step increments. I am thinking of covering not just loyalty incentive but of other monetary incentives as well. These may be put in the R&R data diagram, but payroll processing will refer to these, whenever necessary.
 
-Speaking of queues, we might also need to plan queues for different categories, such as retireables (captured/filtered according to age). Business logic or manual filtering may be used for these queues/categories. This shall have a very low priority, for now, although it might prove to be useful in the long run, as it could potentially make the system more flexible in profiling/categorizing people for various puposes within the bounds of law and policy.
+Speaking of queues, we might also need to plan queues for different categories, such as soon-to-retire employees (captured/filtered according to age). Business logic or manual filtering may be used for these queues/categories. This shall have a very low priority, for now, although it might prove to be useful in the long run, as it could potentially make the system more flexible in profiling/categorizing people for various purposes within the bounds of law and policy.
 
 ---
 
