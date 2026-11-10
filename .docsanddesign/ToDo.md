@@ -26,6 +26,7 @@
 ## P0 — Foundations (block every other item)
 
 ### Design the feature-suite tables in the model
+
 Each suite needs its tables in the model before the schema is deployed — adding
 them afterwards means migrating a live system. Design them now, so that one
 deployment carries the complete schema. The build of each suite is tracked
@@ -34,25 +35,34 @@ under **P0 — Feature suites**.
 - [x] **Time and Attendance** — shifts, schedules, holiday calendar,
       attendance logs/day, leaves + ledger
 - [x] **Workload Management** - workload, workload transactions
-- [ ] **Payroll** - compensation, benefits, taxation, loyalty incentive, step increment tracking
-- [ ] **Employee Discipline** — offense catalog, case, proceedings, decision,
-      appeal, preventive suspension
-- [ ] **Proceedings** — `Case_Proceeding` generic deliberation layer +
-      junction template
+- [ ] **Payroll** - compensation, benefits, taxation, loyalty incentive, step increment tracking (consult with Payroll Officer)
+- [x] **Case Registry** — cases, case documents, case parties, case history, case tags
+- [ ] **Tags** - tags and case tags, tables to be tagged
+- [x] **Log**
+- [x] **Proceedings** — proceedings, participant, participant messages and logs, minutes, documents
+- [ ] **Teams** - teams, team members, team roles
+
+### Redesign of Position and Plantilla Item tables
+
+- [ ] Position-related tables
+- [ ] Plantilla item-related tables
 
 ### Fill in the ENUM descriptions
+
 - [ ] **65 of 68** ENUM seed rows still have a NULL `description`:
       `ENUM_Res_Doc_Type` 54/54, `ENUM_User_Status` 4/4,
       `ENUM_User_Type` 3/3, `ENUM_OAuth_Provider` 4/4
 - [ ] Cover any ENUM rows added by the feature-suite tables above
 
 ### Enter the RBAC seed rows
+
 - [ ] `Right` rows — **0 present**. Minimum per the table's own COMMENT:
       `rights.assign`, `roles.assign`, `users.manage`, `users.link.approve`
 - [ ] `Role_Right` grant rows — **0 present** (possible once `Right` has fixed ids)
 - [ ] Add the rights each feature suite will need
 
 ### Provision the live database and app user
+
 - [x] Regenerate `db/schema.sql` from the completed model
 - [ ] Load it, and verify the table, FK and seed counts — today's figures are
       **149 / 222 / 143**, up from **134 / 203 / 103** before the feature-suite
@@ -66,12 +76,14 @@ under **P0 — Feature suites**.
 ## P0 — Authentication
 
 ### Wire the security middleware (installed, never imported)
+
 - [ ] `helmet`, `express-session` + store, `express-rate-limit` on the auth routes
 - [ ] CSRF protection on state-changing requests
 - Live responses today carry **no** HSTS, `X-Frame-Options`, CSP, `nosniff`,
   and no session cookie at all
 
 ### Implement the 17 JANUS auth bodies
+
 - [ ] **OIDC** — Authorization Code + PKCE via `openid-client`/`jose`; enforce
       `hd`/`tenant` = `deped.gov.ph`; JWKS-validate `id_token` (iss/aud/exp)
 - [ ] **Email sign-in** — `argon2.verify` against `User_Login`; check status and
@@ -86,6 +98,7 @@ under **P0 — Feature suites**.
 - [ ] Replace the silent stubs with real errors
 
 ### Fix the 3 known code nits
+
 1. `approveUnlink` guard is vacuous — `UNLINK_STATUS.includes(approve ? 'approved' : 'rejected')` is always true
 2. `verifyOAuthUser` double-gate rejects the `microsoft365` alias that `oAuthProviderId` accepts
 3. `loadEnumMaps` derives a junk `not` → 0 key from `"Not specified"`

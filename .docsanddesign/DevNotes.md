@@ -27,6 +27,32 @@
 
 ---
 
+Date/Time: 2026-11-10 03:54 AM
+Developer: Geo
+
+Today, I set out to update the ToDo list. I updated a few items that need updating due to changes in the design and added a few more. Employee Discipline is now just the Case Registry, as I realized that implementing a complete feature set for discipline and grievance need more planning than anticipated, so I decided to push its full design and implementation to the subsequent development cycles. Then, I realized that proceedings are still not implemented and teams are still underdeveloped. I decided to convert case proceedings to a more general proceedings entity so it can be used not just in case proceedings, but even in RSP evaluations or regular meetings of HRM committees.
+
+The following tables were added into a Proceedings Data diagram in the database model:
+
+- Proceeding - use to setup various proceedings such as meetings, seminars, deliberations, etc. A team is assigned to handle each proceeding
+- Proceeding_Participant - an employee that attends or participates in the proceedings via the system
+- Participant_Log - records participant check-ins and messages. May be used for online chat messages
+- Proceeding_Minutes - records minutes of the proceedings; May record multiple minutes
+- Proceeding_Document - attached generated or uploaded documents
+- ENUM_Proceeding_Type
+
+I also began revisiting the diagrams in the model, inserting/updating seed rows and adding relationships to the Tags table along the way. I also discovered that some ENUM tables had been inadvertently renamed, likely due to the duplication of tables. I'll be checking for all that had been affected.
+
+I encountered the incomplete seed list in ENUM_Eligibility_Type, which I decided to defer the completion of for now.
+
+I also hit a snag in the Plantilla_Item table, something related to the evolution, replacement, or abolition of either or both an item and a position. I will need to quickly redesign this very soon with minimal changes to the design of the other modelled tables. Just to clarify, a position can be created, filled, vacated, upgraded, retitled, replaced, frozen, or abolished, and a Plantilla item can be created, filled, vacated, reclassified, retitled, renumbered, converted, frozen, marked as coterminous to the incumbent, or abolished. I should find a middle ground between the two status sets and redesign the two tables to have a historical or succession record. There are also suggestions to store events rather than statuses.
+
+Another thing: we should add a function to update ages when birthdays are available, as age cannot be flagged as generated, since birthday data is not always available for reference.
+
+I still have a long road ahead...
+
+---
+
 Date/Time: 2026-11-09 03:44 PM
 Developer: Geo
 
