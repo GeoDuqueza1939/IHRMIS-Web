@@ -27,10 +27,19 @@
 
 ---
 
-Date/Time: 2026-11-11 07:09 AM
+Date/Time: 2026-11-12 06:42 AM
 Developer: Geo
 
+[This is a late update]
 
+Yesterday, I resumed with revisiting the tables in the database model. However, I hit some snag in the Plantilla item and Position management tables. It became clear quickly that the current model for Plantilla and positions management is somehow weak in the history recording and auditing departments, as it can't possibly record the evolution of positions and Plantilla items, not to mention track the lifetime of Plantilla items. So I started some painstaking revamp of this part of the model. I came up with the following tables (excluding ENUM tables):
+
+- Position
+- Plantilla_Item
+- Plantilla_Item_History
+- Plantilla_Item_Lineage
+
+I will continue working on this today, so the above tables might still change.
 
 ---
 
