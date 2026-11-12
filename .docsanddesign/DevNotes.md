@@ -27,6 +27,34 @@
 
 ---
 
+Date/Time: 2026-11-12 09:48 AM
+Developer: Geo
+
+I finalized the Plantilla tables and continued with the Position-related and Designation-related tables. The following tables are now in the model:
+
+- Plantilla_Item
+- Plantilla_Item_History
+- Plantilla_Item_Lineage
+- Position
+- Position_History
+- Position_Lineage
+- ENUM_Item_Status
+- ENUM_Item_Action
+- ENUM_Position_Usage_Type
+- ENUM_Position_Status
+- ENUM_Position_Action
+
+While going through the tables, the following rules were established and should be included in any future documentation of the system with respect to Plantilla Item, Position, and Designation Management:
+
+- A new item number always creates a new Plantilla_Item record.
+- Lineage groups related records.
+- History records explain why records are related.
+- Ownership determines jurisdiction.
+- States describe current condition.
+- Actions describe what happened.
+
+---
+
 Date/Time: 2026-11-12 06:42 AM
 Developer: Geo
 
