@@ -27,6 +27,17 @@
 
 ---
 
+Date/Time: 2026-11-19 02:44 PM
+Developer: Geo
+
+I continued revisiting and reworking the RSP tables and made the following significant changes:
+
+- Renamed Item_Publication to Vacancy_Publication to reflect the intent better.
+- Deleted ENUM_RSP_Level and reused ENUM_Org_Level, as they share a similar hierarchy, although some of the organization levels might not be usable for RSP (recruitment, selection, and placement) usage.
+- Populated ENUM table values wherever applicable.
+
+---
+
 Date/Time: 2026-11-19 02:20 PM
 Developer: Geo
 
