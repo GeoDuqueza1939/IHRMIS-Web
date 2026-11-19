@@ -44,8 +44,8 @@ under **P0 — Feature suites**.
 
 ### Redesign of Position and Plantilla Item tables
 
-- [ ] Position-related tables
-- [ ] Plantilla item-related tables
+- [x] Position-related tables
+- [x] Plantilla item-related tables
 
 ### Fill in the ENUM descriptions
 

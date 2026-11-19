@@ -27,6 +27,17 @@
 
 ---
 
+Date/Time: 2026-11-19 02:20 PM
+Developer: Geo
+
+It took me a long time before updating DevNotes. I had been stuck up since Friday, November 13th, as I had been revisiting the Payroll tables after I finished revisiting the Plantilla and Position management tables. The payroll database model had changed significantly and, through continuous brainstorming sessions with Copilot, a few business rules for the payroll subsystem design and workflow had been established. The suggested database model and the said business rules are described in the files located in the following subdirectory path of the project directory:
+
+> ```[PROJECT_DIRECTORY]/.docsanddesign/Payroll Design/```
+
+The database model described is not the exact payroll feature layer database model, but most of it served as the basis of the redesigned payroll model. Meanwhile, the business rules will serve as a guide to both system engineers and Payroll personnel in the implementation and use of the system in payroll procedures. These business rules for payroll shall also form part of the official documentation once the system is fully functional.
+
+---
+
 Date/Time: 2026-11-12 09:48 AM
 Developer: Geo
 
