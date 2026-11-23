@@ -27,6 +27,22 @@
 
 ---
 
+Date/Time: 2026-11-23 01:12 PM
+Developer: Geo
+
+I have revisited the RSP tables in the model. Aside from filling in seed values and specifying, I merely added an IER_Qualification_Snapshot to store a snapshot of a job applicant's qualifications before Comparative Assessments, as there had been times when the CAR is wildly different from the precedent IER.
+
+I also started revisiting the PM (performance management) model. It went smoothly until I got to the PM roles. The PMT is composed of members with roles similar to the HRMPSB and/or its subcommittees. However, it also has three special roles: ratee, rater, and approver. Not much issues can be seen in the approver role, however, there are employees that function as both rater and ratee. Likewise, the roles rater and ratee have a relationship that is unlike the roles already defined in ENUM_Team_Role. To address this issue, I reduced the ENUM_PM_Role into just the three performance management roles (ratee, rater, approver) and generalized the PMT roles in the Team-related tables, instead.
+
+---
+
+Date/Time: 2026-11-20 01:52 PM
+Developer: Geo
+
+Today is mostly maintenance of the model, just rearranging some stuff. We had a power outage at home, but I managed to find another place with electric power for my WFH. Although, I kept things light and will resume the revisiting of the tables on Monday.
+
+---
+
 Date/Time: 2026-11-19 02:44 PM
 Developer: Geo
 
