@@ -27,6 +27,44 @@
 
 ---
 
+Date/Time: 2026-11-26 03:56 PM
+Developer: Geo
+
+I reviewed the workflows documentation and, from the meager documentation I've put up regarding L&D, I could gather that, despite a lack of clear-cut scheduled cycles and triggers unlike PM and RSP, L&D could be planned in some way. The documentation, itself, identifies an agency annual plan, which could probably include many L&D programs. However, some L&D programs could still be setup or carried out even if not included in the agency's annual training plan. Also, L&D Programs could also be designed to have several 'legs', batches, or cohorts, catering to more recipients even when available venues are with limited capacity. As such, I am making the following changes:
+
+- Added the following tables:
+  - **LD_Plan** - annual plans and smaller scale plans may be recorded here
+  - **LD_Plan_History** - keeps an auditable log of changes in the LD_Plan records
+  - **LD_Program_Proceeding** - split from LD_Program to accommodate multiple legs of trainings under the same program and other L&D-related proceedings, such as planning conferences, deliberations, etc.
+  - **ENUM_LD_Plan_Action**
+  - **ENUM_LD_Plan_Status**
+
+I also added a few more L&D tables to allow planning of activities and teams.
+
+Also, something I noticed in the current model as I am working, an LD program is modelled to come after an HR development need is recognized. I hope this model holds for future situations.
+
+I might focus on other tables tomorrow or resume with coding. I really hope I could restart coding already, as I am starting to get bored with the redesign.
+
+---
+
+Date/Time: 2026-11-25 04:23 PM
+Developer: Geo
+
+I have finished revisiting the PM tables, also adding the RSP_Issuance and PM_Issuances to hold references to issuances related to both RSP and PM. I have also though of adding history tables related to both RSP_Cycle and PM_Cycle, but I refrained from doing so, as the data regarding phases, proceedings, and other records could already account for most actions related to these pillars. If there will be other tracking data needed, we could probably add them later.
+
+Afterwards, I started revisiting the Learning and Development-related tables. Honestly, this feature set is the most incomplete part, probably due to my meager knowledge of the process back in the initial design. There are only two tables, LD_Program and LD_Recipient, the names for which are pretty self-explanatory. However, the current model doesn't quite show the connection between PM and L&D, as, ideally they should be connected and most of the L&D Plans should be prepared according the results of PM. As such, I added:
+
+- **LD_Need** - a junction table that collects the development needs identified and action plans formulated after a PM cycle into a summary for HRD Committee consumption.
+- **Org_Development_Need** - a free-styled report of an organizational unit stating their unit's HR development needs.
+- **LD_Org_Need** - a junction table that collects units' HRD needs into a summary for HRD Committee consumption.
+- **LD_Needs_Summary** - the summary collects all personal and organizational HRD needs, which may then be referenced when planning a training/L&D program to address those needs. This may also reference a PM Cycle if these needs are gathered from the end of that PM Cycle. An issuance offers, announces, or mandates an L&D Program, it may also be referenced, as well.
+- **LD_Needs_Program** - a junction table for LD_Needs_Summary and LD_Program.
+- **LD_Program** - records all L&D programs initiated or managed by the organizational unit.
+
+I'll continue revisiting/revising L&D tomorrow.
+
+---
+
 Date/Time: 2026-11-24 03:59 PM
 Developer: Geo
 
